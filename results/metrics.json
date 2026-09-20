@@ -1,0 +1,11 @@
+{
+  "auc_valid_dic2023": 0.6957601957300523,
+  "best_threshold": 0.32499999999999996,
+  "f1_valid_dic2023": 0.6603533024881925,
+  "precision_valid": 0.5301539887727249,
+  "recall_valid": 0.8753215280287409,
+  "n_train": 467785,
+  "n_valid": 100466,
+  "n_features": 69,
+  "best_iteration": 308
+}
