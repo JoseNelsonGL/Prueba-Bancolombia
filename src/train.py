@@ -155,6 +155,14 @@ def main():
         "var_rpta_alt": pred_oot,
         "Prob_uno": proba_oot,
     })
+    # el pipeline de features reordena filas (merge_asof, groupby); se
+    # restaura el orden exacto de sample_submission.csv para que la
+    # entrega sea una comparación fila a fila directa.
+    sample_path = os.path.join(PROC, "..", "raw", "sample_submission.csv")
+    if os.path.exists(sample_path):
+        order = pd.read_csv(sample_path)[["ID"]]
+        out = order.merge(out, on="ID", how="left")
+        assert out["Prob_uno"].notna().all(), "Faltan predicciones para algún ID de sample_submission"
     out.to_csv(os.path.join(MODEL_DIR, "resultado_prueba.csv"), index=False)
     print(f"\nresultado_prueba.csv generado: {out.shape}, tasa positivos={out['var_rpta_alt'].mean():.3f}")
 

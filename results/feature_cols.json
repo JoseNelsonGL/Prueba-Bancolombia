@@ -68,7 +68,14 @@
     "prob_propension_prev",
     "prob_alrt_temprana_prev",
     "prob_auto_cura_prev",
-    "lote_prev"
+    "lote_prev",
+    "cuota_prev",
+    "pago_total_prev",
+    "porc_pago_prev",
+    "marca_pago_prev",
+    "ajuste_banco_prev",
+    "porc_pago_mean_3m",
+    "porc_pago_meses_con_dato_3m"
   ],
   "cat_cols": [
     "prev_descripcion_ranking_mejor_ult",
@@ -102,7 +109,9 @@
     "nicho",
     "region_of",
     "nombre_dpto_dirp",
-    "ciiu"
+    "ciiu",
+    "marca_pago_prev",
+    "ajuste_banco_prev"
   ],
   "threshold": 0.32499999999999996
 }

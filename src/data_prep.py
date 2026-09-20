@@ -167,7 +167,15 @@ def join_cuotas_pagos(panel: pd.DataFrame, cuotas_path: str) -> pd.DataFrame:
                "valor_cuota_mes", "pago_total", "porc_pago", "marca_pago",
                "ajustes_banco"]
     cu = pd.read_csv(cuotas_path, usecols=usecols)
+    # OJO: en esta tabla fecha_corte viene como YYYYMMDD (fin de mes), no
+    # YYYYMM como en las otras tablas -> se normaliza con //100.
+    cu["fecha_corte"] = (cu["fecha_corte"] // 100).astype(int)
     cu["mes_idx"] = ym_to_idx(cu["fecha_corte"])
+    # porc_pago trae divisiones por cuota=0 -> inf; se limpia y se capa a un
+    # rango razonable (pagos muy por encima de la cuota sí son válidos,
+    # pero inf/valores absurdos son artefactos de la división).
+    cu["porc_pago"] = cu["porc_pago"].replace([np.inf, -np.inf], np.nan)
+    cu.loc[cu["porc_pago"] > 1000, "porc_pago"] = np.nan
     cu = cu.drop_duplicates(subset=["num_oblig_enmascarado", "mes_idx"])
     cu = cu.sort_values(["num_oblig_enmascarado", "mes_idx"])
 

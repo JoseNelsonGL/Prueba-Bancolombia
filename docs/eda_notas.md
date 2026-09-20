@@ -4,7 +4,7 @@
 - `trtest.csv`: 568.251 filas (obligación-mes), ago–dic 2023, 400.807 obligaciones únicas, 267.256 clientes únicos. Target balanceado (52%/48%).
 - `master_customer_data.csv`: panel mensual jul–dic 2023, 241.049 clientes únicos (~72k/mes). No llega a enero 2024.
 - `probabilidad_oblig_base_hist.csv`: panel mensual ene–dic 2023, 458.114 obligaciones únicas (score actual del banco: prob_propension, prob_alrt_temprana, prob_auto_cura, lote).
-- `maestra_cuotas_pagos_mes_hist.csv`: pendiente de integrar (histórico de cuotas/pagos).
+- `maestra_cuotas_pagos_mes_hist.csv`: panel mensual ene–dic 2023, 458.182 obligaciones únicas (histórico de cuotas/pagos). Nota: `fecha_corte` viene en formato YYYYMMDD (no YYYYMM como las demás tablas); `porc_pago` trae valores `inf` por división entre cuota=0, se limpiaron y se capó a 1000%.
 - `oot.csv` / `sample_submission.csv`: 112.549 obligaciones, enero 2024, formato objetivo de entrega. Solo trae ID + fecha (ninguna variable de producto/mora/alternativas).
 
 ## Hallazgo crítico: fuga de información (data leakage)
@@ -43,12 +43,22 @@ del sistema actual de priorización.
 
 ## Validación
 Split temporal (no aleatorio): train = ago–nov 2023, validación = dic 2023,
-simulando el escenario real (predecir el mes siguiente). Resultado baseline
-(LightGBM, sin la tabla de cuotas/pagos todavía):
-- AUC = 0.696, F1 (umbral óptimo 0.325) = 0.660, precisión = 0.53, recall = 0.88.
+simulando el escenario real (predecir el mes siguiente).
 
-Variables más importantes: score de propensión actual del banco
-(`prob_propension_prev`), aceptación en el mes anterior
-(`prev_var_rpta_alt`), score de auto-cura y alerta temprana, ubicación
-geográfica, tipo de alternativa aplicada el mes anterior, mora previa y
-lote de priorización actual.
+Resultado con las 3 tablas iniciales (sin cuotas/pagos): AUC = 0.696, F1
+(umbral óptimo 0.325) = 0.660, precisión = 0.53, recall = 0.88.
+
+**Resultado final, con las 4 tablas integradas** (LightGBM, 76 variables
+comunes entre trtest y oot): **AUC = 0.729, F1 = 0.671** (umbral óptimo
+0.325), precisión = 0.55, recall = 0.86. El historial de pagos
+(`maestra_cuotas_pagos_mes_hist`) fue la incorporación de mayor impacto:
+`marca_pago_prev` (si pagó más/menos/igual/nada el mes anterior),
+`cuota_prev` y `porc_pago_mean_3m` (promedio de cumplimiento en los últimos
+3 meses) quedan entre las variables más importantes, junto con los scores
+del sistema actual del banco (`prob_propension_prev`,
+`prob_alrt_temprana_prev`, `prob_auto_cura_prev`) y la aceptación en el mes
+anterior (`prev_var_rpta_alt`).
+
+El modelo final se reentrena con la totalidad de trtest (ago–dic 2023) y se
+usa para calificar `oot.csv` (enero 2024), generando `resultado_prueba.csv`
+con el mismo orden de filas que `sample_submission.csv`.
