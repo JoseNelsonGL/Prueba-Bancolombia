@@ -505,7 +505,34 @@ const doc = new Document({
         ),
         p("Ninguna sección de este documento fue tomada de fuentes externas sin adaptación al contexto específico de esta prueba; todo el código fue ejecutado y verificado antes de incluirse en la entrega."),
 
-        h("9. Estructura del Repositorio y Reproducibilidad", HeadingLevel.HEADING_1),
+        h("9. Anexo F — Supuestos, Asunciones y Limitaciones (Consolidado)", HeadingLevel.HEADING_1),
+        p("Esta sección reúne en un solo lugar, por tema, los supuestos y limitaciones que ya se mencionan a lo largo del documento — no introduce hallazgos nuevos, es un punto único de referencia para quien revise la entrega. Cada punto indica dónde encontrar el detalle y la evidencia completa."),
+
+        h("9.1 Supuestos del modelo estadístico (Parte 1)", HeadingLevel.HEADING_2),
+        bullet("Supuesto general de todo modelo predictivo entrenado con datos históricos: se asume que el comportamiento reciente de los clientes y de la cartera es representativo de lo que va a ocurrir en el mes inmediatamente siguiente (enero 2024). Un cambio estructural repentino (choque macroeconómico, cambio de política de cartera, etc.) no estaría capturado por el modelo hasta que existan datos de ese nuevo régimen — de ahí el valor del monitoreo de deriva propuesto en el Anexo D."),
+        bullet("Snapshot demográfico de diciembre-2023 usado como \"as-of\" para enero-2024, porque el panel demográfico no llega a esa fecha (sección 4.1); es un supuesto explícito, no un dato real de enero."),
+        bullet("Nulos demográficos (~40-50%) tratados como missing informativo (bandera tiene_snapshot_demografico), no imputados (sección 4.3)."),
+
+        h("9.2 Variables excluidas por disponibilidad y consistencia temporal", HeadingLevel.HEADING_2),
+        bullet("Varias columnas de trtest.csv no están disponibles en oot.csv y, además, muestran una correlación contemporánea con el target inusualmente alta — consistente con que describen eventos del mismo mes que se quiere predecir. Por ambas razones se excluyeron del conjunto contemporáneo y solo se usan en su versión rezagada (t-1). Detalle, tabla de correlaciones y evidencia gráfica en la sección 4.2 y 4.2.1."),
+
+        h("9.3 Cobertura y calidad de datos", HeadingLevel.HEADING_2),
+        bullet("oot.csv no trae producto/banca/elegibilidad vigente, por lo que ~50% de sus obligaciones son \"cold start\" y dependen solo de demografía + scores del banco (sección 4.4)."),
+        bullet("El panel master_customer_data es disperso (promedio 1,78 snapshots por cliente en 6 meses); ~20% de los clientes de trtest nunca aparecen en él (sección 4.3)."),
+        bullet("edad_cli contiene valores inválidos (0 y 123 años); se reportan como hallazgo de calidad de datos, no se corrigen, dado el manejo nativo de nulos/outliers de LightGBM (sección 4.3)."),
+        bullet("porc_pago traía valores infinitos por división entre cuota=0; se limpiaron y se limitaron a 1000% (sección 4.3)."),
+
+        h("9.4 Configuración de hiperparámetros", HeadingLevel.HEADING_2),
+        bullet("La configuración final de LightGBM surge de una búsqueda controlada y dirigida, no de una grilla exhaustiva. Ampliarla a una grilla más exigente (grid search, random search u Optuna) sobre un rango más amplio de valores es una oportunidad de mejora, a costa de mayor capacidad de cómputo y tiempo de entrenamiento (detalle y tabla de valores en la sección 4.5.1)."),
+
+        h("9.5 Supuestos y limitaciones del sistema agéntico (Parte 2)", HeadingLevel.HEADING_2),
+        bullet("Sin acceso a un LLM real en este entorno: la redacción y la interpretación de intención se implementaron con reglas léxicas/plantillas, con un punto de extensión explícito para reemplazarlas por un LLM real sin tocar el motor de reglas (secciones 5.1 y 5.2)."),
+        bullet("El NLU por reglas es frágil ante lenguaje real no anticipado por los patrones definidos (sección 6.3 documenta un bug real de este tipo, ya corregido, encontrado durante las pruebas)."),
+        bullet("La priorización entre alternativas (Siguiente Mejor Acción) usa un orden fijo por severidad de mora — un supuesto de negocio a validar con el área de política de cartera, no aprendido de datos históricos de aceptación."),
+        bullet("Se investigó si esa priorización podía basarse en un modelo en vez de una regla fija; no es viable con los datos entregados en esta prueba (columnas de alternativas ofrecidas ausentes en oot.csv), y aun si lo fueran, requeriría una metodología de inferencia causal/uplift por el sesgo de selección en cómo se asignaron las alternativas históricamente — detalle completo en la sección 5.6."),
+        bullet("La arquitectura de producción descrita en el Anexo D es una propuesta de diseño, no una implementación — el prototipo de esta prueba corre en el entorno local descrito en la sección 10."),
+
+        h("10. Estructura del Repositorio y Reproducibilidad", HeadingLevel.HEADING_1),
         p("El repositorio Git entregado contiene:"),
         bullet("src/ — pipeline de datos (data_prep.py) y entrenamiento/inferencia (train.py) de la Parte 1."),
         bullet("agentic/ — modelos, reglas de negocio, NBA, guardrails, conversacional, orquestador y escenarios simulados de la Parte 2."),
