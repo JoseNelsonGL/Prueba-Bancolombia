@@ -11,6 +11,8 @@ Repositorio de la solución end-to-end para la prueba técnica de Bancolombia (g
 - `docs/` — documento técnico y diagramas de arquitectura
 - `results/` — `resultado_prueba.csv` y artefactos de evaluación
 - `tests/` — pruebas funcionales, de integración, seguridad y robustez del sistema agéntico
+- `Dockerfile` + `docker/requirements.txt` — imagen de scoring de la Parte 1 (`docker build -t prueba-bancolombia-scoring .`)
+- `.github/workflows/ci.yml` — CI real: corre las 26 pruebas y construye la imagen Docker en cada push/PR a `main`
 
 ## Cómo reproducir
 

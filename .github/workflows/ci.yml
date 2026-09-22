@@ -1,0 +1,39 @@
+name: CI
+
+# Se ejecuta en cada push y pull request. Ver docs/mlops_parte1.md,
+# sección "Despliegue continuo (CI/CD)" -- este es el CI mínimo real
+# (no solo descrito): corre las 26 pruebas del sistema agéntico y valida
+# que la imagen de scoring (Parte 1) SÍ construye correctamente.
+#
+# Nota: este job se corre en la infraestructura de GitHub, con acceso a
+# internet normal -- por eso el build de Docker se valida aquí y no en el
+# entorno donde se preparó este repositorio (ver Dockerfile/README para el
+# detalle de esa limitación puntual).
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+jobs:
+  tests-sistema-agentico:
+    name: Pruebas del sistema agéntico (Parte 2)
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - name: Instalar pytest
+        run: pip install pytest==9.1.1
+      - name: Correr las 26 pruebas (reglas de negocio, NBA, guardrails, integración)
+        run: python -m pytest tests/ -v
+
+  build-imagen-scoring:
+    name: Construir imagen de scoring (Parte 1)
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: docker build
+        run: docker build -t prueba-bancolombia-scoring .

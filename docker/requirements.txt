@@ -1,0 +1,10 @@
+# Dependencias MÍNIMAS para correr el pipeline de scoring en producción
+# (src/data_prep.py + src/train.py). Deliberadamente NO incluye
+# matplotlib/shap/pytest/openpyxl: esas son solo para EDA, pruebas y
+# notebooks (ver requirements.txt en la raíz), y no tiene sentido que
+# viajen dentro de la imagen que corre en producción.
+pandas==3.0.2
+numpy==2.4.4
+lightgbm==4.7.0
+scikit-learn==1.8.0
+pyarrow==25.0.1

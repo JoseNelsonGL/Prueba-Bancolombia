@@ -54,27 +54,37 @@ open-source ampliamente adoptadas en la industria.
 
 ## 4. Productización
 
-- Empaquetado como contenedor Docker (`Dockerfile` con el modelo LightGBM +
-  `feature_cols.json` + código de features), versión etiquetada por commit.
+- **Empaquetado como contenedor Docker — implementado, no solo descrito**:
+  `Dockerfile` (raíz del repo) + `docker/requirements.txt` (dependencias
+  mínimas de scoring, sin las de EDA/notebooks/pruebas) empaquetan
+  `src/data_prep.py` + `src/train.py` + `config.py`. Construir:
+  `docker build -t prueba-bancolombia-scoring .`. Datos y modelo NO viajan
+  en la imagen (se montan como volumen aquí; en producción real vendrían
+  del feature store y del MLflow Model Registry al arrancar) — versión
+  etiquetada por commit vía el tag de la imagen.
 - Contrato de datos explícito (`schema.json` de entrada/salida) para que el
-  sistema agéntico y la priorización por lotes tengan una interfaz estable.
+  sistema agéntico y la priorización por lotes tengan una interfaz estable
+  — pendiente de implementar (propuesta, ver limitación al final).
 - Pruebas de contrato (`pytest`) que corren en CI antes de construir la
   imagen: mismas columnas, mismos tipos, ausencia de las columnas "leaky"
   identificadas en el EDA.
 
 ## 5. Despliegue continuo (CI/CD)
 
-- **CI** (GitHub Actions u otro): en cada PR — lint, pruebas unitarias de
-  features y de contrato, reentrenamiento en una muestra pequeña como
-  smoke test.
-- **CD**: al hacer merge a `main` con el tag `model-release`, pipeline que
-  (a) reentrena con datos más recientes, (b) compara F1 contra el modelo en
-  `Production` en un set de validación común (shadow evaluation), y (c)
-  promueve automáticamente solo si mejora o iguala dentro de una tolerancia,
-  dejando aprobación manual como opción para casos límite.
-- Despliegue **canario**: el modelo nuevo puntúa en paralelo al vigente
-  durante 1-2 semanas antes de reemplazarlo, comparando distribución de
-  scores y tasa de aceptación real observada.
+- **CI — implementado, no solo descrito**: `.github/workflows/ci.yml`
+  corre en cada push/PR a `main`: (a) las 26 pruebas del sistema agéntico
+  (`pytest tests/`), y (b) `docker build` de la imagen de scoring, para
+  detectar de inmediato si algo rompe el empaquetado.
+- **CD** (propuesto, no implementado — requeriría infraestructura de
+  despliegue real): al hacer merge a `main` con el tag `model-release`,
+  pipeline que (a) reentrena con datos más recientes, (b) compara F1 contra
+  el modelo en `Production` en un set de validación común (shadow
+  evaluation), y (c) promueve automáticamente solo si mejora o iguala
+  dentro de una tolerancia, dejando aprobación manual como opción para
+  casos límite.
+- Despliegue **canario** (propuesto): el modelo nuevo puntúa en paralelo al
+  vigente durante 1-2 semanas antes de reemplazarlo, comparando
+  distribución de scores y tasa de aceptación real observada.
 
 ## 6. Monitoreo
 
@@ -102,3 +112,11 @@ open-source ampliamente adoptadas en la industria.
   técnico).
 - Los cooldowns de opciones de pago (3–4 meses) se documentan como supuesto
   parametrizable, a validar con el área de política de cartera.
+- El `docker build` de la imagen de scoring no se pudo probar de punta a
+  punta en el entorno donde se preparó este repositorio (política de red
+  del entorno bloquea la descarga de la imagen base desde Docker Hub); se
+  verificó por otra vía que las dependencias ancladas instalan sin error
+  en un entorno limpio, y el propio CI (`.github/workflows/ci.yml`)
+  construye la imagen en la infraestructura de GitHub —con acceso normal a
+  internet— la primera vez que se suba el repositorio, cerrando esa
+  verificación automáticamente.
