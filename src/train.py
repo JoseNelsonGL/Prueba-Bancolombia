@@ -14,6 +14,8 @@ from __future__ import annotations
 import json
 import os
 
+import sys
+
 import lightgbm as lgb
 import numpy as np
 import pandas as pd
@@ -21,8 +23,10 @@ from sklearn.metrics import f1_score, precision_score, recall_score, roc_auc_sco
 
 from data_prep import LEAKY_OUTCOME_COLS, PROC, TARGET_COL
 
-MODEL_DIR = os.path.join(os.path.dirname(__file__), "..", "results")
-os.makedirs(MODEL_DIR, exist_ok=True)
+sys.path.insert(0, os.path.join(os.path.dirname(__file__), ".."))
+from config import RESULTS_DIR, RUTA_SAMPLE_SUBMISSION  # noqa: E402 — ver config.py
+
+MODEL_DIR = RESULTS_DIR
 
 ID_LIKE = {
     "nit_enmascarado", "num_oblig_orig_enmascarado", "num_oblig_enmascarado",
@@ -158,9 +162,8 @@ def main():
     # el pipeline de features reordena filas (merge_asof, groupby); se
     # restaura el orden exacto de sample_submission.csv para que la
     # entrega sea una comparación fila a fila directa.
-    sample_path = os.path.join(PROC, "..", "raw", "sample_submission.csv")
-    if os.path.exists(sample_path):
-        order = pd.read_csv(sample_path)[["ID"]]
+    if os.path.exists(RUTA_SAMPLE_SUBMISSION):
+        order = pd.read_csv(RUTA_SAMPLE_SUBMISSION)[["ID"]]
         out = order.merge(out, on="ID", how="left")
         assert out["Prob_uno"].notna().all(), "Faltan predicciones para algún ID de sample_submission"
     out.to_csv(os.path.join(MODEL_DIR, "resultado_prueba.csv"), index=False)

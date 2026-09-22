@@ -1,6 +1,11 @@
 # Notas de EDA y decisiones de modelamiento (Parte 1)
 
 ## Reproducibilidad
+Las rutas de las 6 tablas de entrada se configuran en un único archivo,
+`config.py` (raíz del repositorio) — quien quiera correr esto con sus
+propias copias de los datos solo edita esas rutas ahí; ningún otro script
+necesita cambios.
+
 Todo lo que describe este documento se puede reproducir en código, no solo
 leer como texto:
 - `notebooks/01_eda.py` — genera el resumen de variables por tabla, la

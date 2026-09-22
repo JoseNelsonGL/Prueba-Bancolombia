@@ -3,6 +3,7 @@
 Repositorio de la solución end-to-end para la prueba técnica de Bancolombia (gestión de cartera en mora).
 
 ## Estructura
+- `config.py` — **único archivo que hay que editar para reproducir con otra ubicación de los datos** (rutas de las 6 tablas de entrada; ver "Cómo reproducir" abajo)
 - `data/` — datos crudos y procesados (no versionados por tamaño/sensibilidad; ver `.gitignore`)
 - `notebooks/` — EDA reproducible, comparación de modelos y validación de la muestra OOT entregada (Parte 1), con sus salidas (gráficos/tablas) en `notebooks/eda_outputs/`, `notebooks/model_outputs/` y `notebooks/oot_outputs/`
 - `src/` — pipeline de datos, entrenamiento, inferencia (Parte 1)
@@ -13,11 +14,17 @@ Repositorio de la solución end-to-end para la prueba técnica de Bancolombia (g
 
 ## Cómo reproducir
 
+**Paso 1 — datos:** abre `config.py` (en la raíz del repo) y revisa las 6 rutas de
+archivo. Por defecto asumen que las 4 tablas + `oot.csv` + `sample_submission.csv`
+están dentro de `data/raw/` con los nombres originales de la prueba (ver
+`docs/eda_notas.md` para el detalle de cada tabla) — si tus copias están en otro
+lugar o con otro nombre, edita esas líneas ahí y nada más. Ningún otro
+archivo del repositorio necesita cambios.
+
+**Paso 2 — instalar y correr:**
+
 ```bash
 pip install -r requirements.txt
-
-# Coloca las 4 tablas + oot.csv + sample_submission.csv en data/raw/
-# (ver docs/eda_notas.md para nombres y formato esperado)
 
 python3 src/data_prep.py   # construye data/processed/modeling_{trtest,oot}.parquet
 python3 src/train.py       # entrena, valida y genera results/resultado_prueba.csv

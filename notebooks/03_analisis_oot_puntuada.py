@@ -53,12 +53,14 @@ import pandas as pd
 import shap
 
 sys.path.insert(0, os.path.join(os.path.dirname(__file__), "..", "src"))
+sys.path.insert(0, os.path.join(os.path.dirname(__file__), ".."))
 from data_prep import PROC, TARGET_COL
 from train import encode_categoricals
+from config import RESULTS_DIR  # noqa: E402 — ver config.py
 
 OUT = os.path.join(os.path.dirname(__file__), "oot_outputs")
 os.makedirs(OUT, exist_ok=True)
-RESULTS = os.path.join(os.path.dirname(__file__), "..", "results")
+RESULTS = RESULTS_DIR
 
 COLOR_VALID = "#34608D"
 COLOR_OOT = "#B03A2E"

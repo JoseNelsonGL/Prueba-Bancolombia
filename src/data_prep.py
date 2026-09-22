@@ -29,11 +29,18 @@ de alternativas preaprobadas.
 from __future__ import annotations
 
 import os
+import sys
 import pandas as pd
 import numpy as np
 
-RAW = os.path.join(os.path.dirname(__file__), "..", "data", "raw")
-PROC = os.path.join(os.path.dirname(__file__), "..", "data", "processed")
+sys.path.insert(0, os.path.join(os.path.dirname(__file__), ".."))
+from config import (  # noqa: E402 — ver config.py: único lugar donde se editan rutas
+    DATA_RAW_DIR, DATA_PROCESSED_DIR, RUTA_TRTEST, RUTA_MASTER_CUSTOMER_DATA,
+    RUTA_PROBABILIDAD_OBLIG_HIST, RUTA_MAESTRA_CUOTAS_PAGOS, RUTA_OOT,
+)
+
+RAW = DATA_RAW_DIR  # se mantiene por compatibilidad (usado por notebooks/01_eda.py)
+PROC = DATA_PROCESSED_DIR
 os.makedirs(PROC, exist_ok=True)
 
 ID_COLS = ["nit_enmascarado", "num_oblig_orig_enmascarado", "num_oblig_enmascarado"]
@@ -218,16 +225,16 @@ def join_cuotas_pagos(panel: pd.DataFrame, cuotas_path: str) -> pd.DataFrame:
 
 def build_dataset(which: str) -> pd.DataFrame:
     """which: 'trtest' o 'oot'."""
-    tr_full = load_base(os.path.join(RAW, "trtest.csv"), has_target=True)
+    tr_full = load_base(RUTA_TRTEST, has_target=True)
     if which == "trtest":
         panel = tr_full
     else:
-        panel = load_base(os.path.join(RAW, "oot.csv"), has_target=False)
+        panel = load_base(RUTA_OOT, has_target=False)
 
     panel = build_own_history_lags(panel, history_source=tr_full)
-    panel = join_master_customer(panel, os.path.join(RAW, "master_customer_data.csv"))
-    panel = join_prob_oblig(panel, os.path.join(RAW, "probabilidad_oblig_hist.csv"))
-    panel = join_cuotas_pagos(panel, os.path.join(RAW, "maestra_cuotas_pagos_mes_hist.csv"))
+    panel = join_master_customer(panel, RUTA_MASTER_CUSTOMER_DATA)
+    panel = join_prob_oblig(panel, RUTA_PROBABILIDAD_OBLIG_HIST)
+    panel = join_cuotas_pagos(panel, RUTA_MAESTRA_CUOTAS_PAGOS)
     return panel
 
 
