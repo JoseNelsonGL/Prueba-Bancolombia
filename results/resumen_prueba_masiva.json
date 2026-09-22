@@ -1,0 +1,3217 @@
+{
+  "resumen": {
+    "n_muestra": 400,
+    "semilla": 42,
+    "distribucion_acciones": {
+      "escalar_humano": 156,
+      "ofrecer_opcion_pago": 179,
+      "ofrecer_acuerdo_pago": 20,
+      "monitoreo_sin_oferta": 34,
+      "diferir_auto_cura": 11
+    },
+    "n_violaciones": 0,
+    "violaciones": []
+  },
+  "detalle": [
+    {
+      "nit_enmascarado": "NIT-RND-0000",
+      "dias_mora": 0,
+      "restriccion_ofrecimiento": "cliente_fallecido",
+      "acepto_opcion_pago_vigente": false,
+      "accion": "escalar_humano",
+      "alternativa_elegida": null
+    },
+    {
+      "nit_enmascarado": "NIT-RND-0001",
+      "dias_mora": 37,
+      "restriccion_ofrecimiento": null,
+      "acepto_opcion_pago_vigente": false,
+      "accion": "ofrecer_opcion_pago",
+      "alternativa_elegida": "RND-0001-0"
+    },
+    {
+      "nit_enmascarado": "NIT-RND-0002",
+      "dias_mora": 1,
+      "restriccion_ofrecimiento": "cliente_fallecido",
+      "acepto_opcion_pago_vigente": false,
+      "accion": "escalar_humano",
+      "alternativa_elegida": null
+    },
+    {
+      "nit_enmascarado": "NIT-RND-0003",
+      "dias_mora": 40,
+      "restriccion_ofrecimiento": null,
+      "acepto_opcion_pago_vigente": false,
+      "accion": "ofrecer_acuerdo_pago",
+      "alternativa_elegida": null
+    },
+    {
+      "nit_enmascarado": "NIT-RND-0004",
+      "dias_mora": 217,
+      "restriccion_ofrecimiento": null,
+      "acepto_opcion_pago_vigente": false,
+      "accion": "ofrecer_opcion_pago",
+      "alternativa_elegida": "RND-0004-0"
+    },
+    {
+      "nit_enmascarado": "NIT-RND-0005",
+      "dias_mora": 8,
+      "restriccion_ofrecimiento": "juridico",
+      "acepto_opcion_pago_vigente": false,
+      "accion": "escalar_humano",
+      "alternativa_elegida": null
+    },
+    {
+      "nit_enmascarado": "NIT-RND-0006",
+      "dias_mora": 10,
+      "restriccion_ofrecimiento": "juridico",
+      "acepto_opcion_pago_vigente": false,
+      "accion": "escalar_humano",
+      "alternativa_elegida": null
+    },
+    {
+      "nit_enmascarado": "NIT-RND-0007",
+      "dias_mora": 41,
+      "restriccion_ofrecimiento": "juridico",
+      "acepto_opcion_pago_vigente": true,
+      "accion": "escalar_humano",
+      "alternativa_elegida": null
+    },
+    {
+      "nit_enmascarado": "NIT-RND-0008",
+      "dias_mora": 68,
+      "restriccion_ofrecimiento": null,
+      "acepto_opcion_pago_vigente": false,
+      "accion": "ofrecer_opcion_pago",
+      "alternativa_elegida": "RND-0008-0"
+    },
+    {
+      "nit_enmascarado": "NIT-RND-0009",
+      "dias_mora": 189,
+      "restriccion_ofrecimiento": "juridico",
+      "acepto_opcion_pago_vigente": false,
+      "accion": "escalar_humano",
+      "alternativa_elegida": null
+    },
+    {
+      "nit_enmascarado": "NIT-RND-0010",
+      "dias_mora": 42,
+      "restriccion_ofrecimiento": "juridico",
+      "acepto_opcion_pago_vigente": false,
+      "accion": "escalar_humano",
+      "alternativa_elegida": null
+    },
+    {
+      "nit_enmascarado": "NIT-RND-0011",
+      "dias_mora": 10,
+      "restriccion_ofrecimiento": "fraude",
+      "acepto_opcion_pago_vigente": true,
+      "accion": "escalar_humano",
+      "alternativa_elegida": null
+    },
+    {
+      "nit_enmascarado": "NIT-RND-0012",
+      "dias_mora": 83,
+      "restriccion_ofrecimiento": "fraude",
+      "acepto_opcion_pago_vigente": false,
+      "accion": "escalar_humano",
+      "alternativa_elegida": null
+    },
+    {
+      "nit_enmascarado": "NIT-RND-0013",
+      "dias_mora": 7,
+      "restriccion_ofrecimiento": "fraude",
+      "acepto_opcion_pago_vigente": false,
+      "accion": "escalar_humano",
+      "alternativa_elegida": null
+    },
+    {
+      "nit_enmascarado": "NIT-RND-0014",
+      "dias_mora": 2,
+      "restriccion_ofrecimiento": "fraude",
+      "acepto_opcion_pago_vigente": false,
+      "accion": "escalar_humano",
+      "alternativa_elegida": null
+    },
+    {
+      "nit_enmascarado": "NIT-RND-0015",
+      "dias_mora": 11,
+      "restriccion_ofrecimiento": null,
+      "acepto_opcion_pago_vigente": false,
+      "accion": "ofrecer_opcion_pago",
+      "alternativa_elegida": "RND-0015-1"
+    },
+    {
+      "nit_enmascarado": "NIT-RND-0016",
+      "dias_mora": 72,
+      "restriccion_ofrecimiento": null,
+      "acepto_opcion_pago_vigente": false,
+      "accion": "ofrecer_opcion_pago",
+      "alternativa_elegida": "RND-0016-1"
+    },
+    {
+      "nit_enmascarado": "NIT-RND-0017",
+      "dias_mora": 366,
+      "restriccion_ofrecimiento": null,
+      "acepto_opcion_pago_vigente": false,
+      "accion": "escalar_humano",
+      "alternativa_elegida": null
+    },
+    {
+      "nit_enmascarado": "NIT-RND-0018",
+      "dias_mora": 87,
+      "restriccion_ofrecimiento": "cliente_fallecido",
+      "acepto_opcion_pago_vigente": false,
+      "accion": "escalar_humano",
+      "alternativa_elegida": null
+    },
+    {
+      "nit_enmascarado": "NIT-RND-0019",
+      "dias_mora": 17,
+      "restriccion_ofrecimiento": "juridico",
+      "acepto_opcion_pago_vigente": false,
+      "accion": "escalar_humano",
+      "alternativa_elegida": null
+    },
+    {
+      "nit_enmascarado": "NIT-RND-0020",
+      "dias_mora": 87,
+      "restriccion_ofrecimiento": null,
+      "acepto_opcion_pago_vigente": false,
+      "accion": "ofrecer_opcion_pago",
+      "alternativa_elegida": "RND-0020-1"
+    },
+    {
+      "nit_enmascarado": "NIT-RND-0021",
+      "dias_mora": 42,
+      "restriccion_ofrecimiento": "juridico",
+      "acepto_opcion_pago_vigente": false,
+      "accion": "escalar_humano",
+      "alternativa_elegida": null
+    },
+    {
+      "nit_enmascarado": "NIT-RND-0022",
+      "dias_mora": 156,
+      "restriccion_ofrecimiento": null,
+      "acepto_opcion_pago_vigente": false,
+      "accion": "escalar_humano",
+      "alternativa_elegida": null
+    },
+    {
+      "nit_enmascarado": "NIT-RND-0023",
+      "dias_mora": 15,
+      "restriccion_ofrecimiento": "fraude",
+      "acepto_opcion_pago_vigente": false,
+      "accion": "escalar_humano",
+      "alternativa_elegida": null
+    },
+    {
+      "nit_enmascarado": "NIT-RND-0024",
+      "dias_mora": 80,
+      "restriccion_ofrecimiento": null,
+      "acepto_opcion_pago_vigente": true,
+      "accion": "monitoreo_sin_oferta",
+      "alternativa_elegida": null
+    },
+    {
+      "nit_enmascarado": "NIT-RND-0025",
+      "dias_mora": 72,
+      "restriccion_ofrecimiento": "fraude",
+      "acepto_opcion_pago_vigente": false,
+      "accion": "escalar_humano",
+      "alternativa_elegida": null
+    },
+    {
+      "nit_enmascarado": "NIT-RND-0026",
+      "dias_mora": 344,
+      "restriccion_ofrecimiento": null,
+      "acepto_opcion_pago_vigente": false,
+      "accion": "ofrecer_opcion_pago",
+      "alternativa_elegida": "RND-0026-0"
+    },
+    {
+      "nit_enmascarado": "NIT-RND-0027",
+      "dias_mora": 241,
+      "restriccion_ofrecimiento": null,
+      "acepto_opcion_pago_vigente": false,
+      "accion": "ofrecer_opcion_pago",
+      "alternativa_elegida": "RND-0027-1"
+    },
+    {
+      "nit_enmascarado": "NIT-RND-0028",
+      "dias_mora": 70,
+      "restriccion_ofrecimiento": null,
+      "acepto_opcion_pago_vigente": false,
+      "accion": "ofrecer_opcion_pago",
+      "alternativa_elegida": "RND-0028-1"
+    },
+    {
+      "nit_enmascarado": "NIT-RND-0029",
+      "dias_mora": 118,
+      "restriccion_ofrecimiento": null,
+      "acepto_opcion_pago_vigente": false,
+      "accion": "ofrecer_opcion_pago",
+      "alternativa_elegida": "RND-0029-0"
+    },
+    {
+      "nit_enmascarado": "NIT-RND-0030",
+      "dias_mora": 6,
+      "restriccion_ofrecimiento": "fraude",
+      "acepto_opcion_pago_vigente": false,
+      "accion": "escalar_humano",
+      "alternativa_elegida": null
+    },
+    {
+      "nit_enmascarado": "NIT-RND-0031",
+      "dias_mora": 56,
+      "restriccion_ofrecimiento": null,
+      "acepto_opcion_pago_vigente": false,
+      "accion": "ofrecer_opcion_pago",
+      "alternativa_elegida": "RND-0031-0"
+    },
+    {
+      "nit_enmascarado": "NIT-RND-0032",
+      "dias_mora": 343,
+      "restriccion_ofrecimiento": "cliente_fallecido",
+      "acepto_opcion_pago_vigente": false,
+      "accion": "escalar_humano",
+      "alternativa_elegida": null
+    },
+    {
+      "nit_enmascarado": "NIT-RND-0033",
+      "dias_mora": 314,
+      "restriccion_ofrecimiento": null,
+      "acepto_opcion_pago_vigente": false,
+      "accion": "ofrecer_opcion_pago",
+      "alternativa_elegida": "RND-0033-0"
+    },
+    {
+      "nit_enmascarado": "NIT-RND-0034",
+      "dias_mora": 88,
+      "restriccion_ofrecimiento": null,
+      "acepto_opcion_pago_vigente": false,
+      "accion": "ofrecer_opcion_pago",
+      "alternativa_elegida": "RND-0034-0"
+    },
+    {
+      "nit_enmascarado": "NIT-RND-0035",
+      "dias_mora": 51,
+      "restriccion_ofrecimiento": null,
+      "acepto_opcion_pago_vigente": false,
+      "accion": "escalar_humano",
+      "alternativa_elegida": null
+    },
+    {
+      "nit_enmascarado": "NIT-RND-0036",
+      "dias_mora": 92,
+      "restriccion_ofrecimiento": null,
+      "acepto_opcion_pago_vigente": false,
+      "accion": "ofrecer_opcion_pago",
+      "alternativa_elegida": "RND-0036-1"
+    },
+    {
+      "nit_enmascarado": "NIT-RND-0037",
+      "dias_mora": 168,
+      "restriccion_ofrecimiento": "cliente_fallecido",
+      "acepto_opcion_pago_vigente": false,
+      "accion": "escalar_humano",
+      "alternativa_elegida": null
+    },
+    {
+      "nit_enmascarado": "NIT-RND-0038",
+      "dias_mora": 2,
+      "restriccion_ofrecimiento": null,
+      "acepto_opcion_pago_vigente": false,
+      "accion": "escalar_humano",
+      "alternativa_elegida": null
+    },
+    {
+      "nit_enmascarado": "NIT-RND-0039",
+      "dias_mora": 53,
+      "restriccion_ofrecimiento": null,
+      "acepto_opcion_pago_vigente": false,
+      "accion": "ofrecer_opcion_pago",
+      "alternativa_elegida": "RND-0039-0"
+    },
+    {
+      "nit_enmascarado": "NIT-RND-0040",
+      "dias_mora": 87,
+      "restriccion_ofrecimiento": null,
+      "acepto_opcion_pago_vigente": false,
+      "accion": "ofrecer_acuerdo_pago",
+      "alternativa_elegida": null
+    },
+    {
+      "nit_enmascarado": "NIT-RND-0041",
+      "dias_mora": 9,
+      "restriccion_ofrecimiento": null,
+      "acepto_opcion_pago_vigente": false,
+      "accion": "ofrecer_opcion_pago",
+      "alternativa_elegida": "RND-0041-0"
+    },
+    {
+      "nit_enmascarado": "NIT-RND-0042",
+      "dias_mora": 75,
+      "restriccion_ofrecimiento": "cliente_fallecido",
+      "acepto_opcion_pago_vigente": false,
+      "accion": "escalar_humano",
+      "alternativa_elegida": null
+    },
+    {
+      "nit_enmascarado": "NIT-RND-0043",
+      "dias_mora": 63,
+      "restriccion_ofrecimiento": null,
+      "acepto_opcion_pago_vigente": false,
+      "accion": "ofrecer_opcion_pago",
+      "alternativa_elegida": "RND-0043-0"
+    },
+    {
+      "nit_enmascarado": "NIT-RND-0044",
+      "dias_mora": 57,
+      "restriccion_ofrecimiento": null,
+      "acepto_opcion_pago_vigente": false,
+      "accion": "ofrecer_opcion_pago",
+      "alternativa_elegida": "RND-0044-0"
+    },
+    {
+      "nit_enmascarado": "NIT-RND-0045",
+      "dias_mora": 396,
+      "restriccion_ofrecimiento": null,
+      "acepto_opcion_pago_vigente": false,
+      "accion": "ofrecer_opcion_pago",
+      "alternativa_elegida": "RND-0045-0"
+    },
+    {
+      "nit_enmascarado": "NIT-RND-0046",
+      "dias_mora": 38,
+      "restriccion_ofrecimiento": null,
+      "acepto_opcion_pago_vigente": false,
+      "accion": "ofrecer_opcion_pago",
+      "alternativa_elegida": "RND-0046-1"
+    },
+    {
+      "nit_enmascarado": "NIT-RND-0047",
+      "dias_mora": 61,
+      "restriccion_ofrecimiento": null,
+      "acepto_opcion_pago_vigente": false,
+      "accion": "ofrecer_opcion_pago",
+      "alternativa_elegida": "RND-0047-1"
+    },
+    {
+      "nit_enmascarado": "NIT-RND-0048",
+      "dias_mora": 80,
+      "restriccion_ofrecimiento": "cliente_fallecido",
+      "acepto_opcion_pago_vigente": false,
+      "accion": "escalar_humano",
+      "alternativa_elegida": null
+    },
+    {
+      "nit_enmascarado": "NIT-RND-0049",
+      "dias_mora": 157,
+      "restriccion_ofrecimiento": null,
+      "acepto_opcion_pago_vigente": false,
+      "accion": "ofrecer_opcion_pago",
+      "alternativa_elegida": "RND-0049-2"
+    },
+    {
+      "nit_enmascarado": "NIT-RND-0050",
+      "dias_mora": 227,
+      "restriccion_ofrecimiento": null,
+      "acepto_opcion_pago_vigente": false,
+      "accion": "ofrecer_opcion_pago",
+      "alternativa_elegida": "RND-0050-0"
+    },
+    {
+      "nit_enmascarado": "NIT-RND-0051",
+      "dias_mora": 250,
+      "restriccion_ofrecimiento": null,
+      "acepto_opcion_pago_vigente": false,
+      "accion": "ofrecer_opcion_pago",
+      "alternativa_elegida": "RND-0051-0"
+    },
+    {
+      "nit_enmascarado": "NIT-RND-0052",
+      "dias_mora": 70,
+      "restriccion_ofrecimiento": null,
+      "acepto_opcion_pago_vigente": false,
+      "accion": "ofrecer_acuerdo_pago",
+      "alternativa_elegida": null
+    },
+    {
+      "nit_enmascarado": "NIT-RND-0053",
+      "dias_mora": 50,
+      "restriccion_ofrecimiento": "fraude",
+      "acepto_opcion_pago_vigente": false,
+      "accion": "escalar_humano",
+      "alternativa_elegida": null
+    },
+    {
+      "nit_enmascarado": "NIT-RND-0054",
+      "dias_mora": 145,
+      "restriccion_ofrecimiento": null,
+      "acepto_opcion_pago_vigente": false,
+      "accion": "ofrecer_opcion_pago",
+      "alternativa_elegida": "RND-0054-1"
+    },
+    {
+      "nit_enmascarado": "NIT-RND-0055",
+      "dias_mora": 22,
+      "restriccion_ofrecimiento": null,
+      "acepto_opcion_pago_vigente": true,
+      "accion": "monitoreo_sin_oferta",
+      "alternativa_elegida": null
+    },
+    {
+      "nit_enmascarado": "NIT-RND-0056",
+      "dias_mora": 1,
+      "restriccion_ofrecimiento": null,
+      "acepto_opcion_pago_vigente": false,
+      "accion": "ofrecer_opcion_pago",
+      "alternativa_elegida": "RND-0056-0"
+    },
+    {
+      "nit_enmascarado": "NIT-RND-0057",
+      "dias_mora": 235,
+      "restriccion_ofrecimiento": "cliente_fallecido",
+      "acepto_opcion_pago_vigente": true,
+      "accion": "escalar_humano",
+      "alternativa_elegida": null
+    },
+    {
+      "nit_enmascarado": "NIT-RND-0058",
+      "dias_mora": 9,
+      "restriccion_ofrecimiento": null,
+      "acepto_opcion_pago_vigente": false,
+      "accion": "ofrecer_opcion_pago",
+      "alternativa_elegida": "RND-0058-0"
+    },
+    {
+      "nit_enmascarado": "NIT-RND-0059",
+      "dias_mora": 10,
+      "restriccion_ofrecimiento": null,
+      "acepto_opcion_pago_vigente": false,
+      "accion": "ofrecer_opcion_pago",
+      "alternativa_elegida": "RND-0059-0"
+    },
+    {
+      "nit_enmascarado": "NIT-RND-0060",
+      "dias_mora": 286,
+      "restriccion_ofrecimiento": "juridico",
+      "acepto_opcion_pago_vigente": false,
+      "accion": "escalar_humano",
+      "alternativa_elegida": null
+    },
+    {
+      "nit_enmascarado": "NIT-RND-0061",
+      "dias_mora": 44,
+      "restriccion_ofrecimiento": null,
+      "acepto_opcion_pago_vigente": false,
+      "accion": "escalar_humano",
+      "alternativa_elegida": null
+    },
+    {
+      "nit_enmascarado": "NIT-RND-0062",
+      "dias_mora": 34,
+      "restriccion_ofrecimiento": "fraude",
+      "acepto_opcion_pago_vigente": false,
+      "accion": "escalar_humano",
+      "alternativa_elegida": null
+    },
+    {
+      "nit_enmascarado": "NIT-RND-0063",
+      "dias_mora": 346,
+      "restriccion_ofrecimiento": null,
+      "acepto_opcion_pago_vigente": false,
+      "accion": "ofrecer_opcion_pago",
+      "alternativa_elegida": "RND-0063-3"
+    },
+    {
+      "nit_enmascarado": "NIT-RND-0064",
+      "dias_mora": 53,
+      "restriccion_ofrecimiento": null,
+      "acepto_opcion_pago_vigente": false,
+      "accion": "ofrecer_opcion_pago",
+      "alternativa_elegida": "RND-0064-1"
+    },
+    {
+      "nit_enmascarado": "NIT-RND-0065",
+      "dias_mora": 38,
+      "restriccion_ofrecimiento": null,
+      "acepto_opcion_pago_vigente": false,
+      "accion": "ofrecer_opcion_pago",
+      "alternativa_elegida": "RND-0065-0"
+    },
+    {
+      "nit_enmascarado": "NIT-RND-0066",
+      "dias_mora": 36,
+      "restriccion_ofrecimiento": "cliente_fallecido",
+      "acepto_opcion_pago_vigente": true,
+      "accion": "escalar_humano",
+      "alternativa_elegida": null
+    },
+    {
+      "nit_enmascarado": "NIT-RND-0067",
+      "dias_mora": 211,
+      "restriccion_ofrecimiento": "cliente_fallecido",
+      "acepto_opcion_pago_vigente": false,
+      "accion": "escalar_humano",
+      "alternativa_elegida": null
+    },
+    {
+      "nit_enmascarado": "NIT-RND-0068",
+      "dias_mora": 8,
+      "restriccion_ofrecimiento": "juridico",
+      "acepto_opcion_pago_vigente": false,
+      "accion": "escalar_humano",
+      "alternativa_elegida": null
+    },
+    {
+      "nit_enmascarado": "NIT-RND-0069",
+      "dias_mora": 67,
+      "restriccion_ofrecimiento": "fraude",
+      "acepto_opcion_pago_vigente": false,
+      "accion": "escalar_humano",
+      "alternativa_elegida": null
+    },
+    {
+      "nit_enmascarado": "NIT-RND-0070",
+      "dias_mora": 43,
+      "restriccion_ofrecimiento": "fraude",
+      "acepto_opcion_pago_vigente": false,
+      "accion": "escalar_humano",
+      "alternativa_elegida": null
+    },
+    {
+      "nit_enmascarado": "NIT-RND-0071",
+      "dias_mora": 63,
+      "restriccion_ofrecimiento": null,
+      "acepto_opcion_pago_vigente": false,
+      "accion": "ofrecer_opcion_pago",
+      "alternativa_elegida": "RND-0071-1"
+    },
+    {
+      "nit_enmascarado": "NIT-RND-0072",
+      "dias_mora": 85,
+      "restriccion_ofrecimiento": null,
+      "acepto_opcion_pago_vigente": false,
+      "accion": "ofrecer_opcion_pago",
+      "alternativa_elegida": "RND-0072-0"
+    },
+    {
+      "nit_enmascarado": "NIT-RND-0073",
+      "dias_mora": 76,
+      "restriccion_ofrecimiento": null,
+      "acepto_opcion_pago_vigente": true,
+      "accion": "monitoreo_sin_oferta",
+      "alternativa_elegida": null
+    },
+    {
+      "nit_enmascarado": "NIT-RND-0074",
+      "dias_mora": 278,
+      "restriccion_ofrecimiento": null,
+      "acepto_opcion_pago_vigente": true,
+      "accion": "monitoreo_sin_oferta",
+      "alternativa_elegida": null
+    },
+    {
+      "nit_enmascarado": "NIT-RND-0075",
+      "dias_mora": 161,
+      "restriccion_ofrecimiento": "juridico",
+      "acepto_opcion_pago_vigente": false,
+      "accion": "escalar_humano",
+      "alternativa_elegida": null
+    },
+    {
+      "nit_enmascarado": "NIT-RND-0076",
+      "dias_mora": 104,
+      "restriccion_ofrecimiento": null,
+      "acepto_opcion_pago_vigente": false,
+      "accion": "ofrecer_opcion_pago",
+      "alternativa_elegida": "RND-0076-1"
+    },
+    {
+      "nit_enmascarado": "NIT-RND-0077",
+      "dias_mora": 197,
+      "restriccion_ofrecimiento": null,
+      "acepto_opcion_pago_vigente": false,
+      "accion": "ofrecer_opcion_pago",
+      "alternativa_elegida": "RND-0077-0"
+    },
+    {
+      "nit_enmascarado": "NIT-RND-0078",
+      "dias_mora": 377,
+      "restriccion_ofrecimiento": null,
+      "acepto_opcion_pago_vigente": false,
+      "accion": "ofrecer_opcion_pago",
+      "alternativa_elegida": "RND-0078-0"
+    },
+    {
+      "nit_enmascarado": "NIT-RND-0079",
+      "dias_mora": 80,
+      "restriccion_ofrecimiento": null,
+      "acepto_opcion_pago_vigente": false,
+      "accion": "ofrecer_opcion_pago",
+      "alternativa_elegida": "RND-0079-2"
+    },
+    {
+      "nit_enmascarado": "NIT-RND-0080",
+      "dias_mora": 5,
+      "restriccion_ofrecimiento": null,
+      "acepto_opcion_pago_vigente": false,
+      "accion": "ofrecer_opcion_pago",
+      "alternativa_elegida": "RND-0080-1"
+    },
+    {
+      "nit_enmascarado": "NIT-RND-0081",
+      "dias_mora": 33,
+      "restriccion_ofrecimiento": null,
+      "acepto_opcion_pago_vigente": false,
+      "accion": "ofrecer_opcion_pago",
+      "alternativa_elegida": "RND-0081-1"
+    },
+    {
+      "nit_enmascarado": "NIT-RND-0082",
+      "dias_mora": 389,
+      "restriccion_ofrecimiento": null,
+      "acepto_opcion_pago_vigente": false,
+      "accion": "ofrecer_opcion_pago",
+      "alternativa_elegida": "RND-0082-1"
+    },
+    {
+      "nit_enmascarado": "NIT-RND-0083",
+      "dias_mora": 78,
+      "restriccion_ofrecimiento": "juridico",
+      "acepto_opcion_pago_vigente": false,
+      "accion": "escalar_humano",
+      "alternativa_elegida": null
+    },
+    {
+      "nit_enmascarado": "NIT-RND-0084",
+      "dias_mora": 14,
+      "restriccion_ofrecimiento": null,
+      "acepto_opcion_pago_vigente": false,
+      "accion": "escalar_humano",
+      "alternativa_elegida": null
+    },
+    {
+      "nit_enmascarado": "NIT-RND-0085",
+      "dias_mora": 284,
+      "restriccion_ofrecimiento": null,
+      "acepto_opcion_pago_vigente": false,
+      "accion": "ofrecer_opcion_pago",
+      "alternativa_elegida": "RND-0085-1"
+    },
+    {
+      "nit_enmascarado": "NIT-RND-0086",
+      "dias_mora": 28,
+      "restriccion_ofrecimiento": null,
+      "acepto_opcion_pago_vigente": true,
+      "accion": "monitoreo_sin_oferta",
+      "alternativa_elegida": null
+    },
+    {
+      "nit_enmascarado": "NIT-RND-0087",
+      "dias_mora": 24,
+      "restriccion_ofrecimiento": null,
+      "acepto_opcion_pago_vigente": false,
+      "accion": "ofrecer_opcion_pago",
+      "alternativa_elegida": "RND-0087-1"
+    },
+    {
+      "nit_enmascarado": "NIT-RND-0088",
+      "dias_mora": 283,
+      "restriccion_ofrecimiento": null,
+      "acepto_opcion_pago_vigente": false,
+      "accion": "ofrecer_opcion_pago",
+      "alternativa_elegida": "RND-0088-1"
+    },
+    {
+      "nit_enmascarado": "NIT-RND-0089",
+      "dias_mora": 8,
+      "restriccion_ofrecimiento": null,
+      "acepto_opcion_pago_vigente": false,
+      "accion": "ofrecer_opcion_pago",
+      "alternativa_elegida": "RND-0089-0"
+    },
+    {
+      "nit_enmascarado": "NIT-RND-0090",
+      "dias_mora": 34,
+      "restriccion_ofrecimiento": null,
+      "acepto_opcion_pago_vigente": false,
+      "accion": "ofrecer_opcion_pago",
+      "alternativa_elegida": "RND-0090-0"
+    },
+    {
+      "nit_enmascarado": "NIT-RND-0091",
+      "dias_mora": 259,
+      "restriccion_ofrecimiento": null,
+      "acepto_opcion_pago_vigente": false,
+      "accion": "ofrecer_opcion_pago",
+      "alternativa_elegida": "RND-0091-0"
+    },
+    {
+      "nit_enmascarado": "NIT-RND-0092",
+      "dias_mora": 1,
+      "restriccion_ofrecimiento": "fraude",
+      "acepto_opcion_pago_vigente": false,
+      "accion": "escalar_humano",
+      "alternativa_elegida": null
+    },
+    {
+      "nit_enmascarado": "NIT-RND-0093",
+      "dias_mora": 231,
+      "restriccion_ofrecimiento": null,
+      "acepto_opcion_pago_vigente": false,
+      "accion": "ofrecer_opcion_pago",
+      "alternativa_elegida": "RND-0093-0"
+    },
+    {
+      "nit_enmascarado": "NIT-RND-0094",
+      "dias_mora": 88,
+      "restriccion_ofrecimiento": "fraude",
+      "acepto_opcion_pago_vigente": false,
+      "accion": "escalar_humano",
+      "alternativa_elegida": null
+    },
+    {
+      "nit_enmascarado": "NIT-RND-0095",
+      "dias_mora": 5,
+      "restriccion_ofrecimiento": null,
+      "acepto_opcion_pago_vigente": false,
+      "accion": "ofrecer_opcion_pago",
+      "alternativa_elegida": "RND-0095-2"
+    },
+    {
+      "nit_enmascarado": "NIT-RND-0096",
+      "dias_mora": 37,
+      "restriccion_ofrecimiento": null,
+      "acepto_opcion_pago_vigente": false,
+      "accion": "ofrecer_acuerdo_pago",
+      "alternativa_elegida": null
+    },
+    {
+      "nit_enmascarado": "NIT-RND-0097",
+      "dias_mora": 2,
+      "restriccion_ofrecimiento": null,
+      "acepto_opcion_pago_vigente": false,
+      "accion": "ofrecer_opcion_pago",
+      "alternativa_elegida": "RND-0097-2"
+    },
+    {
+      "nit_enmascarado": "NIT-RND-0098",
+      "dias_mora": 11,
+      "restriccion_ofrecimiento": null,
+      "acepto_opcion_pago_vigente": false,
+      "accion": "ofrecer_opcion_pago",
+      "alternativa_elegida": "RND-0098-0"
+    },
+    {
+      "nit_enmascarado": "NIT-RND-0099",
+      "dias_mora": 76,
+      "restriccion_ofrecimiento": null,
+      "acepto_opcion_pago_vigente": false,
+      "accion": "ofrecer_opcion_pago",
+      "alternativa_elegida": "RND-0099-0"
+    },
+    {
+      "nit_enmascarado": "NIT-RND-0100",
+      "dias_mora": 36,
+      "restriccion_ofrecimiento": null,
+      "acepto_opcion_pago_vigente": false,
+      "accion": "ofrecer_opcion_pago",
+      "alternativa_elegida": "RND-0100-0"
+    },
+    {
+      "nit_enmascarado": "NIT-RND-0101",
+      "dias_mora": 214,
+      "restriccion_ofrecimiento": null,
+      "acepto_opcion_pago_vigente": false,
+      "accion": "ofrecer_opcion_pago",
+      "alternativa_elegida": "RND-0101-0"
+    },
+    {
+      "nit_enmascarado": "NIT-RND-0102",
+      "dias_mora": 80,
+      "restriccion_ofrecimiento": "juridico",
+      "acepto_opcion_pago_vigente": false,
+      "accion": "escalar_humano",
+      "alternativa_elegida": null
+    },
+    {
+      "nit_enmascarado": "NIT-RND-0103",
+      "dias_mora": 17,
+      "restriccion_ofrecimiento": null,
+      "acepto_opcion_pago_vigente": false,
+      "accion": "ofrecer_opcion_pago",
+      "alternativa_elegida": "RND-0103-0"
+    },
+    {
+      "nit_enmascarado": "NIT-RND-0104",
+      "dias_mora": 86,
+      "restriccion_ofrecimiento": "fraude",
+      "acepto_opcion_pago_vigente": false,
+      "accion": "escalar_humano",
+      "alternativa_elegida": null
+    },
+    {
+      "nit_enmascarado": "NIT-RND-0105",
+      "dias_mora": 64,
+      "restriccion_ofrecimiento": "fraude",
+      "acepto_opcion_pago_vigente": false,
+      "accion": "escalar_humano",
+      "alternativa_elegida": null
+    },
+    {
+      "nit_enmascarado": "NIT-RND-0106",
+      "dias_mora": 70,
+      "restriccion_ofrecimiento": null,
+      "acepto_opcion_pago_vigente": false,
+      "accion": "ofrecer_opcion_pago",
+      "alternativa_elegida": "RND-0106-0"
+    },
+    {
+      "nit_enmascarado": "NIT-RND-0107",
+      "dias_mora": 51,
+      "restriccion_ofrecimiento": null,
+      "acepto_opcion_pago_vigente": false,
+      "accion": "ofrecer_opcion_pago",
+      "alternativa_elegida": "RND-0107-1"
+    },
+    {
+      "nit_enmascarado": "NIT-RND-0108",
+      "dias_mora": 78,
+      "restriccion_ofrecimiento": null,
+      "acepto_opcion_pago_vigente": false,
+      "accion": "ofrecer_opcion_pago",
+      "alternativa_elegida": "RND-0108-1"
+    },
+    {
+      "nit_enmascarado": "NIT-RND-0109",
+      "dias_mora": 196,
+      "restriccion_ofrecimiento": null,
+      "acepto_opcion_pago_vigente": false,
+      "accion": "ofrecer_opcion_pago",
+      "alternativa_elegida": "RND-0109-1"
+    },
+    {
+      "nit_enmascarado": "NIT-RND-0110",
+      "dias_mora": 138,
+      "restriccion_ofrecimiento": null,
+      "acepto_opcion_pago_vigente": false,
+      "accion": "ofrecer_opcion_pago",
+      "alternativa_elegida": "RND-0110-0"
+    },
+    {
+      "nit_enmascarado": "NIT-RND-0111",
+      "dias_mora": 64,
+      "restriccion_ofrecimiento": null,
+      "acepto_opcion_pago_vigente": false,
+      "accion": "ofrecer_opcion_pago",
+      "alternativa_elegida": "RND-0111-0"
+    },
+    {
+      "nit_enmascarado": "NIT-RND-0112",
+      "dias_mora": 41,
+      "restriccion_ofrecimiento": null,
+      "acepto_opcion_pago_vigente": true,
+      "accion": "monitoreo_sin_oferta",
+      "alternativa_elegida": null
+    },
+    {
+      "nit_enmascarado": "NIT-RND-0113",
+      "dias_mora": 251,
+      "restriccion_ofrecimiento": null,
+      "acepto_opcion_pago_vigente": true,
+      "accion": "escalar_humano",
+      "alternativa_elegida": null
+    },
+    {
+      "nit_enmascarado": "NIT-RND-0114",
+      "dias_mora": 57,
+      "restriccion_ofrecimiento": null,
+      "acepto_opcion_pago_vigente": false,
+      "accion": "ofrecer_opcion_pago",
+      "alternativa_elegida": "RND-0114-0"
+    },
+    {
+      "nit_enmascarado": "NIT-RND-0115",
+      "dias_mora": 73,
+      "restriccion_ofrecimiento": null,
+      "acepto_opcion_pago_vigente": true,
+      "accion": "monitoreo_sin_oferta",
+      "alternativa_elegida": null
+    },
+    {
+      "nit_enmascarado": "NIT-RND-0116",
+      "dias_mora": 133,
+      "restriccion_ofrecimiento": null,
+      "acepto_opcion_pago_vigente": false,
+      "accion": "ofrecer_opcion_pago",
+      "alternativa_elegida": "RND-0116-0"
+    },
+    {
+      "nit_enmascarado": "NIT-RND-0117",
+      "dias_mora": 31,
+      "restriccion_ofrecimiento": "juridico",
+      "acepto_opcion_pago_vigente": false,
+      "accion": "escalar_humano",
+      "alternativa_elegida": null
+    },
+    {
+      "nit_enmascarado": "NIT-RND-0118",
+      "dias_mora": 0,
+      "restriccion_ofrecimiento": null,
+      "acepto_opcion_pago_vigente": false,
+      "accion": "ofrecer_opcion_pago",
+      "alternativa_elegida": "RND-0118-0"
+    },
+    {
+      "nit_enmascarado": "NIT-RND-0119",
+      "dias_mora": 7,
+      "restriccion_ofrecimiento": "fraude",
+      "acepto_opcion_pago_vigente": false,
+      "accion": "escalar_humano",
+      "alternativa_elegida": null
+    },
+    {
+      "nit_enmascarado": "NIT-RND-0120",
+      "dias_mora": 235,
+      "restriccion_ofrecimiento": "fraude",
+      "acepto_opcion_pago_vigente": false,
+      "accion": "escalar_humano",
+      "alternativa_elegida": null
+    },
+    {
+      "nit_enmascarado": "NIT-RND-0121",
+      "dias_mora": 16,
+      "restriccion_ofrecimiento": null,
+      "acepto_opcion_pago_vigente": false,
+      "accion": "ofrecer_acuerdo_pago",
+      "alternativa_elegida": null
+    },
+    {
+      "nit_enmascarado": "NIT-RND-0122",
+      "dias_mora": 90,
+      "restriccion_ofrecimiento": null,
+      "acepto_opcion_pago_vigente": false,
+      "accion": "ofrecer_opcion_pago",
+      "alternativa_elegida": "RND-0122-0"
+    },
+    {
+      "nit_enmascarado": "NIT-RND-0123",
+      "dias_mora": 68,
+      "restriccion_ofrecimiento": null,
+      "acepto_opcion_pago_vigente": false,
+      "accion": "ofrecer_opcion_pago",
+      "alternativa_elegida": "RND-0123-0"
+    },
+    {
+      "nit_enmascarado": "NIT-RND-0124",
+      "dias_mora": 5,
+      "restriccion_ofrecimiento": null,
+      "acepto_opcion_pago_vigente": false,
+      "accion": "ofrecer_opcion_pago",
+      "alternativa_elegida": "RND-0124-0"
+    },
+    {
+      "nit_enmascarado": "NIT-RND-0125",
+      "dias_mora": 16,
+      "restriccion_ofrecimiento": null,
+      "acepto_opcion_pago_vigente": false,
+      "accion": "ofrecer_opcion_pago",
+      "alternativa_elegida": "RND-0125-0"
+    },
+    {
+      "nit_enmascarado": "NIT-RND-0126",
+      "dias_mora": 384,
+      "restriccion_ofrecimiento": null,
+      "acepto_opcion_pago_vigente": false,
+      "accion": "ofrecer_opcion_pago",
+      "alternativa_elegida": "RND-0126-1"
+    },
+    {
+      "nit_enmascarado": "NIT-RND-0127",
+      "dias_mora": 234,
+      "restriccion_ofrecimiento": null,
+      "acepto_opcion_pago_vigente": false,
+      "accion": "ofrecer_opcion_pago",
+      "alternativa_elegida": "RND-0127-3"
+    },
+    {
+      "nit_enmascarado": "NIT-RND-0128",
+      "dias_mora": 22,
+      "restriccion_ofrecimiento": null,
+      "acepto_opcion_pago_vigente": false,
+      "accion": "escalar_humano",
+      "alternativa_elegida": null
+    },
+    {
+      "nit_enmascarado": "NIT-RND-0129",
+      "dias_mora": 110,
+      "restriccion_ofrecimiento": null,
+      "acepto_opcion_pago_vigente": false,
+      "accion": "ofrecer_opcion_pago",
+      "alternativa_elegida": "RND-0129-1"
+    },
+    {
+      "nit_enmascarado": "NIT-RND-0130",
+      "dias_mora": 83,
+      "restriccion_ofrecimiento": null,
+      "acepto_opcion_pago_vigente": false,
+      "accion": "ofrecer_opcion_pago",
+      "alternativa_elegida": "RND-0130-2"
+    },
+    {
+      "nit_enmascarado": "NIT-RND-0131",
+      "dias_mora": 5,
+      "restriccion_ofrecimiento": null,
+      "acepto_opcion_pago_vigente": false,
+      "accion": "ofrecer_opcion_pago",
+      "alternativa_elegida": "RND-0131-0"
+    },
+    {
+      "nit_enmascarado": "NIT-RND-0132",
+      "dias_mora": 302,
+      "restriccion_ofrecimiento": null,
+      "acepto_opcion_pago_vigente": true,
+      "accion": "escalar_humano",
+      "alternativa_elegida": null
+    },
+    {
+      "nit_enmascarado": "NIT-RND-0133",
+      "dias_mora": 74,
+      "restriccion_ofrecimiento": null,
+      "acepto_opcion_pago_vigente": false,
+      "accion": "ofrecer_acuerdo_pago",
+      "alternativa_elegida": null
+    },
+    {
+      "nit_enmascarado": "NIT-RND-0134",
+      "dias_mora": 398,
+      "restriccion_ofrecimiento": "cliente_fallecido",
+      "acepto_opcion_pago_vigente": false,
+      "accion": "escalar_humano",
+      "alternativa_elegida": null
+    },
+    {
+      "nit_enmascarado": "NIT-RND-0135",
+      "dias_mora": 8,
+      "restriccion_ofrecimiento": "juridico",
+      "acepto_opcion_pago_vigente": false,
+      "accion": "escalar_humano",
+      "alternativa_elegida": null
+    },
+    {
+      "nit_enmascarado": "NIT-RND-0136",
+      "dias_mora": 12,
+      "restriccion_ofrecimiento": null,
+      "acepto_opcion_pago_vigente": true,
+      "accion": "monitoreo_sin_oferta",
+      "alternativa_elegida": null
+    },
+    {
+      "nit_enmascarado": "NIT-RND-0137",
+      "dias_mora": 73,
+      "restriccion_ofrecimiento": "fraude",
+      "acepto_opcion_pago_vigente": false,
+      "accion": "escalar_humano",
+      "alternativa_elegida": null
+    },
+    {
+      "nit_enmascarado": "NIT-RND-0138",
+      "dias_mora": 232,
+      "restriccion_ofrecimiento": null,
+      "acepto_opcion_pago_vigente": false,
+      "accion": "escalar_humano",
+      "alternativa_elegida": null
+    },
+    {
+      "nit_enmascarado": "NIT-RND-0139",
+      "dias_mora": 304,
+      "restriccion_ofrecimiento": "juridico",
+      "acepto_opcion_pago_vigente": false,
+      "accion": "escalar_humano",
+      "alternativa_elegida": null
+    },
+    {
+      "nit_enmascarado": "NIT-RND-0140",
+      "dias_mora": 45,
+      "restriccion_ofrecimiento": null,
+      "acepto_opcion_pago_vigente": false,
+      "accion": "ofrecer_opcion_pago",
+      "alternativa_elegida": "RND-0140-1"
+    },
+    {
+      "nit_enmascarado": "NIT-RND-0141",
+      "dias_mora": 5,
+      "restriccion_ofrecimiento": null,
+      "acepto_opcion_pago_vigente": false,
+      "accion": "escalar_humano",
+      "alternativa_elegida": null
+    },
+    {
+      "nit_enmascarado": "NIT-RND-0142",
+      "dias_mora": 282,
+      "restriccion_ofrecimiento": "cliente_fallecido",
+      "acepto_opcion_pago_vigente": false,
+      "accion": "escalar_humano",
+      "alternativa_elegida": null
+    },
+    {
+      "nit_enmascarado": "NIT-RND-0143",
+      "dias_mora": 104,
+      "restriccion_ofrecimiento": null,
+      "acepto_opcion_pago_vigente": false,
+      "accion": "ofrecer_opcion_pago",
+      "alternativa_elegida": "RND-0143-0"
+    },
+    {
+      "nit_enmascarado": "NIT-RND-0144",
+      "dias_mora": 89,
+      "restriccion_ofrecimiento": null,
+      "acepto_opcion_pago_vigente": false,
+      "accion": "escalar_humano",
+      "alternativa_elegida": null
+    },
+    {
+      "nit_enmascarado": "NIT-RND-0145",
+      "dias_mora": 12,
+      "restriccion_ofrecimiento": null,
+      "acepto_opcion_pago_vigente": false,
+      "accion": "ofrecer_opcion_pago",
+      "alternativa_elegida": "RND-0145-0"
+    },
+    {
+      "nit_enmascarado": "NIT-RND-0146",
+      "dias_mora": 79,
+      "restriccion_ofrecimiento": "juridico",
+      "acepto_opcion_pago_vigente": true,
+      "accion": "escalar_humano",
+      "alternativa_elegida": null
+    },
+    {
+      "nit_enmascarado": "NIT-RND-0147",
+      "dias_mora": 7,
+      "restriccion_ofrecimiento": null,
+      "acepto_opcion_pago_vigente": false,
+      "accion": "diferir_auto_cura",
+      "alternativa_elegida": null
+    },
+    {
+      "nit_enmascarado": "NIT-RND-0148",
+      "dias_mora": 158,
+      "restriccion_ofrecimiento": null,
+      "acepto_opcion_pago_vigente": false,
+      "accion": "ofrecer_opcion_pago",
+      "alternativa_elegida": "RND-0148-2"
+    },
+    {
+      "nit_enmascarado": "NIT-RND-0149",
+      "dias_mora": 35,
+      "restriccion_ofrecimiento": null,
+      "acepto_opcion_pago_vigente": false,
+      "accion": "ofrecer_opcion_pago",
+      "alternativa_elegida": "RND-0149-0"
+    },
+    {
+      "nit_enmascarado": "NIT-RND-0150",
+      "dias_mora": 337,
+      "restriccion_ofrecimiento": null,
+      "acepto_opcion_pago_vigente": false,
+      "accion": "ofrecer_opcion_pago",
+      "alternativa_elegida": "RND-0150-0"
+    },
+    {
+      "nit_enmascarado": "NIT-RND-0151",
+      "dias_mora": 3,
+      "restriccion_ofrecimiento": null,
+      "acepto_opcion_pago_vigente": false,
+      "accion": "ofrecer_opcion_pago",
+      "alternativa_elegida": "RND-0151-1"
+    },
+    {
+      "nit_enmascarado": "NIT-RND-0152",
+      "dias_mora": 73,
+      "restriccion_ofrecimiento": null,
+      "acepto_opcion_pago_vigente": false,
+      "accion": "ofrecer_opcion_pago",
+      "alternativa_elegida": "RND-0152-0"
+    },
+    {
+      "nit_enmascarado": "NIT-RND-0153",
+      "dias_mora": 89,
+      "restriccion_ofrecimiento": "cliente_fallecido",
+      "acepto_opcion_pago_vigente": false,
+      "accion": "escalar_humano",
+      "alternativa_elegida": null
+    },
+    {
+      "nit_enmascarado": "NIT-RND-0154",
+      "dias_mora": 47,
+      "restriccion_ofrecimiento": "fraude",
+      "acepto_opcion_pago_vigente": false,
+      "accion": "escalar_humano",
+      "alternativa_elegida": null
+    },
+    {
+      "nit_enmascarado": "NIT-RND-0155",
+      "dias_mora": 12,
+      "restriccion_ofrecimiento": "fraude",
+      "acepto_opcion_pago_vigente": false,
+      "accion": "escalar_humano",
+      "alternativa_elegida": null
+    },
+    {
+      "nit_enmascarado": "NIT-RND-0156",
+      "dias_mora": 10,
+      "restriccion_ofrecimiento": null,
+      "acepto_opcion_pago_vigente": false,
+      "accion": "ofrecer_opcion_pago",
+      "alternativa_elegida": "RND-0156-0"
+    },
+    {
+      "nit_enmascarado": "NIT-RND-0157",
+      "dias_mora": 13,
+      "restriccion_ofrecimiento": "cliente_fallecido",
+      "acepto_opcion_pago_vigente": true,
+      "accion": "escalar_humano",
+      "alternativa_elegida": null
+    },
+    {
+      "nit_enmascarado": "NIT-RND-0158",
+      "dias_mora": 41,
+      "restriccion_ofrecimiento": "cliente_fallecido",
+      "acepto_opcion_pago_vigente": false,
+      "accion": "escalar_humano",
+      "alternativa_elegida": null
+    },
+    {
+      "nit_enmascarado": "NIT-RND-0159",
+      "dias_mora": 11,
+      "restriccion_ofrecimiento": null,
+      "acepto_opcion_pago_vigente": false,
+      "accion": "diferir_auto_cura",
+      "alternativa_elegida": null
+    },
+    {
+      "nit_enmascarado": "NIT-RND-0160",
+      "dias_mora": 38,
+      "restriccion_ofrecimiento": "cliente_fallecido",
+      "acepto_opcion_pago_vigente": false,
+      "accion": "escalar_humano",
+      "alternativa_elegida": null
+    },
+    {
+      "nit_enmascarado": "NIT-RND-0161",
+      "dias_mora": 186,
+      "restriccion_ofrecimiento": null,
+      "acepto_opcion_pago_vigente": false,
+      "accion": "escalar_humano",
+      "alternativa_elegida": null
+    },
+    {
+      "nit_enmascarado": "NIT-RND-0162",
+      "dias_mora": 78,
+      "restriccion_ofrecimiento": null,
+      "acepto_opcion_pago_vigente": false,
+      "accion": "escalar_humano",
+      "alternativa_elegida": null
+    },
+    {
+      "nit_enmascarado": "NIT-RND-0163",
+      "dias_mora": 3,
+      "restriccion_ofrecimiento": null,
+      "acepto_opcion_pago_vigente": false,
+      "accion": "ofrecer_opcion_pago",
+      "alternativa_elegida": "RND-0163-0"
+    },
+    {
+      "nit_enmascarado": "NIT-RND-0164",
+      "dias_mora": 3,
+      "restriccion_ofrecimiento": null,
+      "acepto_opcion_pago_vigente": false,
+      "accion": "ofrecer_opcion_pago",
+      "alternativa_elegida": "RND-0164-0"
+    },
+    {
+      "nit_enmascarado": "NIT-RND-0165",
+      "dias_mora": 87,
+      "restriccion_ofrecimiento": "fraude",
+      "acepto_opcion_pago_vigente": false,
+      "accion": "escalar_humano",
+      "alternativa_elegida": null
+    },
+    {
+      "nit_enmascarado": "NIT-RND-0166",
+      "dias_mora": 9,
+      "restriccion_ofrecimiento": "juridico",
+      "acepto_opcion_pago_vigente": false,
+      "accion": "escalar_humano",
+      "alternativa_elegida": null
+    },
+    {
+      "nit_enmascarado": "NIT-RND-0167",
+      "dias_mora": 29,
+      "restriccion_ofrecimiento": "fraude",
+      "acepto_opcion_pago_vigente": true,
+      "accion": "escalar_humano",
+      "alternativa_elegida": null
+    },
+    {
+      "nit_enmascarado": "NIT-RND-0168",
+      "dias_mora": 47,
+      "restriccion_ofrecimiento": "cliente_fallecido",
+      "acepto_opcion_pago_vigente": false,
+      "accion": "escalar_humano",
+      "alternativa_elegida": null
+    },
+    {
+      "nit_enmascarado": "NIT-RND-0169",
+      "dias_mora": 78,
+      "restriccion_ofrecimiento": "juridico",
+      "acepto_opcion_pago_vigente": false,
+      "accion": "escalar_humano",
+      "alternativa_elegida": null
+    },
+    {
+      "nit_enmascarado": "NIT-RND-0170",
+      "dias_mora": 77,
+      "restriccion_ofrecimiento": null,
+      "acepto_opcion_pago_vigente": false,
+      "accion": "ofrecer_acuerdo_pago",
+      "alternativa_elegida": null
+    },
+    {
+      "nit_enmascarado": "NIT-RND-0171",
+      "dias_mora": 90,
+      "restriccion_ofrecimiento": null,
+      "acepto_opcion_pago_vigente": false,
+      "accion": "ofrecer_opcion_pago",
+      "alternativa_elegida": "RND-0171-1"
+    },
+    {
+      "nit_enmascarado": "NIT-RND-0172",
+      "dias_mora": 8,
+      "restriccion_ofrecimiento": null,
+      "acepto_opcion_pago_vigente": false,
+      "accion": "ofrecer_opcion_pago",
+      "alternativa_elegida": "RND-0172-0"
+    },
+    {
+      "nit_enmascarado": "NIT-RND-0173",
+      "dias_mora": 56,
+      "restriccion_ofrecimiento": "fraude",
+      "acepto_opcion_pago_vigente": false,
+      "accion": "escalar_humano",
+      "alternativa_elegida": null
+    },
+    {
+      "nit_enmascarado": "NIT-RND-0174",
+      "dias_mora": 26,
+      "restriccion_ofrecimiento": "juridico",
+      "acepto_opcion_pago_vigente": false,
+      "accion": "escalar_humano",
+      "alternativa_elegida": null
+    },
+    {
+      "nit_enmascarado": "NIT-RND-0175",
+      "dias_mora": 2,
+      "restriccion_ofrecimiento": null,
+      "acepto_opcion_pago_vigente": false,
+      "accion": "ofrecer_acuerdo_pago",
+      "alternativa_elegida": null
+    },
+    {
+      "nit_enmascarado": "NIT-RND-0176",
+      "dias_mora": 13,
+      "restriccion_ofrecimiento": null,
+      "acepto_opcion_pago_vigente": false,
+      "accion": "ofrecer_opcion_pago",
+      "alternativa_elegida": "RND-0176-0"
+    },
+    {
+      "nit_enmascarado": "NIT-RND-0177",
+      "dias_mora": 74,
+      "restriccion_ofrecimiento": "juridico",
+      "acepto_opcion_pago_vigente": false,
+      "accion": "escalar_humano",
+      "alternativa_elegida": null
+    },
+    {
+      "nit_enmascarado": "NIT-RND-0178",
+      "dias_mora": 7,
+      "restriccion_ofrecimiento": null,
+      "acepto_opcion_pago_vigente": false,
+      "accion": "escalar_humano",
+      "alternativa_elegida": null
+    },
+    {
+      "nit_enmascarado": "NIT-RND-0179",
+      "dias_mora": 5,
+      "restriccion_ofrecimiento": null,
+      "acepto_opcion_pago_vigente": true,
+      "accion": "monitoreo_sin_oferta",
+      "alternativa_elegida": null
+    },
+    {
+      "nit_enmascarado": "NIT-RND-0180",
+      "dias_mora": 2,
+      "restriccion_ofrecimiento": "juridico",
+      "acepto_opcion_pago_vigente": false,
+      "accion": "escalar_humano",
+      "alternativa_elegida": null
+    },
+    {
+      "nit_enmascarado": "NIT-RND-0181",
+      "dias_mora": 79,
+      "restriccion_ofrecimiento": null,
+      "acepto_opcion_pago_vigente": false,
+      "accion": "ofrecer_opcion_pago",
+      "alternativa_elegida": "RND-0181-0"
+    },
+    {
+      "nit_enmascarado": "NIT-RND-0182",
+      "dias_mora": 63,
+      "restriccion_ofrecimiento": "cliente_fallecido",
+      "acepto_opcion_pago_vigente": false,
+      "accion": "escalar_humano",
+      "alternativa_elegida": null
+    },
+    {
+      "nit_enmascarado": "NIT-RND-0183",
+      "dias_mora": 67,
+      "restriccion_ofrecimiento": "fraude",
+      "acepto_opcion_pago_vigente": false,
+      "accion": "escalar_humano",
+      "alternativa_elegida": null
+    },
+    {
+      "nit_enmascarado": "NIT-RND-0184",
+      "dias_mora": 19,
+      "restriccion_ofrecimiento": "fraude",
+      "acepto_opcion_pago_vigente": false,
+      "accion": "escalar_humano",
+      "alternativa_elegida": null
+    },
+    {
+      "nit_enmascarado": "NIT-RND-0185",
+      "dias_mora": 383,
+      "restriccion_ofrecimiento": null,
+      "acepto_opcion_pago_vigente": false,
+      "accion": "ofrecer_opcion_pago",
+      "alternativa_elegida": "RND-0185-1"
+    },
+    {
+      "nit_enmascarado": "NIT-RND-0186",
+      "dias_mora": 381,
+      "restriccion_ofrecimiento": null,
+      "acepto_opcion_pago_vigente": false,
+      "accion": "ofrecer_opcion_pago",
+      "alternativa_elegida": "RND-0186-0"
+    },
+    {
+      "nit_enmascarado": "NIT-RND-0187",
+      "dias_mora": 34,
+      "restriccion_ofrecimiento": null,
+      "acepto_opcion_pago_vigente": false,
+      "accion": "escalar_humano",
+      "alternativa_elegida": null
+    },
+    {
+      "nit_enmascarado": "NIT-RND-0188",
+      "dias_mora": 102,
+      "restriccion_ofrecimiento": null,
+      "acepto_opcion_pago_vigente": false,
+      "accion": "ofrecer_opcion_pago",
+      "alternativa_elegida": "RND-0188-0"
+    },
+    {
+      "nit_enmascarado": "NIT-RND-0189",
+      "dias_mora": 236,
+      "restriccion_ofrecimiento": null,
+      "acepto_opcion_pago_vigente": false,
+      "accion": "ofrecer_opcion_pago",
+      "alternativa_elegida": "RND-0189-1"
+    },
+    {
+      "nit_enmascarado": "NIT-RND-0190",
+      "dias_mora": 68,
+      "restriccion_ofrecimiento": null,
+      "acepto_opcion_pago_vigente": false,
+      "accion": "ofrecer_opcion_pago",
+      "alternativa_elegida": "RND-0190-1"
+    },
+    {
+      "nit_enmascarado": "NIT-RND-0191",
+      "dias_mora": 78,
+      "restriccion_ofrecimiento": "juridico",
+      "acepto_opcion_pago_vigente": false,
+      "accion": "escalar_humano",
+      "alternativa_elegida": null
+    },
+    {
+      "nit_enmascarado": "NIT-RND-0192",
+      "dias_mora": 88,
+      "restriccion_ofrecimiento": "juridico",
+      "acepto_opcion_pago_vigente": true,
+      "accion": "escalar_humano",
+      "alternativa_elegida": null
+    },
+    {
+      "nit_enmascarado": "NIT-RND-0193",
+      "dias_mora": 4,
+      "restriccion_ofrecimiento": null,
+      "acepto_opcion_pago_vigente": false,
+      "accion": "diferir_auto_cura",
+      "alternativa_elegida": null
+    },
+    {
+      "nit_enmascarado": "NIT-RND-0194",
+      "dias_mora": 7,
+      "restriccion_ofrecimiento": null,
+      "acepto_opcion_pago_vigente": false,
+      "accion": "ofrecer_opcion_pago",
+      "alternativa_elegida": "RND-0194-1"
+    },
+    {
+      "nit_enmascarado": "NIT-RND-0195",
+      "dias_mora": 6,
+      "restriccion_ofrecimiento": null,
+      "acepto_opcion_pago_vigente": false,
+      "accion": "ofrecer_opcion_pago",
+      "alternativa_elegida": "RND-0195-0"
+    },
+    {
+      "nit_enmascarado": "NIT-RND-0196",
+      "dias_mora": 72,
+      "restriccion_ofrecimiento": null,
+      "acepto_opcion_pago_vigente": false,
+      "accion": "ofrecer_opcion_pago",
+      "alternativa_elegida": "RND-0196-0"
+    },
+    {
+      "nit_enmascarado": "NIT-RND-0197",
+      "dias_mora": 79,
+      "restriccion_ofrecimiento": "fraude",
+      "acepto_opcion_pago_vigente": false,
+      "accion": "escalar_humano",
+      "alternativa_elegida": null
+    },
+    {
+      "nit_enmascarado": "NIT-RND-0198",
+      "dias_mora": 345,
+      "restriccion_ofrecimiento": "cliente_fallecido",
+      "acepto_opcion_pago_vigente": true,
+      "accion": "escalar_humano",
+      "alternativa_elegida": null
+    },
+    {
+      "nit_enmascarado": "NIT-RND-0199",
+      "dias_mora": 83,
+      "restriccion_ofrecimiento": null,
+      "acepto_opcion_pago_vigente": true,
+      "accion": "escalar_humano",
+      "alternativa_elegida": null
+    },
+    {
+      "nit_enmascarado": "NIT-RND-0200",
+      "dias_mora": 274,
+      "restriccion_ofrecimiento": "juridico",
+      "acepto_opcion_pago_vigente": false,
+      "accion": "escalar_humano",
+      "alternativa_elegida": null
+    },
+    {
+      "nit_enmascarado": "NIT-RND-0201",
+      "dias_mora": 78,
+      "restriccion_ofrecimiento": null,
+      "acepto_opcion_pago_vigente": false,
+      "accion": "ofrecer_opcion_pago",
+      "alternativa_elegida": "RND-0201-0"
+    },
+    {
+      "nit_enmascarado": "NIT-RND-0202",
+      "dias_mora": 18,
+      "restriccion_ofrecimiento": null,
+      "acepto_opcion_pago_vigente": false,
+      "accion": "ofrecer_opcion_pago",
+      "alternativa_elegida": "RND-0202-0"
+    },
+    {
+      "nit_enmascarado": "NIT-RND-0203",
+      "dias_mora": 9,
+      "restriccion_ofrecimiento": "cliente_fallecido",
+      "acepto_opcion_pago_vigente": false,
+      "accion": "escalar_humano",
+      "alternativa_elegida": null
+    },
+    {
+      "nit_enmascarado": "NIT-RND-0204",
+      "dias_mora": 19,
+      "restriccion_ofrecimiento": "fraude",
+      "acepto_opcion_pago_vigente": true,
+      "accion": "escalar_humano",
+      "alternativa_elegida": null
+    },
+    {
+      "nit_enmascarado": "NIT-RND-0205",
+      "dias_mora": 51,
+      "restriccion_ofrecimiento": "cliente_fallecido",
+      "acepto_opcion_pago_vigente": false,
+      "accion": "escalar_humano",
+      "alternativa_elegida": null
+    },
+    {
+      "nit_enmascarado": "NIT-RND-0206",
+      "dias_mora": 18,
+      "restriccion_ofrecimiento": null,
+      "acepto_opcion_pago_vigente": false,
+      "accion": "ofrecer_acuerdo_pago",
+      "alternativa_elegida": null
+    },
+    {
+      "nit_enmascarado": "NIT-RND-0207",
+      "dias_mora": 84,
+      "restriccion_ofrecimiento": null,
+      "acepto_opcion_pago_vigente": false,
+      "accion": "escalar_humano",
+      "alternativa_elegida": null
+    },
+    {
+      "nit_enmascarado": "NIT-RND-0208",
+      "dias_mora": 73,
+      "restriccion_ofrecimiento": null,
+      "acepto_opcion_pago_vigente": false,
+      "accion": "escalar_humano",
+      "alternativa_elegida": null
+    },
+    {
+      "nit_enmascarado": "NIT-RND-0209",
+      "dias_mora": 69,
+      "restriccion_ofrecimiento": "cliente_fallecido",
+      "acepto_opcion_pago_vigente": false,
+      "accion": "escalar_humano",
+      "alternativa_elegida": null
+    },
+    {
+      "nit_enmascarado": "NIT-RND-0210",
+      "dias_mora": 309,
+      "restriccion_ofrecimiento": null,
+      "acepto_opcion_pago_vigente": false,
+      "accion": "ofrecer_opcion_pago",
+      "alternativa_elegida": "RND-0210-0"
+    },
+    {
+      "nit_enmascarado": "NIT-RND-0211",
+      "dias_mora": 25,
+      "restriccion_ofrecimiento": "fraude",
+      "acepto_opcion_pago_vigente": true,
+      "accion": "escalar_humano",
+      "alternativa_elegida": null
+    },
+    {
+      "nit_enmascarado": "NIT-RND-0212",
+      "dias_mora": 15,
+      "restriccion_ofrecimiento": null,
+      "acepto_opcion_pago_vigente": false,
+      "accion": "diferir_auto_cura",
+      "alternativa_elegida": null
+    },
+    {
+      "nit_enmascarado": "NIT-RND-0213",
+      "dias_mora": 27,
+      "restriccion_ofrecimiento": null,
+      "acepto_opcion_pago_vigente": false,
+      "accion": "ofrecer_opcion_pago",
+      "alternativa_elegida": "RND-0213-1"
+    },
+    {
+      "nit_enmascarado": "NIT-RND-0214",
+      "dias_mora": 316,
+      "restriccion_ofrecimiento": "cliente_fallecido",
+      "acepto_opcion_pago_vigente": false,
+      "accion": "escalar_humano",
+      "alternativa_elegida": null
+    },
+    {
+      "nit_enmascarado": "NIT-RND-0215",
+      "dias_mora": 42,
+      "restriccion_ofrecimiento": null,
+      "acepto_opcion_pago_vigente": true,
+      "accion": "monitoreo_sin_oferta",
+      "alternativa_elegida": null
+    },
+    {
+      "nit_enmascarado": "NIT-RND-0216",
+      "dias_mora": 51,
+      "restriccion_ofrecimiento": null,
+      "acepto_opcion_pago_vigente": false,
+      "accion": "ofrecer_opcion_pago",
+      "alternativa_elegida": "RND-0216-0"
+    },
+    {
+      "nit_enmascarado": "NIT-RND-0217",
+      "dias_mora": 8,
+      "restriccion_ofrecimiento": null,
+      "acepto_opcion_pago_vigente": false,
+      "accion": "ofrecer_acuerdo_pago",
+      "alternativa_elegida": null
+    },
+    {
+      "nit_enmascarado": "NIT-RND-0218",
+      "dias_mora": 27,
+      "restriccion_ofrecimiento": null,
+      "acepto_opcion_pago_vigente": false,
+      "accion": "ofrecer_acuerdo_pago",
+      "alternativa_elegida": null
+    },
+    {
+      "nit_enmascarado": "NIT-RND-0219",
+      "dias_mora": 244,
+      "restriccion_ofrecimiento": "juridico",
+      "acepto_opcion_pago_vigente": false,
+      "accion": "escalar_humano",
+      "alternativa_elegida": null
+    },
+    {
+      "nit_enmascarado": "NIT-RND-0220",
+      "dias_mora": 15,
+      "restriccion_ofrecimiento": null,
+      "acepto_opcion_pago_vigente": true,
+      "accion": "monitoreo_sin_oferta",
+      "alternativa_elegida": null
+    },
+    {
+      "nit_enmascarado": "NIT-RND-0221",
+      "dias_mora": 86,
+      "restriccion_ofrecimiento": null,
+      "acepto_opcion_pago_vigente": true,
+      "accion": "monitoreo_sin_oferta",
+      "alternativa_elegida": null
+    },
+    {
+      "nit_enmascarado": "NIT-RND-0222",
+      "dias_mora": 86,
+      "restriccion_ofrecimiento": null,
+      "acepto_opcion_pago_vigente": false,
+      "accion": "escalar_humano",
+      "alternativa_elegida": null
+    },
+    {
+      "nit_enmascarado": "NIT-RND-0223",
+      "dias_mora": 9,
+      "restriccion_ofrecimiento": null,
+      "acepto_opcion_pago_vigente": false,
+      "accion": "ofrecer_opcion_pago",
+      "alternativa_elegida": "RND-0223-0"
+    },
+    {
+      "nit_enmascarado": "NIT-RND-0224",
+      "dias_mora": 37,
+      "restriccion_ofrecimiento": null,
+      "acepto_opcion_pago_vigente": false,
+      "accion": "ofrecer_opcion_pago",
+      "alternativa_elegida": "RND-0224-0"
+    },
+    {
+      "nit_enmascarado": "NIT-RND-0225",
+      "dias_mora": 28,
+      "restriccion_ofrecimiento": "juridico",
+      "acepto_opcion_pago_vigente": false,
+      "accion": "escalar_humano",
+      "alternativa_elegida": null
+    },
+    {
+      "nit_enmascarado": "NIT-RND-0226",
+      "dias_mora": 63,
+      "restriccion_ofrecimiento": "fraude",
+      "acepto_opcion_pago_vigente": false,
+      "accion": "escalar_humano",
+      "alternativa_elegida": null
+    },
+    {
+      "nit_enmascarado": "NIT-RND-0227",
+      "dias_mora": 86,
+      "restriccion_ofrecimiento": "cliente_fallecido",
+      "acepto_opcion_pago_vigente": false,
+      "accion": "escalar_humano",
+      "alternativa_elegida": null
+    },
+    {
+      "nit_enmascarado": "NIT-RND-0228",
+      "dias_mora": 269,
+      "restriccion_ofrecimiento": null,
+      "acepto_opcion_pago_vigente": false,
+      "accion": "ofrecer_opcion_pago",
+      "alternativa_elegida": "RND-0228-0"
+    },
+    {
+      "nit_enmascarado": "NIT-RND-0229",
+      "dias_mora": 82,
+      "restriccion_ofrecimiento": "cliente_fallecido",
+      "acepto_opcion_pago_vigente": false,
+      "accion": "escalar_humano",
+      "alternativa_elegida": null
+    },
+    {
+      "nit_enmascarado": "NIT-RND-0230",
+      "dias_mora": 4,
+      "restriccion_ofrecimiento": null,
+      "acepto_opcion_pago_vigente": false,
+      "accion": "ofrecer_opcion_pago",
+      "alternativa_elegida": "RND-0230-0"
+    },
+    {
+      "nit_enmascarado": "NIT-RND-0231",
+      "dias_mora": 286,
+      "restriccion_ofrecimiento": null,
+      "acepto_opcion_pago_vigente": false,
+      "accion": "ofrecer_opcion_pago",
+      "alternativa_elegida": "RND-0231-1"
+    },
+    {
+      "nit_enmascarado": "NIT-RND-0232",
+      "dias_mora": 0,
+      "restriccion_ofrecimiento": null,
+      "acepto_opcion_pago_vigente": false,
+      "accion": "ofrecer_opcion_pago",
+      "alternativa_elegida": "RND-0232-0"
+    },
+    {
+      "nit_enmascarado": "NIT-RND-0233",
+      "dias_mora": 79,
+      "restriccion_ofrecimiento": null,
+      "acepto_opcion_pago_vigente": false,
+      "accion": "ofrecer_opcion_pago",
+      "alternativa_elegida": "RND-0233-2"
+    },
+    {
+      "nit_enmascarado": "NIT-RND-0234",
+      "dias_mora": 66,
+      "restriccion_ofrecimiento": "fraude",
+      "acepto_opcion_pago_vigente": false,
+      "accion": "escalar_humano",
+      "alternativa_elegida": null
+    },
+    {
+      "nit_enmascarado": "NIT-RND-0235",
+      "dias_mora": 61,
+      "restriccion_ofrecimiento": null,
+      "acepto_opcion_pago_vigente": false,
+      "accion": "ofrecer_opcion_pago",
+      "alternativa_elegida": "RND-0235-0"
+    },
+    {
+      "nit_enmascarado": "NIT-RND-0236",
+      "dias_mora": 42,
+      "restriccion_ofrecimiento": null,
+      "acepto_opcion_pago_vigente": false,
+      "accion": "ofrecer_opcion_pago",
+      "alternativa_elegida": "RND-0236-0"
+    },
+    {
+      "nit_enmascarado": "NIT-RND-0237",
+      "dias_mora": 90,
+      "restriccion_ofrecimiento": null,
+      "acepto_opcion_pago_vigente": false,
+      "accion": "ofrecer_opcion_pago",
+      "alternativa_elegida": "RND-0237-0"
+    },
+    {
+      "nit_enmascarado": "NIT-RND-0238",
+      "dias_mora": 51,
+      "restriccion_ofrecimiento": null,
+      "acepto_opcion_pago_vigente": false,
+      "accion": "ofrecer_opcion_pago",
+      "alternativa_elegida": "RND-0238-0"
+    },
+    {
+      "nit_enmascarado": "NIT-RND-0239",
+      "dias_mora": 2,
+      "restriccion_ofrecimiento": null,
+      "acepto_opcion_pago_vigente": false,
+      "accion": "escalar_humano",
+      "alternativa_elegida": null
+    },
+    {
+      "nit_enmascarado": "NIT-RND-0240",
+      "dias_mora": 27,
+      "restriccion_ofrecimiento": null,
+      "acepto_opcion_pago_vigente": false,
+      "accion": "ofrecer_opcion_pago",
+      "alternativa_elegida": "RND-0240-0"
+    },
+    {
+      "nit_enmascarado": "NIT-RND-0241",
+      "dias_mora": 71,
+      "restriccion_ofrecimiento": null,
+      "acepto_opcion_pago_vigente": false,
+      "accion": "ofrecer_opcion_pago",
+      "alternativa_elegida": "RND-0241-0"
+    },
+    {
+      "nit_enmascarado": "NIT-RND-0242",
+      "dias_mora": 14,
+      "restriccion_ofrecimiento": "fraude",
+      "acepto_opcion_pago_vigente": false,
+      "accion": "escalar_humano",
+      "alternativa_elegida": null
+    },
+    {
+      "nit_enmascarado": "NIT-RND-0243",
+      "dias_mora": 119,
+      "restriccion_ofrecimiento": null,
+      "acepto_opcion_pago_vigente": false,
+      "accion": "ofrecer_opcion_pago",
+      "alternativa_elegida": "RND-0243-2"
+    },
+    {
+      "nit_enmascarado": "NIT-RND-0244",
+      "dias_mora": 9,
+      "restriccion_ofrecimiento": "cliente_fallecido",
+      "acepto_opcion_pago_vigente": false,
+      "accion": "escalar_humano",
+      "alternativa_elegida": null
+    },
+    {
+      "nit_enmascarado": "NIT-RND-0245",
+      "dias_mora": 53,
+      "restriccion_ofrecimiento": "cliente_fallecido",
+      "acepto_opcion_pago_vigente": true,
+      "accion": "escalar_humano",
+      "alternativa_elegida": null
+    },
+    {
+      "nit_enmascarado": "NIT-RND-0246",
+      "dias_mora": 9,
+      "restriccion_ofrecimiento": null,
+      "acepto_opcion_pago_vigente": false,
+      "accion": "ofrecer_opcion_pago",
+      "alternativa_elegida": "RND-0246-0"
+    },
+    {
+      "nit_enmascarado": "NIT-RND-0247",
+      "dias_mora": 49,
+      "restriccion_ofrecimiento": null,
+      "acepto_opcion_pago_vigente": false,
+      "accion": "ofrecer_opcion_pago",
+      "alternativa_elegida": "RND-0247-0"
+    },
+    {
+      "nit_enmascarado": "NIT-RND-0248",
+      "dias_mora": 86,
+      "restriccion_ofrecimiento": null,
+      "acepto_opcion_pago_vigente": false,
+      "accion": "ofrecer_opcion_pago",
+      "alternativa_elegida": "RND-0248-2"
+    },
+    {
+      "nit_enmascarado": "NIT-RND-0249",
+      "dias_mora": 28,
+      "restriccion_ofrecimiento": null,
+      "acepto_opcion_pago_vigente": false,
+      "accion": "ofrecer_acuerdo_pago",
+      "alternativa_elegida": null
+    },
+    {
+      "nit_enmascarado": "NIT-RND-0250",
+      "dias_mora": 266,
+      "restriccion_ofrecimiento": null,
+      "acepto_opcion_pago_vigente": false,
+      "accion": "monitoreo_sin_oferta",
+      "alternativa_elegida": null
+    },
+    {
+      "nit_enmascarado": "NIT-RND-0251",
+      "dias_mora": 42,
+      "restriccion_ofrecimiento": null,
+      "acepto_opcion_pago_vigente": false,
+      "accion": "ofrecer_opcion_pago",
+      "alternativa_elegida": "RND-0251-0"
+    },
+    {
+      "nit_enmascarado": "NIT-RND-0252",
+      "dias_mora": 326,
+      "restriccion_ofrecimiento": null,
+      "acepto_opcion_pago_vigente": false,
+      "accion": "monitoreo_sin_oferta",
+      "alternativa_elegida": null
+    },
+    {
+      "nit_enmascarado": "NIT-RND-0253",
+      "dias_mora": 9,
+      "restriccion_ofrecimiento": "fraude",
+      "acepto_opcion_pago_vigente": false,
+      "accion": "escalar_humano",
+      "alternativa_elegida": null
+    },
+    {
+      "nit_enmascarado": "NIT-RND-0254",
+      "dias_mora": 31,
+      "restriccion_ofrecimiento": null,
+      "acepto_opcion_pago_vigente": true,
+      "accion": "monitoreo_sin_oferta",
+      "alternativa_elegida": null
+    },
+    {
+      "nit_enmascarado": "NIT-RND-0255",
+      "dias_mora": 72,
+      "restriccion_ofrecimiento": null,
+      "acepto_opcion_pago_vigente": false,
+      "accion": "ofrecer_opcion_pago",
+      "alternativa_elegida": "RND-0255-0"
+    },
+    {
+      "nit_enmascarado": "NIT-RND-0256",
+      "dias_mora": 38,
+      "restriccion_ofrecimiento": "juridico",
+      "acepto_opcion_pago_vigente": false,
+      "accion": "escalar_humano",
+      "alternativa_elegida": null
+    },
+    {
+      "nit_enmascarado": "NIT-RND-0257",
+      "dias_mora": 30,
+      "restriccion_ofrecimiento": null,
+      "acepto_opcion_pago_vigente": false,
+      "accion": "ofrecer_acuerdo_pago",
+      "alternativa_elegida": null
+    },
+    {
+      "nit_enmascarado": "NIT-RND-0258",
+      "dias_mora": 1,
+      "restriccion_ofrecimiento": null,
+      "acepto_opcion_pago_vigente": false,
+      "accion": "diferir_auto_cura",
+      "alternativa_elegida": null
+    },
+    {
+      "nit_enmascarado": "NIT-RND-0259",
+      "dias_mora": 84,
+      "restriccion_ofrecimiento": "fraude",
+      "acepto_opcion_pago_vigente": true,
+      "accion": "escalar_humano",
+      "alternativa_elegida": null
+    },
+    {
+      "nit_enmascarado": "NIT-RND-0260",
+      "dias_mora": 28,
+      "restriccion_ofrecimiento": null,
+      "acepto_opcion_pago_vigente": false,
+      "accion": "ofrecer_opcion_pago",
+      "alternativa_elegida": "RND-0260-0"
+    },
+    {
+      "nit_enmascarado": "NIT-RND-0261",
+      "dias_mora": 6,
+      "restriccion_ofrecimiento": "juridico",
+      "acepto_opcion_pago_vigente": false,
+      "accion": "escalar_humano",
+      "alternativa_elegida": null
+    },
+    {
+      "nit_enmascarado": "NIT-RND-0262",
+      "dias_mora": 375,
+      "restriccion_ofrecimiento": null,
+      "acepto_opcion_pago_vigente": false,
+      "accion": "ofrecer_opcion_pago",
+      "alternativa_elegida": "RND-0262-0"
+    },
+    {
+      "nit_enmascarado": "NIT-RND-0263",
+      "dias_mora": 4,
+      "restriccion_ofrecimiento": null,
+      "acepto_opcion_pago_vigente": false,
+      "accion": "ofrecer_opcion_pago",
+      "alternativa_elegida": "RND-0263-0"
+    },
+    {
+      "nit_enmascarado": "NIT-RND-0264",
+      "dias_mora": 11,
+      "restriccion_ofrecimiento": null,
+      "acepto_opcion_pago_vigente": false,
+      "accion": "ofrecer_acuerdo_pago",
+      "alternativa_elegida": null
+    },
+    {
+      "nit_enmascarado": "NIT-RND-0265",
+      "dias_mora": 6,
+      "restriccion_ofrecimiento": null,
+      "acepto_opcion_pago_vigente": false,
+      "accion": "ofrecer_acuerdo_pago",
+      "alternativa_elegida": null
+    },
+    {
+      "nit_enmascarado": "NIT-RND-0266",
+      "dias_mora": 42,
+      "restriccion_ofrecimiento": null,
+      "acepto_opcion_pago_vigente": false,
+      "accion": "escalar_humano",
+      "alternativa_elegida": null
+    },
+    {
+      "nit_enmascarado": "NIT-RND-0267",
+      "dias_mora": 13,
+      "restriccion_ofrecimiento": null,
+      "acepto_opcion_pago_vigente": false,
+      "accion": "escalar_humano",
+      "alternativa_elegida": null
+    },
+    {
+      "nit_enmascarado": "NIT-RND-0268",
+      "dias_mora": 4,
+      "restriccion_ofrecimiento": null,
+      "acepto_opcion_pago_vigente": false,
+      "accion": "ofrecer_opcion_pago",
+      "alternativa_elegida": "RND-0268-0"
+    },
+    {
+      "nit_enmascarado": "NIT-RND-0269",
+      "dias_mora": 185,
+      "restriccion_ofrecimiento": null,
+      "acepto_opcion_pago_vigente": true,
+      "accion": "monitoreo_sin_oferta",
+      "alternativa_elegida": null
+    },
+    {
+      "nit_enmascarado": "NIT-RND-0270",
+      "dias_mora": 250,
+      "restriccion_ofrecimiento": null,
+      "acepto_opcion_pago_vigente": false,
+      "accion": "ofrecer_opcion_pago",
+      "alternativa_elegida": "RND-0270-0"
+    },
+    {
+      "nit_enmascarado": "NIT-RND-0271",
+      "dias_mora": 5,
+      "restriccion_ofrecimiento": null,
+      "acepto_opcion_pago_vigente": false,
+      "accion": "ofrecer_opcion_pago",
+      "alternativa_elegida": "RND-0271-1"
+    },
+    {
+      "nit_enmascarado": "NIT-RND-0272",
+      "dias_mora": 15,
+      "restriccion_ofrecimiento": null,
+      "acepto_opcion_pago_vigente": false,
+      "accion": "ofrecer_opcion_pago",
+      "alternativa_elegida": "RND-0272-0"
+    },
+    {
+      "nit_enmascarado": "NIT-RND-0273",
+      "dias_mora": 1,
+      "restriccion_ofrecimiento": null,
+      "acepto_opcion_pago_vigente": false,
+      "accion": "ofrecer_opcion_pago",
+      "alternativa_elegida": "RND-0273-2"
+    },
+    {
+      "nit_enmascarado": "NIT-RND-0274",
+      "dias_mora": 171,
+      "restriccion_ofrecimiento": null,
+      "acepto_opcion_pago_vigente": true,
+      "accion": "monitoreo_sin_oferta",
+      "alternativa_elegida": null
+    },
+    {
+      "nit_enmascarado": "NIT-RND-0275",
+      "dias_mora": 72,
+      "restriccion_ofrecimiento": "juridico",
+      "acepto_opcion_pago_vigente": false,
+      "accion": "escalar_humano",
+      "alternativa_elegida": null
+    },
+    {
+      "nit_enmascarado": "NIT-RND-0276",
+      "dias_mora": 383,
+      "restriccion_ofrecimiento": null,
+      "acepto_opcion_pago_vigente": false,
+      "accion": "ofrecer_opcion_pago",
+      "alternativa_elegida": "RND-0276-3"
+    },
+    {
+      "nit_enmascarado": "NIT-RND-0277",
+      "dias_mora": 10,
+      "restriccion_ofrecimiento": "cliente_fallecido",
+      "acepto_opcion_pago_vigente": false,
+      "accion": "escalar_humano",
+      "alternativa_elegida": null
+    },
+    {
+      "nit_enmascarado": "NIT-RND-0278",
+      "dias_mora": 313,
+      "restriccion_ofrecimiento": null,
+      "acepto_opcion_pago_vigente": false,
+      "accion": "monitoreo_sin_oferta",
+      "alternativa_elegida": null
+    },
+    {
+      "nit_enmascarado": "NIT-RND-0279",
+      "dias_mora": 59,
+      "restriccion_ofrecimiento": null,
+      "acepto_opcion_pago_vigente": false,
+      "accion": "ofrecer_opcion_pago",
+      "alternativa_elegida": "RND-0279-1"
+    },
+    {
+      "nit_enmascarado": "NIT-RND-0280",
+      "dias_mora": 15,
+      "restriccion_ofrecimiento": null,
+      "acepto_opcion_pago_vigente": false,
+      "accion": "ofrecer_opcion_pago",
+      "alternativa_elegida": "RND-0280-0"
+    },
+    {
+      "nit_enmascarado": "NIT-RND-0281",
+      "dias_mora": 29,
+      "restriccion_ofrecimiento": null,
+      "acepto_opcion_pago_vigente": false,
+      "accion": "ofrecer_opcion_pago",
+      "alternativa_elegida": "RND-0281-2"
+    },
+    {
+      "nit_enmascarado": "NIT-RND-0282",
+      "dias_mora": 89,
+      "restriccion_ofrecimiento": null,
+      "acepto_opcion_pago_vigente": false,
+      "accion": "ofrecer_acuerdo_pago",
+      "alternativa_elegida": null
+    },
+    {
+      "nit_enmascarado": "NIT-RND-0283",
+      "dias_mora": 132,
+      "restriccion_ofrecimiento": null,
+      "acepto_opcion_pago_vigente": false,
+      "accion": "escalar_humano",
+      "alternativa_elegida": null
+    },
+    {
+      "nit_enmascarado": "NIT-RND-0284",
+      "dias_mora": 3,
+      "restriccion_ofrecimiento": "fraude",
+      "acepto_opcion_pago_vigente": false,
+      "accion": "escalar_humano",
+      "alternativa_elegida": null
+    },
+    {
+      "nit_enmascarado": "NIT-RND-0285",
+      "dias_mora": 376,
+      "restriccion_ofrecimiento": "fraude",
+      "acepto_opcion_pago_vigente": false,
+      "accion": "escalar_humano",
+      "alternativa_elegida": null
+    },
+    {
+      "nit_enmascarado": "NIT-RND-0286",
+      "dias_mora": 151,
+      "restriccion_ofrecimiento": null,
+      "acepto_opcion_pago_vigente": false,
+      "accion": "ofrecer_opcion_pago",
+      "alternativa_elegida": "RND-0286-1"
+    },
+    {
+      "nit_enmascarado": "NIT-RND-0287",
+      "dias_mora": 31,
+      "restriccion_ofrecimiento": null,
+      "acepto_opcion_pago_vigente": true,
+      "accion": "monitoreo_sin_oferta",
+      "alternativa_elegida": null
+    },
+    {
+      "nit_enmascarado": "NIT-RND-0288",
+      "dias_mora": 0,
+      "restriccion_ofrecimiento": null,
+      "acepto_opcion_pago_vigente": false,
+      "accion": "ofrecer_opcion_pago",
+      "alternativa_elegida": "RND-0288-0"
+    },
+    {
+      "nit_enmascarado": "NIT-RND-0289",
+      "dias_mora": 33,
+      "restriccion_ofrecimiento": null,
+      "acepto_opcion_pago_vigente": false,
+      "accion": "ofrecer_opcion_pago",
+      "alternativa_elegida": "RND-0289-0"
+    },
+    {
+      "nit_enmascarado": "NIT-RND-0290",
+      "dias_mora": 166,
+      "restriccion_ofrecimiento": null,
+      "acepto_opcion_pago_vigente": false,
+      "accion": "ofrecer_opcion_pago",
+      "alternativa_elegida": "RND-0290-0"
+    },
+    {
+      "nit_enmascarado": "NIT-RND-0291",
+      "dias_mora": 12,
+      "restriccion_ofrecimiento": "cliente_fallecido",
+      "acepto_opcion_pago_vigente": false,
+      "accion": "escalar_humano",
+      "alternativa_elegida": null
+    },
+    {
+      "nit_enmascarado": "NIT-RND-0292",
+      "dias_mora": 85,
+      "restriccion_ofrecimiento": null,
+      "acepto_opcion_pago_vigente": false,
+      "accion": "escalar_humano",
+      "alternativa_elegida": null
+    },
+    {
+      "nit_enmascarado": "NIT-RND-0293",
+      "dias_mora": 313,
+      "restriccion_ofrecimiento": null,
+      "acepto_opcion_pago_vigente": true,
+      "accion": "monitoreo_sin_oferta",
+      "alternativa_elegida": null
+    },
+    {
+      "nit_enmascarado": "NIT-RND-0294",
+      "dias_mora": 3,
+      "restriccion_ofrecimiento": null,
+      "acepto_opcion_pago_vigente": true,
+      "accion": "monitoreo_sin_oferta",
+      "alternativa_elegida": null
+    },
+    {
+      "nit_enmascarado": "NIT-RND-0295",
+      "dias_mora": 27,
+      "restriccion_ofrecimiento": null,
+      "acepto_opcion_pago_vigente": false,
+      "accion": "ofrecer_opcion_pago",
+      "alternativa_elegida": "RND-0295-0"
+    },
+    {
+      "nit_enmascarado": "NIT-RND-0296",
+      "dias_mora": 63,
+      "restriccion_ofrecimiento": null,
+      "acepto_opcion_pago_vigente": false,
+      "accion": "ofrecer_acuerdo_pago",
+      "alternativa_elegida": null
+    },
+    {
+      "nit_enmascarado": "NIT-RND-0297",
+      "dias_mora": 382,
+      "restriccion_ofrecimiento": "fraude",
+      "acepto_opcion_pago_vigente": false,
+      "accion": "escalar_humano",
+      "alternativa_elegida": null
+    },
+    {
+      "nit_enmascarado": "NIT-RND-0298",
+      "dias_mora": 13,
+      "restriccion_ofrecimiento": "fraude",
+      "acepto_opcion_pago_vigente": false,
+      "accion": "escalar_humano",
+      "alternativa_elegida": null
+    },
+    {
+      "nit_enmascarado": "NIT-RND-0299",
+      "dias_mora": 40,
+      "restriccion_ofrecimiento": null,
+      "acepto_opcion_pago_vigente": false,
+      "accion": "ofrecer_opcion_pago",
+      "alternativa_elegida": "RND-0299-0"
+    },
+    {
+      "nit_enmascarado": "NIT-RND-0300",
+      "dias_mora": 48,
+      "restriccion_ofrecimiento": "juridico",
+      "acepto_opcion_pago_vigente": false,
+      "accion": "escalar_humano",
+      "alternativa_elegida": null
+    },
+    {
+      "nit_enmascarado": "NIT-RND-0301",
+      "dias_mora": 3,
+      "restriccion_ofrecimiento": null,
+      "acepto_opcion_pago_vigente": false,
+      "accion": "diferir_auto_cura",
+      "alternativa_elegida": null
+    },
+    {
+      "nit_enmascarado": "NIT-RND-0302",
+      "dias_mora": 178,
+      "restriccion_ofrecimiento": null,
+      "acepto_opcion_pago_vigente": false,
+      "accion": "ofrecer_opcion_pago",
+      "alternativa_elegida": "RND-0302-0"
+    },
+    {
+      "nit_enmascarado": "NIT-RND-0303",
+      "dias_mora": 355,
+      "restriccion_ofrecimiento": "cliente_fallecido",
+      "acepto_opcion_pago_vigente": false,
+      "accion": "escalar_humano",
+      "alternativa_elegida": null
+    },
+    {
+      "nit_enmascarado": "NIT-RND-0304",
+      "dias_mora": 61,
+      "restriccion_ofrecimiento": null,
+      "acepto_opcion_pago_vigente": false,
+      "accion": "ofrecer_opcion_pago",
+      "alternativa_elegida": "RND-0304-0"
+    },
+    {
+      "nit_enmascarado": "NIT-RND-0305",
+      "dias_mora": 77,
+      "restriccion_ofrecimiento": null,
+      "acepto_opcion_pago_vigente": false,
+      "accion": "ofrecer_opcion_pago",
+      "alternativa_elegida": "RND-0305-0"
+    },
+    {
+      "nit_enmascarado": "NIT-RND-0306",
+      "dias_mora": 14,
+      "restriccion_ofrecimiento": null,
+      "acepto_opcion_pago_vigente": false,
+      "accion": "ofrecer_opcion_pago",
+      "alternativa_elegida": "RND-0306-1"
+    },
+    {
+      "nit_enmascarado": "NIT-RND-0307",
+      "dias_mora": 360,
+      "restriccion_ofrecimiento": null,
+      "acepto_opcion_pago_vigente": false,
+      "accion": "ofrecer_opcion_pago",
+      "alternativa_elegida": "RND-0307-1"
+    },
+    {
+      "nit_enmascarado": "NIT-RND-0308",
+      "dias_mora": 5,
+      "restriccion_ofrecimiento": null,
+      "acepto_opcion_pago_vigente": false,
+      "accion": "escalar_humano",
+      "alternativa_elegida": null
+    },
+    {
+      "nit_enmascarado": "NIT-RND-0309",
+      "dias_mora": 269,
+      "restriccion_ofrecimiento": "cliente_fallecido",
+      "acepto_opcion_pago_vigente": false,
+      "accion": "escalar_humano",
+      "alternativa_elegida": null
+    },
+    {
+      "nit_enmascarado": "NIT-RND-0310",
+      "dias_mora": 37,
+      "restriccion_ofrecimiento": null,
+      "acepto_opcion_pago_vigente": false,
+      "accion": "ofrecer_opcion_pago",
+      "alternativa_elegida": "RND-0310-1"
+    },
+    {
+      "nit_enmascarado": "NIT-RND-0311",
+      "dias_mora": 255,
+      "restriccion_ofrecimiento": null,
+      "acepto_opcion_pago_vigente": false,
+      "accion": "monitoreo_sin_oferta",
+      "alternativa_elegida": null
+    },
+    {
+      "nit_enmascarado": "NIT-RND-0312",
+      "dias_mora": 66,
+      "restriccion_ofrecimiento": null,
+      "acepto_opcion_pago_vigente": false,
+      "accion": "escalar_humano",
+      "alternativa_elegida": null
+    },
+    {
+      "nit_enmascarado": "NIT-RND-0313",
+      "dias_mora": 8,
+      "restriccion_ofrecimiento": "cliente_fallecido",
+      "acepto_opcion_pago_vigente": false,
+      "accion": "escalar_humano",
+      "alternativa_elegida": null
+    },
+    {
+      "nit_enmascarado": "NIT-RND-0314",
+      "dias_mora": 50,
+      "restriccion_ofrecimiento": null,
+      "acepto_opcion_pago_vigente": false,
+      "accion": "ofrecer_opcion_pago",
+      "alternativa_elegida": "RND-0314-1"
+    },
+    {
+      "nit_enmascarado": "NIT-RND-0315",
+      "dias_mora": 375,
+      "restriccion_ofrecimiento": null,
+      "acepto_opcion_pago_vigente": false,
+      "accion": "ofrecer_opcion_pago",
+      "alternativa_elegida": "RND-0315-0"
+    },
+    {
+      "nit_enmascarado": "NIT-RND-0316",
+      "dias_mora": 179,
+      "restriccion_ofrecimiento": null,
+      "acepto_opcion_pago_vigente": false,
+      "accion": "ofrecer_opcion_pago",
+      "alternativa_elegida": "RND-0316-0"
+    },
+    {
+      "nit_enmascarado": "NIT-RND-0317",
+      "dias_mora": 87,
+      "restriccion_ofrecimiento": "cliente_fallecido",
+      "acepto_opcion_pago_vigente": false,
+      "accion": "escalar_humano",
+      "alternativa_elegida": null
+    },
+    {
+      "nit_enmascarado": "NIT-RND-0318",
+      "dias_mora": 52,
+      "restriccion_ofrecimiento": null,
+      "acepto_opcion_pago_vigente": false,
+      "accion": "ofrecer_opcion_pago",
+      "alternativa_elegida": "RND-0318-0"
+    },
+    {
+      "nit_enmascarado": "NIT-RND-0319",
+      "dias_mora": 33,
+      "restriccion_ofrecimiento": null,
+      "acepto_opcion_pago_vigente": false,
+      "accion": "ofrecer_opcion_pago",
+      "alternativa_elegida": "RND-0319-0"
+    },
+    {
+      "nit_enmascarado": "NIT-RND-0320",
+      "dias_mora": 10,
+      "restriccion_ofrecimiento": null,
+      "acepto_opcion_pago_vigente": true,
+      "accion": "diferir_auto_cura",
+      "alternativa_elegida": null
+    },
+    {
+      "nit_enmascarado": "NIT-RND-0321",
+      "dias_mora": 14,
+      "restriccion_ofrecimiento": "fraude",
+      "acepto_opcion_pago_vigente": false,
+      "accion": "escalar_humano",
+      "alternativa_elegida": null
+    },
+    {
+      "nit_enmascarado": "NIT-RND-0322",
+      "dias_mora": 3,
+      "restriccion_ofrecimiento": null,
+      "acepto_opcion_pago_vigente": false,
+      "accion": "ofrecer_opcion_pago",
+      "alternativa_elegida": "RND-0322-0"
+    },
+    {
+      "nit_enmascarado": "NIT-RND-0323",
+      "dias_mora": 46,
+      "restriccion_ofrecimiento": null,
+      "acepto_opcion_pago_vigente": false,
+      "accion": "ofrecer_acuerdo_pago",
+      "alternativa_elegida": null
+    },
+    {
+      "nit_enmascarado": "NIT-RND-0324",
+      "dias_mora": 260,
+      "restriccion_ofrecimiento": null,
+      "acepto_opcion_pago_vigente": false,
+      "accion": "ofrecer_opcion_pago",
+      "alternativa_elegida": "RND-0324-1"
+    },
+    {
+      "nit_enmascarado": "NIT-RND-0325",
+      "dias_mora": 295,
+      "restriccion_ofrecimiento": null,
+      "acepto_opcion_pago_vigente": false,
+      "accion": "escalar_humano",
+      "alternativa_elegida": null
+    },
+    {
+      "nit_enmascarado": "NIT-RND-0326",
+      "dias_mora": 17,
+      "restriccion_ofrecimiento": "fraude",
+      "acepto_opcion_pago_vigente": false,
+      "accion": "escalar_humano",
+      "alternativa_elegida": null
+    },
+    {
+      "nit_enmascarado": "NIT-RND-0327",
+      "dias_mora": 50,
+      "restriccion_ofrecimiento": "fraude",
+      "acepto_opcion_pago_vigente": false,
+      "accion": "escalar_humano",
+      "alternativa_elegida": null
+    },
+    {
+      "nit_enmascarado": "NIT-RND-0328",
+      "dias_mora": 5,
+      "restriccion_ofrecimiento": null,
+      "acepto_opcion_pago_vigente": false,
+      "accion": "ofrecer_opcion_pago",
+      "alternativa_elegida": "RND-0328-0"
+    },
+    {
+      "nit_enmascarado": "NIT-RND-0329",
+      "dias_mora": 63,
+      "restriccion_ofrecimiento": null,
+      "acepto_opcion_pago_vigente": false,
+      "accion": "ofrecer_opcion_pago",
+      "alternativa_elegida": "RND-0329-0"
+    },
+    {
+      "nit_enmascarado": "NIT-RND-0330",
+      "dias_mora": 8,
+      "restriccion_ofrecimiento": null,
+      "acepto_opcion_pago_vigente": false,
+      "accion": "escalar_humano",
+      "alternativa_elegida": null
+    },
+    {
+      "nit_enmascarado": "NIT-RND-0331",
+      "dias_mora": 30,
+      "restriccion_ofrecimiento": "juridico",
+      "acepto_opcion_pago_vigente": false,
+      "accion": "escalar_humano",
+      "alternativa_elegida": null
+    },
+    {
+      "nit_enmascarado": "NIT-RND-0332",
+      "dias_mora": 74,
+      "restriccion_ofrecimiento": null,
+      "acepto_opcion_pago_vigente": false,
+      "accion": "ofrecer_opcion_pago",
+      "alternativa_elegida": "RND-0332-0"
+    },
+    {
+      "nit_enmascarado": "NIT-RND-0333",
+      "dias_mora": 64,
+      "restriccion_ofrecimiento": null,
+      "acepto_opcion_pago_vigente": false,
+      "accion": "ofrecer_opcion_pago",
+      "alternativa_elegida": "RND-0333-0"
+    },
+    {
+      "nit_enmascarado": "NIT-RND-0334",
+      "dias_mora": 4,
+      "restriccion_ofrecimiento": null,
+      "acepto_opcion_pago_vigente": false,
+      "accion": "ofrecer_opcion_pago",
+      "alternativa_elegida": "RND-0334-0"
+    },
+    {
+      "nit_enmascarado": "NIT-RND-0335",
+      "dias_mora": 12,
+      "restriccion_ofrecimiento": "cliente_fallecido",
+      "acepto_opcion_pago_vigente": false,
+      "accion": "escalar_humano",
+      "alternativa_elegida": null
+    },
+    {
+      "nit_enmascarado": "NIT-RND-0336",
+      "dias_mora": 90,
+      "restriccion_ofrecimiento": null,
+      "acepto_opcion_pago_vigente": false,
+      "accion": "ofrecer_opcion_pago",
+      "alternativa_elegida": "RND-0336-0"
+    },
+    {
+      "nit_enmascarado": "NIT-RND-0337",
+      "dias_mora": 295,
+      "restriccion_ofrecimiento": null,
+      "acepto_opcion_pago_vigente": false,
+      "accion": "monitoreo_sin_oferta",
+      "alternativa_elegida": null
+    },
+    {
+      "nit_enmascarado": "NIT-RND-0338",
+      "dias_mora": 87,
+      "restriccion_ofrecimiento": null,
+      "acepto_opcion_pago_vigente": false,
+      "accion": "ofrecer_opcion_pago",
+      "alternativa_elegida": "RND-0338-0"
+    },
+    {
+      "nit_enmascarado": "NIT-RND-0339",
+      "dias_mora": 3,
+      "restriccion_ofrecimiento": null,
+      "acepto_opcion_pago_vigente": false,
+      "accion": "diferir_auto_cura",
+      "alternativa_elegida": null
+    },
+    {
+      "nit_enmascarado": "NIT-RND-0340",
+      "dias_mora": 18,
+      "restriccion_ofrecimiento": null,
+      "acepto_opcion_pago_vigente": false,
+      "accion": "ofrecer_opcion_pago",
+      "alternativa_elegida": "RND-0340-0"
+    },
+    {
+      "nit_enmascarado": "NIT-RND-0341",
+      "dias_mora": 63,
+      "restriccion_ofrecimiento": "fraude",
+      "acepto_opcion_pago_vigente": true,
+      "accion": "escalar_humano",
+      "alternativa_elegida": null
+    },
+    {
+      "nit_enmascarado": "NIT-RND-0342",
+      "dias_mora": 3,
+      "restriccion_ofrecimiento": "cliente_fallecido",
+      "acepto_opcion_pago_vigente": false,
+      "accion": "escalar_humano",
+      "alternativa_elegida": null
+    },
+    {
+      "nit_enmascarado": "NIT-RND-0343",
+      "dias_mora": 86,
+      "restriccion_ofrecimiento": null,
+      "acepto_opcion_pago_vigente": false,
+      "accion": "ofrecer_opcion_pago",
+      "alternativa_elegida": "RND-0343-0"
+    },
+    {
+      "nit_enmascarado": "NIT-RND-0344",
+      "dias_mora": 24,
+      "restriccion_ofrecimiento": null,
+      "acepto_opcion_pago_vigente": false,
+      "accion": "ofrecer_opcion_pago",
+      "alternativa_elegida": "RND-0344-0"
+    },
+    {
+      "nit_enmascarado": "NIT-RND-0345",
+      "dias_mora": 284,
+      "restriccion_ofrecimiento": null,
+      "acepto_opcion_pago_vigente": false,
+      "accion": "ofrecer_opcion_pago",
+      "alternativa_elegida": "RND-0345-0"
+    },
+    {
+      "nit_enmascarado": "NIT-RND-0346",
+      "dias_mora": 28,
+      "restriccion_ofrecimiento": null,
+      "acepto_opcion_pago_vigente": false,
+      "accion": "ofrecer_opcion_pago",
+      "alternativa_elegida": "RND-0346-0"
+    },
+    {
+      "nit_enmascarado": "NIT-RND-0347",
+      "dias_mora": 83,
+      "restriccion_ofrecimiento": null,
+      "acepto_opcion_pago_vigente": false,
+      "accion": "ofrecer_opcion_pago",
+      "alternativa_elegida": "RND-0347-2"
+    },
+    {
+      "nit_enmascarado": "NIT-RND-0348",
+      "dias_mora": 23,
+      "restriccion_ofrecimiento": null,
+      "acepto_opcion_pago_vigente": false,
+      "accion": "escalar_humano",
+      "alternativa_elegida": null
+    },
+    {
+      "nit_enmascarado": "NIT-RND-0349",
+      "dias_mora": 29,
+      "restriccion_ofrecimiento": null,
+      "acepto_opcion_pago_vigente": false,
+      "accion": "ofrecer_opcion_pago",
+      "alternativa_elegida": "RND-0349-0"
+    },
+    {
+      "nit_enmascarado": "NIT-RND-0350",
+      "dias_mora": 27,
+      "restriccion_ofrecimiento": null,
+      "acepto_opcion_pago_vigente": true,
+      "accion": "escalar_humano",
+      "alternativa_elegida": null
+    },
+    {
+      "nit_enmascarado": "NIT-RND-0351",
+      "dias_mora": 8,
+      "restriccion_ofrecimiento": null,
+      "acepto_opcion_pago_vigente": false,
+      "accion": "ofrecer_opcion_pago",
+      "alternativa_elegida": "RND-0351-0"
+    },
+    {
+      "nit_enmascarado": "NIT-RND-0352",
+      "dias_mora": 11,
+      "restriccion_ofrecimiento": "cliente_fallecido",
+      "acepto_opcion_pago_vigente": false,
+      "accion": "escalar_humano",
+      "alternativa_elegida": null
+    },
+    {
+      "nit_enmascarado": "NIT-RND-0353",
+      "dias_mora": 72,
+      "restriccion_ofrecimiento": null,
+      "acepto_opcion_pago_vigente": false,
+      "accion": "ofrecer_opcion_pago",
+      "alternativa_elegida": "RND-0353-1"
+    },
+    {
+      "nit_enmascarado": "NIT-RND-0354",
+      "dias_mora": 371,
+      "restriccion_ofrecimiento": null,
+      "acepto_opcion_pago_vigente": true,
+      "accion": "monitoreo_sin_oferta",
+      "alternativa_elegida": null
+    },
+    {
+      "nit_enmascarado": "NIT-RND-0355",
+      "dias_mora": 364,
+      "restriccion_ofrecimiento": "fraude",
+      "acepto_opcion_pago_vigente": true,
+      "accion": "escalar_humano",
+      "alternativa_elegida": null
+    },
+    {
+      "nit_enmascarado": "NIT-RND-0356",
+      "dias_mora": 393,
+      "restriccion_ofrecimiento": null,
+      "acepto_opcion_pago_vigente": true,
+      "accion": "monitoreo_sin_oferta",
+      "alternativa_elegida": null
+    },
+    {
+      "nit_enmascarado": "NIT-RND-0357",
+      "dias_mora": 10,
+      "restriccion_ofrecimiento": null,
+      "acepto_opcion_pago_vigente": false,
+      "accion": "ofrecer_opcion_pago",
+      "alternativa_elegida": "RND-0357-0"
+    },
+    {
+      "nit_enmascarado": "NIT-RND-0358",
+      "dias_mora": 51,
+      "restriccion_ofrecimiento": null,
+      "acepto_opcion_pago_vigente": false,
+      "accion": "escalar_humano",
+      "alternativa_elegida": null
+    },
+    {
+      "nit_enmascarado": "NIT-RND-0359",
+      "dias_mora": 39,
+      "restriccion_ofrecimiento": null,
+      "acepto_opcion_pago_vigente": false,
+      "accion": "ofrecer_opcion_pago",
+      "alternativa_elegida": "RND-0359-0"
+    },
+    {
+      "nit_enmascarado": "NIT-RND-0360",
+      "dias_mora": 31,
+      "restriccion_ofrecimiento": null,
+      "acepto_opcion_pago_vigente": true,
+      "accion": "monitoreo_sin_oferta",
+      "alternativa_elegida": null
+    },
+    {
+      "nit_enmascarado": "NIT-RND-0361",
+      "dias_mora": 139,
+      "restriccion_ofrecimiento": null,
+      "acepto_opcion_pago_vigente": false,
+      "accion": "ofrecer_opcion_pago",
+      "alternativa_elegida": "RND-0361-0"
+    },
+    {
+      "nit_enmascarado": "NIT-RND-0362",
+      "dias_mora": 6,
+      "restriccion_ofrecimiento": null,
+      "acepto_opcion_pago_vigente": true,
+      "accion": "monitoreo_sin_oferta",
+      "alternativa_elegida": null
+    },
+    {
+      "nit_enmascarado": "NIT-RND-0363",
+      "dias_mora": 66,
+      "restriccion_ofrecimiento": "cliente_fallecido",
+      "acepto_opcion_pago_vigente": false,
+      "accion": "escalar_humano",
+      "alternativa_elegida": null
+    },
+    {
+      "nit_enmascarado": "NIT-RND-0364",
+      "dias_mora": 53,
+      "restriccion_ofrecimiento": null,
+      "acepto_opcion_pago_vigente": true,
+      "accion": "monitoreo_sin_oferta",
+      "alternativa_elegida": null
+    },
+    {
+      "nit_enmascarado": "NIT-RND-0365",
+      "dias_mora": 52,
+      "restriccion_ofrecimiento": "cliente_fallecido",
+      "acepto_opcion_pago_vigente": true,
+      "accion": "escalar_humano",
+      "alternativa_elegida": null
+    },
+    {
+      "nit_enmascarado": "NIT-RND-0366",
+      "dias_mora": 12,
+      "restriccion_ofrecimiento": null,
+      "acepto_opcion_pago_vigente": false,
+      "accion": "diferir_auto_cura",
+      "alternativa_elegida": null
+    },
+    {
+      "nit_enmascarado": "NIT-RND-0367",
+      "dias_mora": 223,
+      "restriccion_ofrecimiento": "cliente_fallecido",
+      "acepto_opcion_pago_vigente": false,
+      "accion": "escalar_humano",
+      "alternativa_elegida": null
+    },
+    {
+      "nit_enmascarado": "NIT-RND-0368",
+      "dias_mora": 38,
+      "restriccion_ofrecimiento": null,
+      "acepto_opcion_pago_vigente": true,
+      "accion": "monitoreo_sin_oferta",
+      "alternativa_elegida": null
+    },
+    {
+      "nit_enmascarado": "NIT-RND-0369",
+      "dias_mora": 351,
+      "restriccion_ofrecimiento": "cliente_fallecido",
+      "acepto_opcion_pago_vigente": false,
+      "accion": "escalar_humano",
+      "alternativa_elegida": null
+    },
+    {
+      "nit_enmascarado": "NIT-RND-0370",
+      "dias_mora": 19,
+      "restriccion_ofrecimiento": "cliente_fallecido",
+      "acepto_opcion_pago_vigente": true,
+      "accion": "escalar_humano",
+      "alternativa_elegida": null
+    },
+    {
+      "nit_enmascarado": "NIT-RND-0371",
+      "dias_mora": 14,
+      "restriccion_ofrecimiento": null,
+      "acepto_opcion_pago_vigente": true,
+      "accion": "monitoreo_sin_oferta",
+      "alternativa_elegida": null
+    },
+    {
+      "nit_enmascarado": "NIT-RND-0372",
+      "dias_mora": 30,
+      "restriccion_ofrecimiento": null,
+      "acepto_opcion_pago_vigente": false,
+      "accion": "ofrecer_opcion_pago",
+      "alternativa_elegida": "RND-0372-0"
+    },
+    {
+      "nit_enmascarado": "NIT-RND-0373",
+      "dias_mora": 192,
+      "restriccion_ofrecimiento": null,
+      "acepto_opcion_pago_vigente": true,
+      "accion": "monitoreo_sin_oferta",
+      "alternativa_elegida": null
+    },
+    {
+      "nit_enmascarado": "NIT-RND-0374",
+      "dias_mora": 13,
+      "restriccion_ofrecimiento": null,
+      "acepto_opcion_pago_vigente": false,
+      "accion": "ofrecer_opcion_pago",
+      "alternativa_elegida": "RND-0374-0"
+    },
+    {
+      "nit_enmascarado": "NIT-RND-0375",
+      "dias_mora": 23,
+      "restriccion_ofrecimiento": null,
+      "acepto_opcion_pago_vigente": false,
+      "accion": "ofrecer_opcion_pago",
+      "alternativa_elegida": "RND-0375-0"
+    },
+    {
+      "nit_enmascarado": "NIT-RND-0376",
+      "dias_mora": 71,
+      "restriccion_ofrecimiento": null,
+      "acepto_opcion_pago_vigente": false,
+      "accion": "escalar_humano",
+      "alternativa_elegida": null
+    },
+    {
+      "nit_enmascarado": "NIT-RND-0377",
+      "dias_mora": 69,
+      "restriccion_ofrecimiento": null,
+      "acepto_opcion_pago_vigente": false,
+      "accion": "ofrecer_acuerdo_pago",
+      "alternativa_elegida": null
+    },
+    {
+      "nit_enmascarado": "NIT-RND-0378",
+      "dias_mora": 81,
+      "restriccion_ofrecimiento": null,
+      "acepto_opcion_pago_vigente": false,
+      "accion": "ofrecer_opcion_pago",
+      "alternativa_elegida": "RND-0378-2"
+    },
+    {
+      "nit_enmascarado": "NIT-RND-0379",
+      "dias_mora": 196,
+      "restriccion_ofrecimiento": "juridico",
+      "acepto_opcion_pago_vigente": false,
+      "accion": "escalar_humano",
+      "alternativa_elegida": null
+    },
+    {
+      "nit_enmascarado": "NIT-RND-0380",
+      "dias_mora": 88,
+      "restriccion_ofrecimiento": null,
+      "acepto_opcion_pago_vigente": false,
+      "accion": "ofrecer_opcion_pago",
+      "alternativa_elegida": "RND-0380-0"
+    },
+    {
+      "nit_enmascarado": "NIT-RND-0381",
+      "dias_mora": 66,
+      "restriccion_ofrecimiento": "fraude",
+      "acepto_opcion_pago_vigente": false,
+      "accion": "escalar_humano",
+      "alternativa_elegida": null
+    },
+    {
+      "nit_enmascarado": "NIT-RND-0382",
+      "dias_mora": 21,
+      "restriccion_ofrecimiento": null,
+      "acepto_opcion_pago_vigente": true,
+      "accion": "monitoreo_sin_oferta",
+      "alternativa_elegida": null
+    },
+    {
+      "nit_enmascarado": "NIT-RND-0383",
+      "dias_mora": 297,
+      "restriccion_ofrecimiento": null,
+      "acepto_opcion_pago_vigente": true,
+      "accion": "monitoreo_sin_oferta",
+      "alternativa_elegida": null
+    },
+    {
+      "nit_enmascarado": "NIT-RND-0384",
+      "dias_mora": 65,
+      "restriccion_ofrecimiento": null,
+      "acepto_opcion_pago_vigente": false,
+      "accion": "ofrecer_opcion_pago",
+      "alternativa_elegida": "RND-0384-0"
+    },
+    {
+      "nit_enmascarado": "NIT-RND-0385",
+      "dias_mora": 7,
+      "restriccion_ofrecimiento": null,
+      "acepto_opcion_pago_vigente": false,
+      "accion": "diferir_auto_cura",
+      "alternativa_elegida": null
+    },
+    {
+      "nit_enmascarado": "NIT-RND-0386",
+      "dias_mora": 43,
+      "restriccion_ofrecimiento": "cliente_fallecido",
+      "acepto_opcion_pago_vigente": false,
+      "accion": "escalar_humano",
+      "alternativa_elegida": null
+    },
+    {
+      "nit_enmascarado": "NIT-RND-0387",
+      "dias_mora": 36,
+      "restriccion_ofrecimiento": null,
+      "acepto_opcion_pago_vigente": false,
+      "accion": "ofrecer_opcion_pago",
+      "alternativa_elegida": "RND-0387-0"
+    },
+    {
+      "nit_enmascarado": "NIT-RND-0388",
+      "dias_mora": 90,
+      "restriccion_ofrecimiento": null,
+      "acepto_opcion_pago_vigente": false,
+      "accion": "ofrecer_opcion_pago",
+      "alternativa_elegida": "RND-0388-0"
+    },
+    {
+      "nit_enmascarado": "NIT-RND-0389",
+      "dias_mora": 11,
+      "restriccion_ofrecimiento": null,
+      "acepto_opcion_pago_vigente": false,
+      "accion": "diferir_auto_cura",
+      "alternativa_elegida": null
+    },
+    {
+      "nit_enmascarado": "NIT-RND-0390",
+      "dias_mora": 46,
+      "restriccion_ofrecimiento": "cliente_fallecido",
+      "acepto_opcion_pago_vigente": true,
+      "accion": "escalar_humano",
+      "alternativa_elegida": null
+    },
+    {
+      "nit_enmascarado": "NIT-RND-0391",
+      "dias_mora": 247,
+      "restriccion_ofrecimiento": "juridico",
+      "acepto_opcion_pago_vigente": false,
+      "accion": "escalar_humano",
+      "alternativa_elegida": null
+    },
+    {
+      "nit_enmascarado": "NIT-RND-0392",
+      "dias_mora": 281,
+      "restriccion_ofrecimiento": "juridico",
+      "acepto_opcion_pago_vigente": false,
+      "accion": "escalar_humano",
+      "alternativa_elegida": null
+    },
+    {
+      "nit_enmascarado": "NIT-RND-0393",
+      "dias_mora": 7,
+      "restriccion_ofrecimiento": null,
+      "acepto_opcion_pago_vigente": false,
+      "accion": "ofrecer_opcion_pago",
+      "alternativa_elegida": "RND-0393-0"
+    },
+    {
+      "nit_enmascarado": "NIT-RND-0394",
+      "dias_mora": 64,
+      "restriccion_ofrecimiento": "cliente_fallecido",
+      "acepto_opcion_pago_vigente": true,
+      "accion": "escalar_humano",
+      "alternativa_elegida": null
+    },
+    {
+      "nit_enmascarado": "NIT-RND-0395",
+      "dias_mora": 44,
+      "restriccion_ofrecimiento": null,
+      "acepto_opcion_pago_vigente": false,
+      "accion": "ofrecer_opcion_pago",
+      "alternativa_elegida": "RND-0395-2"
+    },
+    {
+      "nit_enmascarado": "NIT-RND-0396",
+      "dias_mora": 242,
+      "restriccion_ofrecimiento": null,
+      "acepto_opcion_pago_vigente": true,
+      "accion": "monitoreo_sin_oferta",
+      "alternativa_elegida": null
+    },
+    {
+      "nit_enmascarado": "NIT-RND-0397",
+      "dias_mora": 82,
+      "restriccion_ofrecimiento": null,
+      "acepto_opcion_pago_vigente": false,
+      "accion": "ofrecer_acuerdo_pago",
+      "alternativa_elegida": null
+    },
+    {
+      "nit_enmascarado": "NIT-RND-0398",
+      "dias_mora": 11,
+      "restriccion_ofrecimiento": null,
+      "acepto_opcion_pago_vigente": false,
+      "accion": "escalar_humano",
+      "alternativa_elegida": null
+    },
+    {
+      "nit_enmascarado": "NIT-RND-0399",
+      "dias_mora": 36,
+      "restriccion_ofrecimiento": "cliente_fallecido",
+      "acepto_opcion_pago_vigente": false,
+      "accion": "escalar_humano",
+      "alternativa_elegida": null
+    }
+  ]
+}

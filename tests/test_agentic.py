@@ -451,3 +451,103 @@ class TestTrazabilidad:
         assert len(resumen) == 2
         assert resumen[0]["evento"] == "inicio_sesion"
         assert all(e["session_id"] == "test-session" for e in resumen)
+
+
+# ---------------------------------------------------------------------------
+# PRUEBAS MASIVAS: invariantes sobre una muestra sintética grande
+# ---------------------------------------------------------------------------
+# A diferencia de todo lo anterior en este archivo -- pruebas DIRIGIDAS,
+# escritas a mano para escenarios puntuales -- lo que sigue es una prueba
+# MASIVA: se generan N obligaciones sintéticas aleatorias (semilla fija,
+# ver agentic/generador_aleatorio.py) y se verifica que ciertas garantías
+# de negocio se cumplan SIEMPRE, sin excepción, sobre las N. El objetivo no
+# es encontrar un bug puntual sino confirmar que el motor de reglas es
+# consistente en todo el espacio de combinaciones, incluyendo casos raros
+# que nadie hubiera pensado en escribir a mano. Ver docs/pruebas_agentico.md
+# para la comparación completa "Dirigidas vs. Masivas".
+
+from generador_aleatorio import generar_muestra  # noqa: E402
+
+N_MUESTRA_MASIVA = 400
+
+
+@pytest.fixture(scope="class")
+def resultados():
+    """Corre el NBA sobre toda la muestra sintética una sola vez y
+    reutiliza los resultados en todas las pruebas de esta clase."""
+    muestra = generar_muestra(N_MUESTRA_MASIVA, semilla=42)
+    return [(ctx, decidir_siguiente_accion(ctx)) for ctx in muestra]
+
+
+class TestPruebasMasivas:
+    def test_sin_excepciones_no_controladas(self, resultados):
+        """Criterio de aceptación: el NBA debe producir una decisión válida
+        para cualquier combinación de campos, sin lanzar excepciones. Si
+        `resultados` se pudo construir (fixture de arriba), esta parte ya
+        se cumplió para las 400 obligaciones; se deja como test explícito
+        para que la intención quede documentada y el conteo de pruebas la
+        refleje."""
+        assert len(resultados) == N_MUESTRA_MASIVA
+
+    def test_restriccion_dura_siempre_escala_sin_ofrecer_nada(self, resultados):
+        """Invariante: si hay restricción de ofrecimiento (jurídico, fraude,
+        cliente fallecido), la decisión SIEMPRE es escalar a humano y JAMÁS
+        se elige una alternativa para ofrecer."""
+        con_restriccion = [(c, d) for c, d in resultados if c.restriccion_ofrecimiento]
+        assert con_restriccion, "la muestra debe incluir al menos un caso con restricción"
+        for ctx, decision in con_restriccion:
+            assert decision.accion == TipoAccion.ESCALAR_HUMANO
+            assert decision.alternativa_elegida is None
+
+    def test_incumplimiento_reciente_siempre_escala_sin_ofrecer_nada(self, resultados):
+        """Invariante: si hubo un 'incumplimiento' en historial_gestiones
+        dentro de la ventana de 90 días, la decisión SIEMPRE escala y JAMÁS
+        ofrece una alternativa nueva de forma automática."""
+        from reglas_negocio import hubo_incumplimiento_reciente
+        con_incumplimiento = [
+            (c, d) for c, d in resultados
+            if not c.restriccion_ofrecimiento and hubo_incumplimiento_reciente(c)
+        ]
+        assert con_incumplimiento, "la muestra debe incluir al menos un caso con incumplimiento reciente"
+        for ctx, decision in con_incumplimiento:
+            assert decision.accion == TipoAccion.ESCALAR_HUMANO
+            assert decision.alternativa_elegida is None
+
+    def test_opcion_pago_vigente_nunca_recibe_otra_oferta(self, resultados):
+        """Invariante: si el cliente ya aceptó una opción de pago vigente,
+        nunca se le vuelve a ofrecer una alternativa de pago (aunque sí
+        puede escalarse, si además hay restricción o incumplimiento)."""
+        con_opcion_vigente = [(c, d) for c, d in resultados if c.acepto_opcion_pago_vigente]
+        assert con_opcion_vigente, "la muestra debe incluir al menos un caso con opción de pago vigente"
+        for ctx, decision in con_opcion_vigente:
+            assert decision.accion != TipoAccion.OFRECER_OPCION_PAGO
+
+    def test_nunca_se_ofrece_una_alternativa_en_cooldown(self, resultados):
+        """Invariante: la alternativa elegida por el NBA, cuando ofrece una
+        opción de pago, nunca puede ser una que esté en cooldown por una
+        aplicación reciente de ese mismo tipo."""
+        alguna_con_cooldown = False
+        for ctx, decision in resultados:
+            bloqueadas = ctx.alternativas_en_cooldown()
+            if bloqueadas:
+                alguna_con_cooldown = True
+            if decision.accion == TipoAccion.OFRECER_OPCION_PAGO:
+                assert decision.alternativa_elegida.tipo not in bloqueadas
+        assert alguna_con_cooldown, "la muestra debe incluir al menos un caso con alguna alternativa en cooldown"
+
+    def test_nunca_se_ofrecen_mas_de_3_alternativas_elegibles(self, resultados):
+        """Invariante: el motor de reglas nunca deja más de 3 alternativas
+        elegibles disponibles para el NBA, sin importar cuántas traiga la
+        fuente de preaprobación."""
+        alguna_con_mas_de_3 = any(len(ctx.alternativas_preaprobadas) > 3 for ctx, _ in resultados)
+        assert alguna_con_mas_de_3, "la muestra debe incluir al menos un caso con más de 3 alternativas preaprobadas"
+        for ctx, decision in resultados:
+            if decision.elegibilidad is not None:
+                assert len(decision.elegibilidad.opciones_pago_elegibles) <= 3
+
+    def test_toda_decision_tiene_una_accion_valida(self, resultados):
+        """Invariante mínima de forma: toda decisión cae en uno de los
+        valores conocidos de TipoAccion (protege contra un futuro cambio
+        que agregue una rama sin actualizar este enum ni las pruebas)."""
+        for ctx, decision in resultados:
+            assert isinstance(decision.accion, TipoAccion)

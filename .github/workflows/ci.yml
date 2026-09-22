@@ -2,7 +2,8 @@ name: CI
 
 # Se ejecuta en cada push y pull request. Ver docs/mlops_parte1.md,
 # sección "Despliegue continuo (CI/CD)" -- este es el CI mínimo real
-# (no solo descrito): corre las 42 pruebas del sistema agéntico y valida
+# (no solo descrito): corre las 49 pruebas del sistema agéntico (42
+# dirigidas + 7 masivas sobre 400 casos sintéticos) y valida
 # que la imagen de scoring (Parte 1) SÍ construye correctamente.
 #
 # Nota: este job se corre en la infraestructura de GitHub, con acceso a
@@ -27,7 +28,7 @@ jobs:
           python-version: "3.11"
       - name: Instalar pytest y pytest-cov
         run: pip install pytest==9.1.1 pytest-cov==7.1.0
-      - name: Correr las 42 pruebas (reglas de negocio, NBA, guardrails, integración) con cobertura
+      - name: Correr las 49 pruebas (42 dirigidas + 7 masivas) con cobertura
         run: python -m pytest tests/ -v --cov=agentic --cov-report=term-missing
 
   build-imagen-scoring:

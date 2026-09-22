@@ -18,7 +18,20 @@ integración de punta a punta lo revela.
 
 ## 1. Pruebas automatizadas (`tests/test_agentic.py`, pytest)
 
-**42 pruebas, 100% pasan.** Se organizan en 6 capas:
+**49 pruebas, 100% pasan**, de dos tipos complementarios y deliberadamente
+distintos en su lógica: **dirigidas** (1.1 — casos puntuales escritos a mano,
+pensados para validar un comportamiento conocido) y **masivas** (1.2 — una
+simulación grande sobre datos sintéticos aleatorios, pensada para confirmar
+que ciertas garantías de negocio no se rompen en ningún caso del espacio de
+combinaciones, incluyendo combinaciones raras que nadie hubiera pensado en
+escribir a mano). Ninguna reemplaza a la otra: la dirigida documenta y fija
+el comportamiento esperado caso por caso (sirve también como especificación
+legible); la masiva da confianza estadística de que ese comportamiento se
+sostiene a escala.
+
+### 1.1 Pruebas dirigidas (42)
+
+Se organizan en 6 capas:
 
 | Capa | # pruebas | Qué garantizan |
 |---|---|---|
@@ -29,22 +42,62 @@ integración de punta a punta lo revela.
 | Funcionales — agente conversacional (respuesta end-to-end, no solo la etiqueta) | 8 | Que la RESPUESTA generada para cada intención sea la correcta, no solo la clasificación: cifras de saldo correctas, no se inventa una alternativa cuando no queda ninguna disponible, mensaje de aclaración ante algo ambiguo, y la interacción entre guardrails y NLU cuando ambos podrían aplicar (ver sección 3). |
 | Integración — orquestador end-to-end | 7 | Cliente no elegible nunca recibe transcript con oferta, restricción jurídica escala sin generar ningún mensaje, manipulación detiene el flujo inmediatamente, regresión de "cambio de alternativa" (queda registrada la última, no la original), **incumplimiento detectado proactivamente desde el historial escala sin ningún contacto**, **incumplimiento admitido solo por el cliente escala igual (red de seguridad)**, y los mensajes de apertura de las dos rutas de oferta (acuerdo de pago / diferir por auto-cura) son los correctos. |
 
-**Umbral de aceptación aplicado:** 100% de estas pruebas deben pasar antes de
-cualquier despliegue — no se acepta ningún caso donde se ofrezca una
-alternativa no autorizada o se omita un escalamiento obligatorio (tolerancia
-cero en las pruebas de seguridad y de reglas de negocio, a diferencia de un
-modelo estadístico donde se acepta una tasa de error).
+### 1.2 Pruebas masivas (7 pruebas sobre una muestra de 400 casos sintéticos)
+
+Motivación (surgió al revisar que los 42 casos anteriores son todos
+dirigidos): con casos escritos a mano siempre queda la duda de si las
+garantías se sostienen también en combinaciones que no se nos ocurrió
+escribir. `agentic/generador_aleatorio.py` genera **400 obligaciones
+sintéticas** con una semilla fija (reproducible: la misma semilla siempre
+da la misma muestra), variando de forma aleatoria mora, saldo, cantidad y
+tipo de alternativas preaprobadas (incluyendo casos con más de 3, a
+propósito), historial de aplicaciones y de gestiones (incluyendo
+incumplimientos dentro y fuera de ventana), restricciones duras y los
+scores del modelo. Es deliberadamente **sintética y no usa `trtest.csv`**:
+así la suite del sistema agéntico sigue sin depender de los datos
+confidenciales de la Parte 1 y sigue corriendo igual en cualquier equipo o
+en GitHub Actions.
+
+Sobre esa muestra, `tests/test_agentic.py::TestPruebasMasivas` corre el NBA
+una sola vez (fixture de clase, para no repetir cómputo) y verifica, sobre
+los 400 casos, 5 invariantes de negocio que deben cumplirse **siempre, sin
+una sola excepción**:
+
+| Invariante verificada | Resultado sobre los 400 casos |
+|---|---|
+| Restricción dura (jurídico/fraude/fallecido) → siempre escala, cero alternativas ofrecidas | 0 violaciones |
+| Incumplimiento reciente (≤90 días) → siempre escala, cero alternativas ofrecidas | 0 violaciones |
+| Opción de pago ya vigente → nunca recibe una nueva oferta de opción de pago | 0 violaciones |
+| Ninguna alternativa ofrecida está en cooldown por aplicación reciente | 0 violaciones |
+| Nunca quedan más de 3 alternativas elegibles, aunque la fuente traiga más | 0 violaciones |
+
+Y una prueba adicional de forma (`test_toda_decision_tiene_una_accion_valida`)
+que protege contra que a futuro se agregue una acción al NBA sin actualizar
+esta batería. El script `agentic/prueba_masiva.py` corre la misma
+simulación por fuera de pytest y guarda el detalle completo, la
+distribución de acciones y el conteo de violaciones en
+`results/resumen_prueba_masiva.json` — útil para inspección manual o para
+adjuntar como evidencia, sin depender de correr la suite de pruebas.
+
+**Umbral de aceptación aplicado (a ambos tipos de prueba):** 100% deben
+pasar antes de cualquier despliegue — no se acepta ningún caso, dirigido ni
+generado aleatoriamente, donde se ofrezca una alternativa no autorizada o
+se omita un escalamiento obligatorio (tolerancia cero en las pruebas de
+seguridad y de reglas de negocio, a diferencia de un modelo estadístico
+donde se acepta una tasa de error).
 
 ## 2. Cobertura de código (`pytest --cov=agentic`)
 
 | Módulo | Cobertura | Qué es |
 |---|---|---|
-| `models.py`, `orquestador.py`, `nba.py`, `reglas_negocio.py`, `guardrails.py`, `trazabilidad.py` | **100%** | Toda la lógica de decisión, elegibilidad, priorización, seguridad y auditoría. |
+| `models.py`, `orquestador.py`, `nba.py`, `reglas_negocio.py`, `guardrails.py`, `trazabilidad.py`, `generador_aleatorio.py` | **100%** | Toda la lógica de decisión, elegibilidad, priorización, seguridad, auditoría, y el generador de casos sintéticos de la prueba masiva (se ejercita al 100% simplemente por correr la prueba masiva). |
 | `conversacional.py` | **99%** | Solo queda sin cubrir una línea de respaldo (`return None` final), inalcanzable mientras `TipoAccion` tenga las 5 variantes actuales que ya se manejan explícitamente antes — código defensivo por si se agrega una sexta acción en el futuro, no un hueco de prueba. |
-| `main.py`, `mock_data.py` | 0% (excluidos del cálculo relevante) | Guion de demostración y datos ficticios de los 14 escenarios, no lógica de decisión — se validan corriéndolos directamente (ver sección 4), no con pytest. |
-| **Total (excluyendo demo/fixtures)** | **≈100% sobre los 6 módulos de decisión, 99% incluyendo conversacional.py** | |
+| `main.py`, `mock_data.py`, `prueba_masiva.py` | 0% (excluidos del cálculo relevante) | Guiones de demostración/reporte (14 escenarios dirigidos y el resumen agregado de la prueba masiva) y datos ficticios, no lógica de decisión — se validan corriéndolos directamente (ver secciones 1.2 y 5), no con pytest. |
+| **Total (excluyendo demo/fixtures)** | **≈100% sobre los 7 módulos de decisión, 99% incluyendo conversacional.py** | |
 
 Correr: `python -m pytest tests/ --cov=agentic --cov-report=term-missing`.
+Para ver solo el reporte agregado de la prueba masiva (sin pytest):
+`python agentic/prueba_masiva.py`.
 
 ## 3. Hallazgos de esta revisión (bugs reales encontrados y corregidos)
 
@@ -100,6 +153,7 @@ intención aislada.
 | El sistema sigue operando si el modelo de propensión (Parte 1) no responde | `test_robustez_scores_none_no_lanza_excepcion`, escenario `servicio_scoring_no_disponible` |
 | Trazabilidad/explicabilidad de cada decisión | `test_resumen_devuelve_los_eventos_registrados_en_la_sesion`, campo `DecisionNBA.explicacion` en todas las pruebas de NBA |
 | Cero falsos positivos de escalamiento en mensajes neutros | `test_mensaje_neutro_no_dispara_falsos_positivos` |
+| Las garantías de negocio se sostienen a escala, no solo en los casos pensados a mano | `TestPruebasMasivas` (400 casos sintéticos, sección 1.2) |
 
 ## 5. Escenarios funcionales simulados (`agentic/mock_data.py` + `agentic/main.py`)
 

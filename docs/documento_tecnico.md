@@ -18,7 +18,7 @@
 
 **Sin acceso a LLM en este entorno:** intención y redacción se implementaron con reglas léxicas/plantillas, con punto de extensión explícito (`GeneradorPlantillas`) para reemplazar por un LLM real sin tocar el motor de reglas — el LLM redactaría, nunca decidiría qué ofrecer.
 
-**Pruebas:** 42 pruebas automatizadas (reglas de negocio, NBA, guardrails, integración end-to-end) + 14 escenarios simulados cubriendo los 7 casos pedidos más robustez (caída del servicio de scoring) y restricción jurídica dura. Umbral: 0% de ofertas no autorizadas y 0% de restricciones ignoradas (tolerancia cero). Detalle en anexos.
+**Pruebas:** 49 pruebas automatizadas (42 dirigidas + 7 masivas sobre 400 casos sintéticos) + 14 escenarios dirigidos cubriendo los 7 casos pedidos más robustez (caída del servicio de scoring) y restricción jurídica dura. Umbral: 0% de ofertas no autorizadas y 0% de restricciones ignoradas (tolerancia cero). Detalle en anexos.
 
 **Riesgos:** el NLU por reglas es frágil ante lenguaje real no anticipado; la priorización entre alternativas usa un orden fijo por severidad de mora (supuesto a validar), no aprendido de datos históricos de aceptación.
 

@@ -186,7 +186,7 @@ const doc = new Document({
         h("3.2 Parte 2 — Sistema agéntico", HeadingLevel.HEADING_2),
         p([new TextRun({ text: "Arquitectura: ", bold: true, font: FONT, size: 22 }), new TextRun({ text: "patrón supervisor lineal y auditable — Contexto → Reglas de negocio (única fuente de verdad sobre qué ofrecer, determinística) → Siguiente Mejor Acción (integra el score de la Parte 1) → Conversacional → Guardrails → Escalamiento, con trazabilidad JSON por sesión. En un dominio regulado, la previsibilidad de un flujo lineal pesa más que la flexibilidad de un grafo de agentes libre.", font: FONT, size: 22 })]),
         p([new TextRun({ text: "Sin acceso a LLM en este entorno: ", bold: true, font: FONT, size: 22 }), new TextRun({ text: "intención y redacción se implementaron con reglas léxicas/plantillas, con punto de extensión explícito para reemplazar por un LLM real sin tocar el motor de reglas — el LLM redactaría, nunca decidiría qué ofrecer.", font: FONT, size: 22 })]),
-        p([new TextRun({ text: "Pruebas: ", bold: true, font: FONT, size: 22 }), new TextRun({ text: "42 pruebas automatizadas (100% pasan, cobertura de código ~100% en los 6 módulos de decisión/seguridad) + 14 escenarios simulados cubriendo los 7 casos pedidos más robustez y seguridad. Umbral: 0% de ofertas no autorizadas y 0% de restricciones ignoradas (tolerancia cero). Probar el sistema de punta a punta —no solo cada capa por separado— encontró y corrigió 3 problemas reales antes de la entrega (detalle en Anexo C, sección 6.3).", font: FONT, size: 22 })]),
+        p([new TextRun({ text: "Pruebas: ", bold: true, font: FONT, size: 22 }), new TextRun({ text: "49 pruebas automatizadas (42 dirigidas + 7 masivas sobre 400 casos sintéticos, 100% pasan, cobertura de código ~100% en los 7 módulos de decisión/seguridad) + 14 escenarios dirigidos cubriendo los 7 casos pedidos más robustez y seguridad. Umbral: 0% de ofertas no autorizadas y 0% de restricciones ignoradas (tolerancia cero). Probar el sistema de punta a punta —no solo cada capa por separado— encontró y corrigió 3 problemas reales antes de la entrega (detalle en Anexo C, sección 6.3).", font: FONT, size: 22 })]),
         p([new TextRun({ text: "Riesgos: ", bold: true, font: FONT, size: 22 }), new TextRun({ text: "el NLU por reglas es frágil ante lenguaje real no anticipado; la priorización entre alternativas usa un orden fijo por severidad de mora (supuesto a validar), no un modelo aprendido — se investigó esta última opción con los datos reales de la prueba y no es viable con lo entregado (detalle en Anexo B, sección 5.6).", font: FONT, size: 22 })]),
         p([new TextRun({ text: "Conclusión general: ", bold: true, font: FONT, size: 22 }), new TextRun({ text: "ambos componentes son viables como prototipo demostrable dentro del alcance y tiempo de la prueba. El mayor riesgo de negocio no es el desempeño puntual del modelo sino mantener la disciplina de auditar qué variables están realmente disponibles al momento de decidir — un punto válido tanto para la Parte 1 como para su integración con la Parte 2.", font: FONT, size: 22 })]),
 
@@ -337,7 +337,7 @@ const doc = new Document({
             ["Entrenamiento", "LightGBM + validación temporal; tracking de experimentos con MLflow; registro con etapas Staging/Production."],
             ["Inferencia", "Batch mensual (alimenta la priorización por lotes) + endpoint on-demand (consultado por el sistema agéntico), ambos reutilizando el mismo pipeline de features."],
             ["Productización", "Dockerfile + docker/requirements.txt IMPLEMENTADOS (empaquetan src/data_prep.py + src/train.py, datos/modelo montados como volumen, no horneados en la imagen); contrato de datos explícito y pruebas de contrato: propuestos."],
-            ["Despliegue continuo", "CI IMPLEMENTADO (.github/workflows/ci.yml): corre las 42 pruebas y valida el build de la imagen Docker en cada push/PR a main; CD con evaluación shadow y despliegue canario antes de promover: propuesto."],
+            ["Despliegue continuo", "CI IMPLEMENTADO (.github/workflows/ci.yml): corre las 49 pruebas (42 dirigidas + 7 masivas) y valida el build de la imagen Docker en cada push/PR a main; CD con evaluación shadow y despliegue canario antes de promover: propuesto."],
             ["Monitoreo", "Deriva de datos (PSI/KS), deriva de desempeño (F1/AUC real vs. esperado), calidad de servicio (latencia, cobertura de features), dashboards y alertas."],
           ],
           [2400, 6400],
@@ -412,8 +412,11 @@ const doc = new Document({
 
         p([new TextRun({ text: "Por qué se prueba distinto que el modelo de la Parte 1: ", bold: true, font: FONT, size: 22 }), new TextRun({ text: "el modelo predice, así que se evalúa con métricas de error y se acepta una tasa de falla. El sistema agéntico codifica políticas que el banco ya decidió: no predice nada, así que el criterio correcto es cero incidentes de cumplimiento, no una tasa de error. Por eso se exige 100% en reglas de negocio y seguridad, y por eso conviene probar varias capas juntas, no solo cada una por separado (ver sección 6.3).", font: FONT, size: 22 })]),
 
-        h("6.1 Pruebas automatizadas (pytest) y cobertura de código", HeadingLevel.HEADING_2),
-        p("42 pruebas, 100% pasan, organizadas en 6 capas. Cobertura de código (pytest --cov=agentic): 100% en los 6 módulos de decisión/seguridad (reglas de negocio, NBA, guardrails, orquestador, modelos, trazabilidad), 99% en el agente conversacional (la única línea sin cubrir es un respaldo defensivo inalcanzable con las 5 acciones actuales)."),
+        h("6.1 Pruebas automatizadas: dirigidas y masivas", HeadingLevel.HEADING_2),
+        p("49 pruebas, 100% pasan, de dos tipos complementarios y deliberadamente distintos en su lógica. Cobertura de código (pytest --cov=agentic): 100% en los 7 módulos de decisión/seguridad (reglas de negocio, NBA, guardrails, orquestador, modelos, trazabilidad, generador de casos sintéticos), 99% en el agente conversacional (la única línea sin cubrir es un respaldo defensivo inalcanzable con las 5 acciones actuales)."),
+
+        h("6.1.1 Pruebas dirigidas (42)", HeadingLevel.HEADING_3),
+        p("Casos puntuales escritos a mano, pensados para validar un comportamiento conocido y servir además como especificación legible del sistema. Organizadas en 6 capas:"),
         table(
           ["Capa", "# pruebas", "Qué garantizan"],
           [
@@ -427,7 +430,22 @@ const doc = new Document({
           [2600, 1000, 5200],
         ),
 
-        h("6.2 Escenarios funcionales simulados (14)", HeadingLevel.HEADING_2),
+        h("6.1.2 Pruebas masivas (7 pruebas sobre 400 casos sintéticos)", HeadingLevel.HEADING_3),
+        p("Complemento a las pruebas dirigidas: con casos escritos a mano siempre queda la duda de si las garantías se sostienen también en combinaciones no anticipadas. agentic/generador_aleatorio.py genera 400 obligaciones sintéticas con una semilla fija (reproducible), variando aleatoriamente mora, saldo, alternativas preaprobadas (incluyendo casos con más de 3, a propósito), historial de aplicaciones y gestiones (incluyendo incumplimientos dentro y fuera de ventana), restricciones duras y scores. Es deliberadamente sintética y no usa trtest.csv: la suite del sistema agéntico sigue sin depender de los datos confidenciales de la Parte 1 y corre igual en cualquier equipo o en GitHub Actions. Sobre esa muestra se verifican 5 invariantes de negocio que deben cumplirse siempre, sin una sola excepción:"),
+        table(
+          ["Invariante verificada sobre los 400 casos", "Resultado"],
+          [
+            ["Restricción dura → siempre escala, cero alternativas ofrecidas", "0 violaciones"],
+            ["Incumplimiento reciente (≤90 días) → siempre escala, cero ofertas", "0 violaciones"],
+            ["Opción de pago ya vigente → nunca recibe una nueva oferta", "0 violaciones"],
+            ["Ninguna alternativa ofrecida está en cooldown", "0 violaciones"],
+            ["Nunca quedan más de 3 alternativas elegibles", "0 violaciones"],
+          ],
+          [5800, 3000],
+        ),
+        p("Más una prueba de forma que protege contra que a futuro se agregue una acción al NBA sin actualizar esta batería. El script agentic/prueba_masiva.py corre la misma simulación por fuera de pytest y guarda el detalle completo en results/resumen_prueba_masiva.json, útil como evidencia sin depender de correr la suite de pruebas."),
+
+        h("6.2 Escenarios funcionales dirigidos (14)", HeadingLevel.HEADING_2),
         p("Cubren explícitamente los 7 casos pedidos en el enunciado más 3 de robustez/seguridad. Perfiles y conversaciones 100% ficticios. 7 de 14 (50%) terminan en escalamiento — por diseño, para estresar cada gatillo, no como muestra representativa de producción."),
         table(
           ["#", "Escenario", "Resultado"],
@@ -535,8 +553,8 @@ const doc = new Document({
         h("10. Estructura del Repositorio y Reproducibilidad", HeadingLevel.HEADING_1),
         p("El repositorio Git entregado contiene:"),
         bullet("src/ — pipeline de datos (data_prep.py) y entrenamiento/inferencia (train.py) de la Parte 1."),
-        bullet("agentic/ — modelos, reglas de negocio, NBA, guardrails, conversacional, orquestador y escenarios simulados de la Parte 2."),
-        bullet("tests/ — 42 pruebas automatizadas (pytest), con cobertura de código."),
+        bullet("agentic/ — modelos, reglas de negocio, NBA, guardrails, conversacional, orquestador, escenarios dirigidos y generador de casos sintéticos para la prueba masiva de la Parte 2."),
+        bullet("tests/ — 49 pruebas automatizadas (pytest): 42 dirigidas + 7 masivas, con cobertura de código."),
         bullet("docs/ — este documento y sus fuentes en Markdown (documento_tecnico.md, eda_notas.md, mlops_parte1.md, arquitectura_agentica.md, pruebas_agentico.md, arquitectura_produccion.md, presentacion_ejecutiva.md)."),
         bullet("results/ — resultado_prueba.csv, métricas, importancia de variables y trazas de las sesiones agénticas."),
         p("Instrucciones de reproducción completas en README.md del repositorio."),

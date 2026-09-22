@@ -32,8 +32,9 @@ de negocio.
 - Por qué reglas de negocio SEPARADAS del LLM: en cobranza, la oferta debe
   ser exactamente la autorizada — nunca delegable a que un modelo de
   lenguaje la "invente".
-- 14 escenarios simulados (los 7 pedidos + robustez + restricción legal),
-  42 pruebas automatizadas, tolerancia cero a ofertas no autorizadas.
+- 14 escenarios dirigidos (los 7 pedidos + robustez + restricción legal),
+  49 pruebas automatizadas (42 dirigidas + 7 masivas sobre 400 casos
+  sintéticos), tolerancia cero a ofertas no autorizadas.
 - Limitación del entorno: sin acceso a LLM real en esta prueba; el
   prototipo usa reglas/plantillas con un punto de extensión explícito para
   conectar un LLM en producción sin tocar el motor de decisión.

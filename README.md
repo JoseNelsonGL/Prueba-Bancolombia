@@ -12,7 +12,7 @@ Repositorio de la solución end-to-end para la prueba técnica de Bancolombia (g
 - `results/` — `resultado_prueba.csv` y artefactos de evaluación
 - `tests/` — pruebas funcionales, de integración, seguridad y robustez del sistema agéntico
 - `Dockerfile` + `docker/requirements.txt` — imagen de scoring de la Parte 1 (`docker build -t prueba-bancolombia-scoring .`)
-- `.github/workflows/ci.yml` — CI real: corre las 42 pruebas y construye la imagen Docker en cada push/PR a `main`
+- `.github/workflows/ci.yml` — CI real: corre las 49 pruebas (42 dirigidas + 7 masivas) y construye la imagen Docker en cada push/PR a `main`
 
 ## Cómo reproducir
 
@@ -35,8 +35,9 @@ python3 notebooks/01_eda.py                  # EDA reproducible: variables por t
 python3 notebooks/02_model_comparison.py     # compara Regresión Logística / Random Forest / LightGBM, selección final, estabilidad temporal y SHAP
 python3 notebooks/03_analisis_oot_puntuada.py  # valida la muestra OOT entregada (resultado_prueba.csv): sanity checks, PSI y SHAP
 
-python3 agentic/main.py    # corre los 14 escenarios simulados del sistema agéntico
-python3 -m pytest tests/ -v   # 42 pruebas: reglas de negocio, NBA, guardrails, integración
+python3 agentic/main.py    # corre los 14 escenarios dirigidos (simulados) del sistema agéntico
+python3 agentic/prueba_masiva.py  # corre la prueba masiva: 400 casos sintéticos aleatorios, resumen agregado
+python3 -m pytest tests/ -v   # 49 pruebas: 42 dirigidas (reglas de negocio, NBA, guardrails, integración) + 7 masivas
 python3 -m pytest tests/ --cov=agentic --cov-report=term-missing  # cobertura (ver docs/pruebas_agentico.md)
 ```
 
