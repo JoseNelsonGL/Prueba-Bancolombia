@@ -14,6 +14,7 @@ from models import AlternativaPreaprobada, ClienteObligacion, TipoAlternativa
 
 MORA_MAXIMA_ACUERDO_TEMPRANO = 90  # días; acuerdos aplican a gestión "temprana"
 DIAS_MAX_COMPROMISO_ACUERDO = 5
+VENTANA_INCUMPLIMIENTO_RECIENTE_DIAS = 90  # supuesto de negocio, mismo horizonte que la gestión "temprana"
 
 
 @dataclass
@@ -36,6 +37,25 @@ def evaluar_elegibilidad(ctx: ClienteObligacion) -> DecisionElegibilidad:
         )
         decision.requiere_escalamiento_humano = True
         decision.motivo_escalamiento = f"restriccion:{ctx.restriccion_ofrecimiento}"
+        return decision
+
+    # 0b. Incumplimiento reciente de un acuerdo/opción de pago: no se sigue
+    #     ofreciendo de forma automática -- se escala para que un gestor
+    #     humano evalúe el caso antes de comprometer al cliente con una
+    #     nueva alternativa. Antes esto solo se detectaba si el cliente lo
+    #     admitía en la conversación (ver `conversacional.py`, intención
+    #     INCUMPLIMIENTO_PREVIO_ADMITIDO); esa detección conversacional se
+    #     conserva como red de seguridad para cuando el historial del banco
+    #     aún no refleja el incumplimiento (rezago de datos), pero la
+    #     primera línea de defensa ahora es esta regla, sobre el dato
+    #     estructurado, no sobre lo que el cliente decida contar.
+    if hubo_incumplimiento_reciente(ctx, dias_ventana=VENTANA_INCUMPLIMIENTO_RECIENTE_DIAS):
+        decision.motivos_bloqueo.append(
+            f"Incumplimiento registrado en los últimos {VENTANA_INCUMPLIMIENTO_RECIENTE_DIAS} "
+            "días; no se ofrece una nueva alternativa de forma automática."
+        )
+        decision.requiere_escalamiento_humano = True
+        decision.motivo_escalamiento = "incumplimiento_reciente"
         return decision
 
     # 1. Opciones de pago: solo si no tiene ya una opción de pago vigente

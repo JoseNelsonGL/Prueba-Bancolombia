@@ -83,10 +83,17 @@ def validar_respuesta_agente(texto_respuesta: str, alternativas_autorizadas: set
     no mencione códigos/alternativas fuera de lo que `reglas_negocio`
     autorizó para esta obligación. Devuelve True si la respuesta es segura
     de enviar."""
+    # Verificación 1: que no se filtre al cliente un identificador o
+    # constante interna (nombre de enum, código en mayúsculas) -- señal de
+    # una plantilla mal armada o, en producción, de un LLM "pensando en voz
+    # alta". (Corregido en revisión: antes este bucle recorría los tokens
+    # sin usar el resultado, por lo que no bloqueaba nada.)
+    TOKENS_INTERNOS_PERMITIDOS = {"OK", "IVA", "NIT"}
     for token in re.findall(r"\b[A-Z_]{4,}\b", texto_respuesta):
-        if token in {"OK", "IVA", "NIT"}:
-            continue
-    # Verificación simple por keyword de tipos de alternativa mencionados
+        if token not in TOKENS_INTERNOS_PERMITIDOS:
+            return False
+
+    # Verificación 2: por keyword de tipos de alternativa mencionados
     tipos_conocidos = {
         "ampliacion_plazo": "ampliación de plazo",
         "reduccion_cuota": "reducción de cuota",

@@ -2,7 +2,7 @@
   {
     "escenario": "mora_temprana_alta_prob",
     "descripcion": "Mora temprana y alta probabilidad de pago: se espera oferta de acuerdo a 5 días.",
-    "session_id": "e85b3755-abd1-419a-90eb-fefca4f14940",
+    "session_id": "8eb91361-f39f-4c28-9a05-a92dd1037b57",
     "accion_nba": "ofrecer_acuerdo_pago",
     "explicacion_nba": "No hay opciones de pago preaprobadas elegibles vigentes, pero la obligación está en gestión temprana y sin restricciones: se ofrece un acuerdo de pago a máximo 5 días.",
     "escalado": false,
@@ -25,7 +25,7 @@
   {
     "escenario": "multiples_opciones_elegibles",
     "descripcion": "Cliente elegible para 3 opciones de pago: el sistema debe priorizar y explicar una.",
-    "session_id": "3e12786c-ed2e-44fc-82ac-42a3682a1ebb",
+    "session_id": "4e0addc1-ed39-4e9a-8945-e7670132acbe",
     "accion_nba": "ofrecer_opcion_pago",
     "explicacion_nba": "Cliente elegible para 3 opción(es) de pago; se prioriza 'renegociacion_tasa' según mora (75 días) y disponibilidad. Propensión estimada del modelo: 64%.",
     "escalado": false,
@@ -56,7 +56,7 @@
   {
     "escenario": "no_elegible_cooldown",
     "descripcion": "Alternativa aplicada hace 1 mes (cooldown activo) y ya tiene opción de pago vigente: no debe recibir ofertas.",
-    "session_id": "192256a5-5fb3-4513-a692-b1a25b01aa89",
+    "session_id": "ece32f30-950c-4b09-aaee-2092ae894947",
     "accion_nba": "monitoreo_sin_oferta",
     "explicacion_nba": "No hay oferta autorizada para esta obligación en este momento: Ya tiene una opción de pago vigente aceptada; no aplica ofrecer otra.; No se ofrece acuerdo de pago: ya aceptó una opción de pago.",
     "escalado": false,
@@ -66,7 +66,7 @@
   {
     "escenario": "rechaza_propuesta",
     "descripcion": "Cliente elegible para acuerdo de pago, pero rechaza la propuesta.",
-    "session_id": "1ff869d8-316a-46bf-be0c-b00d7e048a6c",
+    "session_id": "73c993f2-95bf-48bf-843c-820de4030471",
     "accion_nba": "ofrecer_acuerdo_pago",
     "explicacion_nba": "No hay opciones de pago preaprobadas elegibles vigentes, pero la obligación está en gestión temprana y sin restricciones: se ofrece un acuerdo de pago a máximo 5 días.",
     "escalado": false,
@@ -89,7 +89,7 @@
   {
     "escenario": "pide_otra_alternativa",
     "descripcion": "Cliente elegible para 2 opciones; rechaza la priorizada y pide otra.",
-    "session_id": "78dd5f90-8340-4d01-841c-a24a239edae3",
+    "session_id": "ec838bca-ad79-45fb-826e-5b1cac76adab",
     "accion_nba": "ofrecer_opcion_pago",
     "explicacion_nba": "Cliente elegible para 2 opción(es) de pago; se prioriza 'reestructuracion' según mora (65 días) y disponibilidad. Propensión estimada del modelo: 58%.",
     "escalado": false,
@@ -119,16 +119,26 @@
   },
   {
     "escenario": "incumple_acuerdo_previo",
-    "descripcion": "Cliente admite que incumplió un acuerdo de pago anterior -> debe escalar a humano.",
-    "session_id": "a15a232e-375c-464d-94b3-891096f24d5f",
-    "accion_nba": "ofrecer_acuerdo_pago",
-    "explicacion_nba": "No hay opciones de pago preaprobadas elegibles vigentes, pero la obligación está en gestión temprana y sin restricciones: se ofrece un acuerdo de pago a máximo 5 días.",
+    "descripcion": "El propio historial de gestión de la obligación ya registra un incumplimiento hace 10 días -> el sistema lo detecta de forma PROACTIVA (regla de negocio sobre el dato estructurado) y escala antes de intentar cualquier contacto nuevo, sin necesidad de que el cliente lo admita.",
+    "session_id": "a2ebb3bd-be43-4272-9303-004137720f1a",
+    "accion_nba": "escalar_humano",
+    "explicacion_nba": "Escalamiento por reglas de negocio: incumplimiento_reciente",
+    "escalado": true,
+    "motivo_escalamiento": "Escalamiento por reglas de negocio: incumplimiento_reciente",
+    "transcript": []
+  },
+  {
+    "escenario": "incumplimiento_admitido_solo_por_cliente",
+    "descripcion": "El historial de gestión de la obligación todavía NO refleja ningún incumplimiento (rezago de datos), pero el cliente lo admite en la conversación -> la detección conversacional (intención INCUMPLIMIENTO_PREVIO_ADMITIDO) actúa como red de seguridad y escala igual, aunque la regla de negocio de la obligación 4c no se haya activado.",
+    "session_id": "0870960f-722f-443f-836e-1ff0f6ca1e11",
+    "accion_nba": "ofrecer_opcion_pago",
+    "explicacion_nba": "Cliente elegible para 1 opción(es) de pago; se prioriza 'reduccion_cuota' según mora (30 días) y disponibilidad. Propensión estimada del modelo: 35%.",
     "escalado": true,
     "motivo_escalamiento": "incumplimiento_previo_admitido",
     "transcript": [
       {
         "hablante": "agente",
-        "texto": "Hola Diana Marcela Peña (ficticia), te contactamos de Bancolombia por tu obligación de Libre Inversión. Podemos ofrecerte un acuerdo de pago: comprométete a pagar en los próximos 5 días y evitamos que tu mora siga aumentando. ¿Te interesa?"
+        "texto": "Hola Diana Marcela Peña (ficticia), te contactamos de Bancolombia por tu obligación de Libre Inversión. Tienes preaprobada una reducción en el valor de tu cuota mensual. ¿Quieres que te cuente los detalles?"
       },
       {
         "hablante": "cliente",
@@ -143,7 +153,7 @@
   {
     "escenario": "reactivo_consulta_saldo",
     "descripcion": "Cliente contacta de forma reactiva a consultar su deuda.",
-    "session_id": "c5deb66b-3712-4675-b27e-f076a403258d",
+    "session_id": "b449366b-03c8-4077-a08f-e1c79f4dc2c6",
     "accion_nba": "ofrecer_opcion_pago",
     "explicacion_nba": "Cliente elegible para 1 opción(es) de pago; se prioriza 'reduccion_cuota' según mora (20 días) y disponibilidad. Propensión estimada del modelo: 50%.",
     "escalado": false,
@@ -162,7 +172,7 @@
   {
     "escenario": "reactivo_dificultad_financiera",
     "descripcion": "Cliente contacta de forma reactiva manifestando dificultades de pago.",
-    "session_id": "034fe455-c223-415a-ab3a-160cc5fd9621",
+    "session_id": "f9fe79f9-fe51-4db1-a4a4-22ab1e2fa785",
     "accion_nba": "ofrecer_opcion_pago",
     "explicacion_nba": "Cliente elegible para 1 opción(es) de pago; se prioriza 'ampliacion_plazo' según mora (50 días) y disponibilidad. Propensión estimada del modelo: 60%.",
     "escalado": true,
@@ -181,7 +191,7 @@
   {
     "escenario": "info_contradictoria",
     "descripcion": "Cliente dice no reconocer la obligación -> requiere verificación humana.",
-    "session_id": "a07f3b44-fca0-423f-a192-30c141a3e9f3",
+    "session_id": "60b0c18f-542b-4c84-bd4f-0bab884f6049",
     "accion_nba": "ofrecer_acuerdo_pago",
     "explicacion_nba": "No hay opciones de pago preaprobadas elegibles vigentes, pero la obligación está en gestión temprana y sin restricciones: se ofrece un acuerdo de pago a máximo 5 días.",
     "escalado": true,
@@ -200,7 +210,7 @@
   {
     "escenario": "solicitud_sensible",
     "descripcion": "Señal de riesgo personal en el mensaje del cliente -> escalamiento inmediato.",
-    "session_id": "2e02422b-33e1-4fa1-9fca-01b566bc5dce",
+    "session_id": "2ed03b47-0d7b-4eba-a05b-59cdf240cce4",
     "accion_nba": "ofrecer_acuerdo_pago",
     "explicacion_nba": "No hay opciones de pago preaprobadas elegibles vigentes, pero la obligación está en gestión temprana y sin restricciones: se ofrece un acuerdo de pago a máximo 5 días.",
     "escalado": true,
@@ -219,7 +229,7 @@
   {
     "escenario": "intento_manipulacion",
     "descripcion": "Intento de manipular al agente para saltarse las reglas de negocio.",
-    "session_id": "a7fc8346-b2cb-4ee7-8d92-febab653f3fb",
+    "session_id": "6eddf09f-b02a-46a8-9d26-6e628f495ce1",
     "accion_nba": "ofrecer_opcion_pago",
     "explicacion_nba": "Cliente elegible para 1 opción(es) de pago; se prioriza 'reduccion_cuota' según mora (55 días) y disponibilidad. Propensión estimada del modelo: 50%.",
     "escalado": true,
@@ -238,7 +248,7 @@
   {
     "escenario": "restriccion_juridica",
     "descripcion": "Obligación con proceso jurídico activo: nunca se debe ofrecer nada, se escala directo.",
-    "session_id": "4bfafc59-cc3f-46f8-bc65-c9ded5270553",
+    "session_id": "60ec3177-e39a-4d2b-888c-fd79f7316015",
     "accion_nba": "escalar_humano",
     "explicacion_nba": "Escalamiento por reglas de negocio: restriccion:juridico",
     "escalado": true,
@@ -248,7 +258,7 @@
   {
     "escenario": "servicio_scoring_no_disponible",
     "descripcion": "El servicio del modelo de propensión (Parte 1) no respondió a tiempo (scores en None): el sistema debe seguir aplicando las reglas de negocio de forma determinística, degradando el uso de score analítico sin caerse.",
-    "session_id": "e7cc975c-7b57-4eb8-bf69-faa716417070",
+    "session_id": "52f7ce07-1449-4525-ab53-09b14cb13e2b",
     "accion_nba": "ofrecer_opcion_pago",
     "explicacion_nba": "sin score de propensión disponible.",
     "escalado": false,

@@ -9,14 +9,24 @@ from datetime import date, timedelta
 sys.path.insert(0, os.path.join(os.path.dirname(__file__), "..", "agentic"))
 
 import pytest  # noqa: E402
-from models import AlternativaPreaprobada, ClienteObligacion, EventoAplicacion, TipoAlternativa  # noqa: E402
+from models import AlternativaPreaprobada, ClienteObligacion, EventoAplicacion, HistorialGestion, TipoAlternativa  # noqa: E402
 from reglas_negocio import evaluar_elegibilidad  # noqa: E402
 from nba import TipoAccion, decidir_siguiente_accion  # noqa: E402
 from guardrails import evaluar_mensaje, validar_respuesta_agente  # noqa: E402
 from orquestador import Orquestador  # noqa: E402
-from conversacional import IntencionCliente, _detectar_intencion  # noqa: E402
+from conversacional import AgenteConversacional, IntencionCliente, _detectar_intencion  # noqa: E402
 
 HOY = date(2024, 1, 15)
+
+
+@pytest.fixture(autouse=True)
+def _aislar_archivo_de_trazas(monkeypatch, tmp_path):
+    """Aísla TODAS las pruebas del archivo de trazas real
+    (`results/trazas_agentico.jsonl`): sin este fixture, cada corrida de
+    pytest escribía sobre un artefacto de resultados fuera del alcance de
+    la prueba (detectado en revisión: `git status` mostraba ese archivo
+    modificado después de simplemente correr la suite)."""
+    monkeypatch.setattr("trazabilidad.LOG_PATH", str(tmp_path / "trazas_test.jsonl"))
 
 
 def _ctx(**kwargs) -> ClienteObligacion:
@@ -95,6 +105,31 @@ class TestReglasDeNegocio:
         d = evaluar_elegibilidad(ctx)
         assert d.puede_ofrecer_acuerdo_pago is False
 
+    def test_incumplimiento_reciente_bloquea_y_escala(self):
+        """Criterio de seguridad agregado en revisión: un incumplimiento
+        reciente en el historial de gestión (dato estructurado del banco)
+        bloquea CUALQUIER oferta nueva y obliga a escalar, sin depender de
+        que el cliente lo admita en la conversación (ver también
+        TestIntegracionOrquestador para la versión end-to-end)."""
+        alt = AlternativaPreaprobada(TipoAlternativa.REDUCCION_CUOTA, "A1", "x")
+        ctx = _ctx(
+            alternativas_preaprobadas=[alt],
+            historial_gestiones=[HistorialGestion(HOY - timedelta(days=10), "agente_ia", "incumplimiento")],
+        )
+        d = evaluar_elegibilidad(ctx)
+        assert d.requiere_escalamiento_humano is True
+        assert d.motivo_escalamiento == "incumplimiento_reciente"
+        assert d.opciones_pago_elegibles == []
+        assert d.puede_ofrecer_acuerdo_pago is False
+
+    def test_incumplimiento_fuera_de_ventana_no_penaliza_indefinidamente(self):
+        """Contraprueba de la anterior: pasada la ventana de 90 días, un
+        incumplimiento antiguo no debe seguir bloqueando al cliente para
+        siempre."""
+        ctx = _ctx(historial_gestiones=[HistorialGestion(HOY - timedelta(days=200), "agente_ia", "incumplimiento")])
+        d = evaluar_elegibilidad(ctx)
+        assert d.requiere_escalamiento_humano is False
+
 
 # ---------------------------------------------------------------------------
 # FUNCIONALES: siguiente mejor acción (NBA)
@@ -137,6 +172,15 @@ class TestNBA:
         d = decidir_siguiente_accion(ctx)  # no debe lanzar
         assert d.accion == TipoAccion.OFRECER_OPCION_PAGO
 
+    def test_sin_opciones_preaprobadas_pero_mora_temprana_ofrece_acuerdo_pago(self):
+        """Rama antes sin cobertura de prueba: sin opciones de pago
+        preaprobadas elegibles, pero con mora temprana y sin restricciones,
+        el NBA debe ofrecer un acuerdo de pago a 5 días (no quedarse sin
+        gestionar al cliente)."""
+        ctx = _ctx(dias_mora=20, alternativas_preaprobadas=[])
+        d = decidir_siguiente_accion(ctx)
+        assert d.accion == TipoAccion.OFRECER_ACUERDO_PAGO
+
 
 # ---------------------------------------------------------------------------
 # SEGURIDAD: guardrails
@@ -178,6 +222,22 @@ class TestGuardrails:
         assert validar_respuesta_agente(texto, alternativas_autorizadas={"reduccion_cuota"}) is False
         assert validar_respuesta_agente(texto, alternativas_autorizadas={"reestructuracion"}) is True
 
+    def test_validar_respuesta_bloquea_token_interno_filtrado(self):
+        """Corregido en esta revisión: el chequeo de tokens internos
+        (ALL_CAPS) existía en el código pero no tenía ningún efecto -- solo
+        recorría los tokens sin usar el resultado. Ahora si una plantilla
+        filtra por error un identificador/código interno al texto del
+        cliente, se bloquea el envío."""
+        texto = "Tu caso quedó marcado como ESTADO_PENDIENTE_REVISION, te contactamos pronto"
+        assert validar_respuesta_agente(texto, alternativas_autorizadas=set()) is False
+
+    def test_validar_respuesta_no_bloquea_texto_normal(self):
+        """Prueba de CALIDAD para la corrección anterior: el chequeo más
+        estricto de tokens internos no debe generar falsos positivos sobre
+        una respuesta normal generada por las plantillas."""
+        texto = "Hola Ana, tu saldo de capital actual es de $1,000,000 y llevas 30 días en mora."
+        assert validar_respuesta_agente(texto, alternativas_autorizadas=set()) is True
+
 
 # ---------------------------------------------------------------------------
 # FUNCIONALES: NLU basado en reglas (conversacional)
@@ -193,6 +253,92 @@ class TestDeteccionIntencion:
     ])
     def test_clasificacion_correcta(self, texto, esperado):
         assert _detectar_intencion(texto) == esperado
+
+
+# ---------------------------------------------------------------------------
+# FUNCIONALES: agente conversacional (antes solo se probaba la clasificación
+# de intención aislada; estas pruebas verifican la RESPUESTA y el efecto de
+# cada rama, no solo la etiqueta de intención).
+# ---------------------------------------------------------------------------
+
+class TestAgenteConversacional:
+    def _decision_con_una_opcion(self, dias_mora=30):
+        alt = AlternativaPreaprobada(TipoAlternativa.REDUCCION_CUOTA, "A1", "Reducción de cuota")
+        ctx = _ctx(dias_mora=dias_mora, alternativas_preaprobadas=[alt])
+        return ctx, decidir_siguiente_accion(ctx)
+
+    def test_consulta_saldo_responde_con_cifras_del_contexto(self):
+        ctx, decision = self._decision_con_una_opcion()
+        turno, intencion, escalar = AgenteConversacional().procesar_mensaje_cliente(
+            "¿Cuánto debo exactamente?", ctx, decision
+        )
+        assert intencion == IntencionCliente.CONSULTA_SALDO
+        assert escalar is False
+        assert f"{ctx.saldo_capital:,.0f}" in turno.texto
+
+    def test_perdida_de_empleo_escala_por_guardrail_antes_del_nlu(self):
+        """Interacción entre capas, invisible cuando se prueban por
+        separado (como estaba antes): 'quedé sin trabajo' está clasificado
+        como señal urgente en guardrails.py (junto a riesgo de autolesión y
+        amenazas), así que se intercepta ANTES de que el NLU llegue a
+        evaluar la intención 'dificultad financiera'. Es el comportamiento
+        documentado en el escenario 5 de docs/pruebas_agentico.md ('escala
+        por señal sensible'); esta prueba lo fija como regresión explícita."""
+        ctx, decision = self._decision_con_una_opcion()
+        turno, intencion, escalar = AgenteConversacional().procesar_mensaje_cliente(
+            "Quedé sin trabajo y no tengo cómo pagar", ctx, decision
+        )
+        assert intencion == IntencionCliente.ESCALAMIENTO_GUARDRAIL
+        assert escalar is True
+
+    def test_dificultad_financiera_sin_senal_urgente_no_escala_de_inmediato(self):
+        """Dificultad financiera SIN el lenguaje que dispara el guardrail de
+        señal urgente sí llega al NLU: se explora una alternativa antes de
+        escalar."""
+        ctx, decision = self._decision_con_una_opcion()
+        turno, intencion, escalar = AgenteConversacional().procesar_mensaje_cliente(
+            "No tengo cómo pagar este mes, la situación está difícil", ctx, decision
+        )
+        assert intencion == IntencionCliente.DIFICULTAD_FINANCIERA
+        assert escalar is False
+
+    def test_rechazo_no_escala_y_deja_oferta_disponible(self):
+        """Bug real encontrado y corregido en esta revisión: 'no me sirve'
+        (un RECHAZO) se clasificaba como ACEPTA, porque 'me sirve' es
+        substring de 'no me sirve' y el patrón de ACEPTA se evaluaba
+        primero -- el agente habría registrado una aceptación que el
+        cliente nunca dio. Ver el fix en conversacional.py (lookbehind
+        negativo sobre 'me sirve')."""
+        ctx, decision = self._decision_con_una_opcion()
+        turno, intencion, escalar = AgenteConversacional().procesar_mensaje_cliente(
+            "No, no me sirve", ctx, decision
+        )
+        assert intencion == IntencionCliente.RECHAZA
+        assert escalar is False
+
+    def test_mensaje_ambiguo_pide_aclaracion_sin_escalar(self):
+        """Rama antes sin cobertura: un mensaje que no matchea ningún patrón
+        conocido debe pedir aclaración, nunca inventar una respuesta ni
+        escalar innecesariamente (mismo criterio de calidad que
+        test_mensaje_neutro_no_dispara_falsos_positivos en guardrails)."""
+        ctx, decision = self._decision_con_una_opcion()
+        turno, intencion, escalar = AgenteConversacional().procesar_mensaje_cliente(
+            "cuénteme más por favor", ctx, decision
+        )
+        assert intencion == IntencionCliente.AMBIGUO
+        assert escalar is False
+
+    def test_pide_otra_alternativa_sin_alternativas_restantes_no_inventa_una(self):
+        """Si solo había una alternativa elegible y el cliente la rechaza
+        pidiendo otra, el sistema NO debe inventar una alternativa nueva
+        (violaría la regla de "nunca ofrecer fuera de lo autorizado"): debe
+        avisar y ofrecer un asesor humano."""
+        ctx, decision = self._decision_con_una_opcion()  # una sola alternativa elegible
+        turno, intencion, _ = AgenteConversacional().procesar_mensaje_cliente(
+            "Esa no, ¿tienes algo con menos cuota?", ctx, decision
+        )
+        assert intencion == IntencionCliente.PIDE_OTRA_ALTERNATIVA
+        assert "asesor" in turno.texto.lower()
 
 
 # ---------------------------------------------------------------------------
@@ -237,3 +383,71 @@ class TestIntegracionOrquestador:
         texto_cierre = resultado.transcript[-1].texto
         assert "Reducción de cuota" in texto_cierre
         assert "Reestructuración" not in texto_cierre
+
+    def test_incumplimiento_en_historial_escala_de_forma_proactiva_sin_contacto(self):
+        """Escenario 4c end-to-end (ver agentic/mock_data.py): si el propio
+        historial de gestión ya registra un incumplimiento reciente, se
+        escala ANTES de intentar cualquier contacto -- transcript vacío,
+        igual que una restricción dura."""
+        alt = AlternativaPreaprobada(TipoAlternativa.REDUCCION_CUOTA, "A1", "x")
+        ctx = _ctx(
+            alternativas_preaprobadas=[alt],
+            historial_gestiones=[HistorialGestion(HOY - timedelta(days=10), "agente_ia", "incumplimiento")],
+        )
+        resultado = Orquestador().ejecutar(ctx, modo="proactivo")
+        assert resultado.escalado is True
+        assert resultado.transcript == []
+
+    def test_acuerdo_de_pago_genera_el_mensaje_de_apertura_correcto(self):
+        """Cierra la última rama de mensaje_apertura sin cobertura: cuando
+        el NBA decide OFRECER_ACUERDO_PAGO, el texto que efectivamente sale
+        al cliente debe mencionar el acuerdo y el plazo de 5 días (antes
+        solo se probaba la decisión del NBA, no el mensaje generado)."""
+        ctx = _ctx(dias_mora=20, alternativas_preaprobadas=[])
+        resultado = Orquestador().ejecutar(ctx, modo="proactivo")
+        assert resultado.decision_nba.accion == TipoAccion.OFRECER_ACUERDO_PAGO
+        assert len(resultado.transcript) == 1
+        assert "acuerdo de pago" in resultado.transcript[0].texto.lower()
+        assert "5 días" in resultado.transcript[0].texto
+
+    def test_auto_cura_alta_no_genera_contacto_proactivo(self):
+        """Cierra la rama DIFERIR_AUTO_CURA de principio a fin (antes solo
+        se probaba a nivel de decisión del NBA, no el efecto en el
+        orquestador): con auto-cura muy probable y mora muy temprana, no
+        debe salir ningún mensaje ni escalarse -- se difiere la gestión."""
+        ctx = _ctx(dias_mora=5, prob_auto_cura=0.9)
+        resultado = Orquestador().ejecutar(ctx, modo="proactivo")
+        assert resultado.decision_nba.accion == TipoAccion.DIFERIR_AUTO_CURA
+        assert resultado.transcript == []
+        assert resultado.escalado is False
+
+    def test_incumplimiento_admitido_solo_por_cliente_escala_como_red_de_seguridad(self):
+        """Escenario 4d end-to-end: cuando el historial de gestión TODAVÍA
+        no refleja el incumplimiento (rezago de datos) pero el cliente lo
+        admite en la conversación, la detección conversacional debe
+        escalar igual -- defensa en profundidad frente al caso anterior."""
+        alt = AlternativaPreaprobada(TipoAlternativa.REDUCCION_CUOTA, "A1", "x")
+        ctx = _ctx(alternativas_preaprobadas=[alt])  # sin historial_gestiones
+        resultado = Orquestador().ejecutar(
+            ctx, modo="proactivo",
+            mensajes_cliente=["Perdón, no pude cumplir el acuerdo pasado, se me complicó todo"],
+        )
+        assert resultado.escalado is True
+        assert resultado.transcript != []  # sí hubo contacto, a diferencia del caso 4c
+
+
+# ---------------------------------------------------------------------------
+# TRAZABILIDAD: auditoría de decisiones
+# ---------------------------------------------------------------------------
+
+class TestTrazabilidad:
+    def test_resumen_devuelve_los_eventos_registrados_en_la_sesion(self):
+        from trazabilidad import Trazador  # import local: requiere el fixture de aislamiento activo
+
+        t = Trazador(session_id="test-session")
+        t.registrar("orquestador", "inicio_sesion", {"modo": "test"})
+        t.registrar("nba", "decision", {"accion": "monitoreo_sin_oferta"})
+        resumen = t.resumen()
+        assert len(resumen) == 2
+        assert resumen[0]["evento"] == "inicio_sesion"
+        assert all(e["session_id"] == "test-session" for e in resumen)

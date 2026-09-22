@@ -72,7 +72,7 @@ open-source ampliamente adoptadas en la industria.
 ## 5. Despliegue continuo (CI/CD)
 
 - **CI — implementado, no solo descrito**: `.github/workflows/ci.yml`
-  corre en cada push/PR a `main`: (a) las 26 pruebas del sistema agéntico
+  corre en cada push/PR a `main`: (a) las 42 pruebas del sistema agéntico
   (`pytest tests/`), y (b) `docker build` de la imagen de scoring, para
   detectar de inmediato si algo rompe el empaquetado.
 - **CD** (propuesto, no implementado — requeriría infraestructura de

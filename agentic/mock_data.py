@@ -120,7 +120,13 @@ def escenarios() -> dict[str, dict]:
 
     # 4c) Incumple un acuerdo previo
     out["incumple_acuerdo_previo"] = {
-        "descripcion": "Cliente admite que incumplió un acuerdo de pago anterior -> debe escalar a humano.",
+        "descripcion": (
+            "El propio historial de gestión de la obligación ya registra un "
+            "incumplimiento hace 10 días -> el sistema lo detecta de forma "
+            "PROACTIVA (regla de negocio sobre el dato estructurado) y escala "
+            "antes de intentar cualquier contacto nuevo, sin necesidad de que "
+            "el cliente lo admita."
+        ),
         "ctx": ClienteObligacion(
             nit_enmascarado="NIT-006", num_oblig_enmascarado="OBL-006",
             nombre_cliente_demo="Diana Marcela Peña (ficticia)",
@@ -130,6 +136,31 @@ def escenarios() -> dict[str, dict]:
                 HistorialGestion(HOY - timedelta(days=20), "agente_ia", "acuerdo_generado"),
                 HistorialGestion(HOY - timedelta(days=10), "agente_ia", "incumplimiento"),
             ],
+            prob_aceptacion_opcion_pago=0.35, prob_propension_pago=0.30,
+            prob_alerta_temprana=0.55, prob_auto_cura=0.10,
+            fecha_referencia=HOY,
+        ),
+    }
+
+    # 4d) (Extra) Incumplimiento NO reflejado aún en el historial del banco,
+    # pero admitido por el cliente en la conversación -> red de seguridad
+    # conversacional (defensa en profundidad frente al caso 4c: cubre el
+    # rezago de datos entre el sistema fuente y este agente).
+    out["incumplimiento_admitido_solo_por_cliente"] = {
+        "descripcion": (
+            "El historial de gestión de la obligación todavía NO refleja "
+            "ningún incumplimiento (rezago de datos), pero el cliente lo "
+            "admite en la conversación -> la detección conversacional "
+            "(intención INCUMPLIMIENTO_PREVIO_ADMITIDO) actúa como red de "
+            "seguridad y escala igual, aunque la regla de negocio de la "
+            "obligación 4c no se haya activado."
+        ),
+        "ctx": ClienteObligacion(
+            nit_enmascarado="NIT-014", num_oblig_enmascarado="OBL-014",
+            nombre_cliente_demo="Diana Marcela Peña (ficticia)",
+            dias_mora=30, saldo_capital=2_600_000, valor_cuota_mes=210_000,
+            producto="Libre Inversión",
+            alternativas_preaprobadas=[_alt(TipoAlternativa.REDUCCION_CUOTA, "RED-04")],
             prob_aceptacion_opcion_pago=0.35, prob_propension_pago=0.30,
             prob_alerta_temprana=0.55, prob_auto_cura=0.10,
             fecha_referencia=HOY,

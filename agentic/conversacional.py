@@ -38,8 +38,14 @@ class IntencionCliente(str, Enum):
 # El orden importa: se evalúan de la más específica a la más genérica, para
 # que un mensaje como "esa no, ¿tienes algo con menos cuota?" se clasifique
 # como PIDE_OTRA_ALTERNATIVA y no como un RECHAZA genérico por contener "no".
+#
+# "me sirve" lleva un lookbehind negativo excluyendo "no me sirve": antes
+# "no me sirve" (un RECHAZO) se clasificaba como ACEPTA, porque "me sirve"
+# es substring de "no me sirve" y esta lista se evalúa primero (encontrado
+# en revisión al probar el agente conversacional de punta a punta, no solo
+# el clasificador de intención aislado).
 _PATRONES_INTENCION = [
-    (IntencionCliente.ACEPTA, [r"\b(s[ií]|acepto|de acuerdo|listo|dale|me sirve)\b"]),
+    (IntencionCliente.ACEPTA, [r"\b(s[ií]|acepto|de acuerdo|listo|dale)\b", r"(?<!no )\bme sirve\b"]),
     (IntencionCliente.PIDE_OTRA_ALTERNATIVA, [r"otra (opci[oó]n|alternativa)|algo diferente|m[aá]s barato|menos cuota|cu[aá]l me conviene|cu[aá]l es mejor"]),
     (IntencionCliente.CONSULTA_SALDO, [r"cu[aá]nto debo|saldo|estado de (mi )?cuenta|cu[aá]nto es la deuda"]),
     (IntencionCliente.DIFICULTAD_FINANCIERA, [r"perd[ií] el trabajo|no tengo (c[oó]mo|plata|dinero)|dificultad(es)? econ[oó]mic"]),

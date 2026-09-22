@@ -23,7 +23,7 @@ camino y cada decisión es reproducible.
 | Agente | Responsabilidad | Entrada | Salida |
 |---|---|---|---|
 | **Contexto** | Ensambla el estado de la obligación: datos del cliente, mora, alternativas preaprobadas, historial de aplicaciones/gestiones, scores del modelo de propensión (Parte 1) y de los scores actuales del banco. | Fuentes de datos (core, motor de preaprobación, CRM cobranza, API del modelo Parte 1) | `ClienteObligacion` |
-| **Elegibilidad (reglas de negocio)** | Única fuente de verdad de QUÉ se puede ofrecer: aplica máximo 3 opciones/mes, cooldown de 3–4 meses por tipo de alternativa, bloqueo total si ya aceptó una opción vigente, restricciones duras (jurídico/fraude). | `ClienteObligacion` | `DecisionElegibilidad` |
+| **Elegibilidad (reglas de negocio)** | Única fuente de verdad de QUÉ se puede ofrecer: aplica máximo 3 opciones/mes, cooldown de 3–4 meses por tipo de alternativa, bloqueo total si ya aceptó una opción vigente, restricciones duras (jurídico/fraude), y escalamiento obligatorio si el historial de gestión registra un incumplimiento en los últimos 90 días (no se sigue ofreciendo de forma automática). | `ClienteObligacion` | `DecisionElegibilidad` |
 | **Siguiente Mejor Acción (NBA)** | Decide la acción concreta combinando elegibilidad + score de propensión (Parte 1) + señales del banco (auto-cura, alerta temprana): ofrecer opción de pago (y cuál, si hay varias), ofrecer acuerdo de 5 días, diferir por auto-cura, monitorear sin ofrecer, o escalar. | `ClienteObligacion` + `DecisionElegibilidad` | `DecisionNBA` |
 | **Conversacional** | Redacta el mensaje y conduce el diálogo (proactivo o reactivo) dentro de lo que el NBA autorizó; interpreta intención del cliente (acepta, rechaza, pide otra alternativa, consulta saldo, dificultad financiera, admite incumplimiento). | `DecisionNBA` + mensaje del cliente | Turno de conversación |
 | **Guardrails** | Defensa en profundidad: detecta manipulación/prompt injection, señales sensibles (riesgo personal, amenazas), información contradictoria; valida que la respuesta generada nunca mencione una alternativa no autorizada. | Texto del cliente / texto del agente | Bandera de escalamiento / bloqueo |
@@ -74,8 +74,13 @@ operando de forma determinística (ver prueba de robustez en
   post-hoc).
 - **Escalamiento a humano**: restricciones duras, señales sensibles,
   intentos de manipulación, información contradictoria, e incumplimiento
-  admitido de un acuerdo previo, escalan siempre — ver casos en
-  `agentic/mock_data.py` y pruebas en `tests/test_agentic.py`.
+  reciente de un acuerdo previo escalan siempre. El incumplimiento se
+  detecta en dos capas (defensa en profundidad): primero, de forma
+  **proactiva**, en la regla de negocio sobre el historial de gestión
+  estructurado (antes de intentar cualquier contacto); y como red de
+  seguridad, de forma **reactiva**, si el cliente lo admite en la
+  conversación y el historial aún no lo refleja (rezago de datos) — ver
+  casos en `agentic/mock_data.py` y pruebas en `tests/test_agentic.py`.
 
 ## 6. Por qué NO se usó un LLM real en este prototipo
 

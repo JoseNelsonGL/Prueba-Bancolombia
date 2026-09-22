@@ -61,8 +61,8 @@ independiente de proveedor cloud.
   revisión de cambios igual que el resto del código (no editables en caliente
   sin control de versiones).
 - **Evaluación continua**: set de conversaciones de referencia (ampliando
-  los 13 escenarios de este prototipo) que se re-ejecutan en cada cambio de
-  prompt o de modelo, con las mismas 26 pruebas automatizadas como piso
+  los 14 escenarios de este prototipo) que se re-ejecutan en cada cambio de
+  prompt o de modelo, con las mismas 42 pruebas automatizadas como piso
   mínimo no negociable.
 - **Guardrails en capas**: (a) reglas de negocio determinísticas (nunca se
   delegan al LLM), (b) clasificador/heurística de riesgo previa a cada
