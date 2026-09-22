@@ -77,6 +77,15 @@ function table(headerRow, rows, colWidths) {
 const IMG_ASPECT = {
   "diagrama_pipeline_parte1.png": 935 / 1870,
   "diagrama_arquitectura_parte2.png": 1020 / 1870,
+  "../../notebooks/eda_outputs/01_correlacion_fuga.png": 0.6667,
+  "../../notebooks/eda_outputs/02_embudo_variables.png": 0.55,
+  "../../notebooks/eda_outputs/03_calidad_datos_demograficos.png": 0.3846,
+  "../../notebooks/model_outputs/estabilidad_temporal.png": 0.5882,
+  "../../notebooks/model_outputs/feature_importance.png": 0.7778,
+  "../../notebooks/model_outputs/roc_comparacion.png": 0.4231,
+  "../../notebooks/model_outputs/shap_summary.png": 1.1867,
+  "../../notebooks/oot_outputs/distribucion_oot_vs_valid.png": 0.6471,
+  "../../notebooks/oot_outputs/shap_oot.png": 0.9358,
 };
 
 function image(file, widthPx = 620) {
@@ -169,16 +178,16 @@ const doc = new Document({
 
         h("3.1 Parte 1 — Modelo de propensión", HeadingLevel.HEADING_2),
         p([new TextRun({ text: "Proceso: ", bold: true, font: FONT, size: 22 }), new TextRun({ text: "se recibieron 4 tablas (trtest, master_customer_data, probabilidad_oblig_hist, maestra_cuotas_pagos_mes_hist) y oot.csv (enero-2024, solo IDs). El EDA reveló el hallazgo central: la mayoría de columnas de trtest (gestiones, pagos, alternativa aplicada, mora fin de mes) describen el resultado del mismo mes a predecir → fuga de información si se usan tal cual. Se rediseñó el pipeline para usar solo información de t-1 hacia atrás (lags propios de la obligación, snapshot demográfico más reciente ≤ corte, scores históricos del banco), replicando el escenario real de pronosticar un mes antes.", font: FONT, size: 22 })]),
-        p([new TextRun({ text: "Decisiones clave: ", bold: true, font: FONT, size: 22 }), new TextRun({ text: "LightGBM (categóricas/nulos nativos); validación temporal (train ago-nov 2023, valid dic-2023, no aleatoria); umbral optimizado para F1. Resultado con las 4 tablas integradas: AUC=0.729, F1=0.671 en validación (el historial de pagos fue la incorporación de mayor impacto).", font: FONT, size: 22 })]),
+        p([new TextRun({ text: "Decisiones clave: ", bold: true, font: FONT, size: 22 }), new TextRun({ text: "se compararon 3 familias de modelos sobre el mismo split (lineal, bagging, boosting) — ver Anexo A, sección 4.5 — y se seleccionó LightGBM por mayor AUC de validación con margen claro, confirmado por F1; validación temporal (train ago-nov 2023, valid dic-2023, no aleatoria); umbral optimizado para F1. Resultado con las 4 tablas integradas: AUC=0.729, F1=0.671 en validación (el historial de pagos fue la incorporación de mayor impacto).", font: FONT, size: 22 })]),
         p([new TextRun({ text: "Supuestos: ", bold: true, font: FONT, size: 22 }), new TextRun({ text: "snapshot demográfico de dic-2023 usado como \"as-of\" para enero-2024 (el panel no llega a esa fecha); nulos demográficos (~40-50%) tratados como missing informativo, no imputados.", font: FONT, size: 22 })]),
-        p([new TextRun({ text: "Riesgos/limitaciones: ", bold: true, font: FONT, size: 22 }), new TextRun({ text: "oot.csv no trae producto/banca/elegibilidad vigente, por lo que ~50% de sus obligaciones son \"cold start\" y dependen solo de demografía + scores del banco; el panel demográfico es disperso; no se validó estabilidad poblacional (PSI) trtest-vs-oot — queda como monitoreo de producción recomendado.", font: FONT, size: 22 })]),
+        p([new TextRun({ text: "Riesgos/limitaciones: ", bold: true, font: FONT, size: 22 }), new TextRun({ text: "oot.csv no trae producto/banca/elegibilidad vigente, por lo que ~50% de sus obligaciones son \"cold start\" y dependen solo de demografía + scores del banco; el panel demográfico es disperso; se validó PSI dic-2023 vs. oot=0.013 (sin cambio poblacional relevante); SHAP de oot coincide 8/10 con validación (ver Anexo A, secciones 4.7 y 4.8).", font: FONT, size: 22 })]),
         p([new TextRun({ text: "Dato adicional recomendado: ", bold: true, font: FONT, size: 22 }), new TextRun({ text: "un snapshot de elegibilidad/producto vigente al momento del scoring (ausente hoy en oot.csv) mejoraría el modelo para obligaciones nuevas; costo bajo, pues el motor de preaprobación ya genera esa información mensualmente.", font: FONT, size: 22 })]),
 
         h("3.2 Parte 2 — Sistema agéntico", HeadingLevel.HEADING_2),
         p([new TextRun({ text: "Arquitectura: ", bold: true, font: FONT, size: 22 }), new TextRun({ text: "patrón supervisor lineal y auditable — Contexto → Reglas de negocio (única fuente de verdad sobre qué ofrecer, determinística) → Siguiente Mejor Acción (integra el score de la Parte 1) → Conversacional → Guardrails → Escalamiento, con trazabilidad JSON por sesión. En un dominio regulado, la previsibilidad de un flujo lineal pesa más que la flexibilidad de un grafo de agentes libre.", font: FONT, size: 22 })]),
         p([new TextRun({ text: "Sin acceso a LLM en este entorno: ", bold: true, font: FONT, size: 22 }), new TextRun({ text: "intención y redacción se implementaron con reglas léxicas/plantillas, con punto de extensión explícito para reemplazar por un LLM real sin tocar el motor de reglas — el LLM redactaría, nunca decidiría qué ofrecer.", font: FONT, size: 22 })]),
-        p([new TextRun({ text: "Pruebas: ", bold: true, font: FONT, size: 22 }), new TextRun({ text: "26 pruebas automatizadas (reglas de negocio, NBA, guardrails, integración end-to-end) + 13 escenarios simulados cubriendo los 7 casos pedidos más robustez (caída del servicio de scoring) y restricción jurídica dura. Umbral: 0% de ofertas no autorizadas y 0% de restricciones ignoradas (tolerancia cero).", font: FONT, size: 22 })]),
-        p([new TextRun({ text: "Riesgos: ", bold: true, font: FONT, size: 22 }), new TextRun({ text: "el NLU por reglas es frágil ante lenguaje real no anticipado; la priorización entre alternativas usa un orden fijo por severidad de mora (supuesto a validar), no aprendido de datos históricos de aceptación.", font: FONT, size: 22 })]),
+        p([new TextRun({ text: "Pruebas: ", bold: true, font: FONT, size: 22 }), new TextRun({ text: "42 pruebas automatizadas (100% pasan, cobertura de código ~100% en los 6 módulos de decisión/seguridad) + 14 escenarios simulados cubriendo los 7 casos pedidos más robustez y seguridad. Umbral: 0% de ofertas no autorizadas y 0% de restricciones ignoradas (tolerancia cero). Probar el sistema de punta a punta —no solo cada capa por separado— encontró y corrigió 3 problemas reales antes de la entrega (detalle en Anexo C, sección 6.3).", font: FONT, size: 22 })]),
+        p([new TextRun({ text: "Riesgos: ", bold: true, font: FONT, size: 22 }), new TextRun({ text: "el NLU por reglas es frágil ante lenguaje real no anticipado; la priorización entre alternativas usa un orden fijo por severidad de mora (supuesto a validar), no un modelo aprendido — se investigó esta última opción con los datos reales de la prueba y no es viable con lo entregado (detalle en Anexo B, sección 5.6).", font: FONT, size: 22 })]),
         p([new TextRun({ text: "Conclusión general: ", bold: true, font: FONT, size: 22 }), new TextRun({ text: "ambos componentes son viables como prototipo demostrable dentro del alcance y tiempo de la prueba. El mayor riesgo de negocio no es el desempeño puntual del modelo sino la fuga de información si no se audita qué variables están realmente disponibles al momento de decidir — hallazgo válido tanto para la Parte 1 como para su integración con la Parte 2.", font: FONT, size: 22 })]),
 
         h("3.3 Declaración de Uso de IA Generativa", HeadingLevel.HEADING_2),
@@ -213,6 +222,21 @@ const doc = new Document({
 
         image("diagrama_pipeline_parte1.png", 620),
 
+        h("4.2.1 Evidencia empírica de la fuga (no solo argumento teórico)", HeadingLevel.HEADING_3),
+        p("notebooks/01_eda.py mide, para cada columna sospechosa, su correlación con el target en versión contemporánea (mismo mes) contra su versión rezagada a t-1. La caída es drástica y confirma que la correlación alta contemporánea es un artefacto de fuga, no señal predictiva real:"),
+        table(
+          ["Variable", "|correlación| contemporánea", "|correlación| rezagada (t-1)"],
+          [
+            ["marca_alternativa", "0.87", "0.07"],
+            ["marca_pago", "0.48", "0.05"],
+            ["dias_mora_fin", "0.35", "0.00"],
+          ],
+          [3400, 3000, 2600],
+        ),
+        image("../../notebooks/eda_outputs/01_correlacion_fuga.png", 600),
+        p("El conjunto de variables también se depura progresivamente a medida que avanza el pipeline (49 columnas crudas → 14 tras excluir IDs y columnas con fuga → 45 con historial propio rezagado → 81 con demografía → 85 con scores del banco → 92 con historial de cuotas/pagos → 76 variables finales, intersección con oot.csv):"),
+        image("../../notebooks/eda_outputs/02_embudo_variables.png", 600),
+
         h("4.3 Variables y tratamiento de calidad de datos", HeadingLevel.HEADING_2),
         bullet("fecha_corte de maestra_cuotas_pagos_mes_hist viene en formato YYYYMMDD (no YYYYMM); se normalizó."),
         bullet("porc_pago traía valores infinitos por división entre cuota=0; se limpiaron y se capó a 1000%."),
@@ -234,7 +258,32 @@ const doc = new Document({
           [5200, 2600],
         ),
 
-        h("4.5 Variables más importantes (top 12, por ganancia)", HeadingLevel.HEADING_2),
+        h("4.5 Selección de modelo: por qué LightGBM y no otra alternativa", HeadingLevel.HEADING_2),
+        p("Para no elegir LightGBM \"por defecto\", notebooks/02_model_comparison.py entrena, sobre el mismo split temporal y el mismo conjunto de 76 variables, tres familias de algoritmos — lineal, bagging y boosting:"),
+        table(
+          ["Modelo", "AUC train", "AUC valid", "Brecha train-valid", "F1 valid"],
+          [
+            ["Regresión Logística", "0.708", "0.685", "0.022", "0.649"],
+            ["Random Forest", "0.730", "0.705", "0.025", "0.660"],
+            ["LightGBM (seleccionado)", "0.782", "0.729", "0.053", "0.671"],
+          ],
+          [2600, 1550, 1550, 1750, 1350],
+        ),
+        image("../../notebooks/model_outputs/roc_comparacion.png", 600),
+        p("Criterio de selección: se prioriza el mayor AUC de validación; la brecha train-valid solo se usa como desempate si dos modelos quedan a menos de 0.005 de AUC entre sí (no es el caso: LightGBM saca 2.4 puntos de AUC sobre Random Forest, una diferencia clara, no ruido). LightGBM gana con margen en AUC y en F1 —la métrica real de evaluación de la prueba— pese a tener la brecha train-valid más alta de los tres, un nivel moderado y ya controlado activamente en el pipeline (feature_fraction/bagging_fraction=0.8, min_data_in_leaf=100, early stopping)."),
+        p("Nota de honestidad metodológica: la comparación favorece estructuralmente a LightGBM en un aspecto real, no accidental — maneja categóricas/nulos de forma nativa, mientras que Regresión Logística y Random Forest necesitaron one-hot + imputación (con ciiu, 446 categorías, agrupado a las 15 más frecuentes por necesidad de esos dos modelos). Esa capacidad nativa es justamente relevante para estos datos, no un artefacto que deba corregirse."),
+
+        h("4.6 Selección final: estabilidad temporal e interpretabilidad", HeadingLevel.HEADING_2),
+        p("Con LightGBM ya seleccionado, se corren dos análisis adicionales sobre ese mismo modelo (dentro del mismo script, para no duplicar lógica de entrenamiento):"),
+        h("4.6.1 Estabilidad temporal (backtesting de ventana expansiva)", HeadingLevel.HEADING_3),
+        p("En vez de confiar en un único mes de validación, para cada mes desde septiembre se entrena solo con los meses anteriores y se mide AUC/F1 en un mes que el modelo nunca vio en ese entrenamiento. Resultado: AUC entre 0.714 y 0.754 en los 4 meses evaluados (media 0.731, desviación estándar 0.017) — el modelo es estable en el tiempo, sin señales de degradación abrupta mes a mes."),
+        image("../../notebooks/model_outputs/estabilidad_temporal.png", 580),
+        h("4.6.2 Interpretabilidad: importancia de variables y SHAP", HeadingLevel.HEADING_3),
+        p("El ranking de importancia por ganancia confirma lo reportado en la sección 4.7: marca_pago_prev, los 3 scores del banco, cuota_prev y porc_pago_mean_3m dominan. El gráfico SHAP añade la DIRECCIÓN del efecto por observación: por ejemplo, mayor prev_dias_mora_fin (más mora el mes anterior) empuja la probabilidad de aceptación hacia arriba, consistente con que un cliente con mora reciente esté más dispuesto a aceptar una opción de pago."),
+        image("../../notebooks/model_outputs/feature_importance.png", 520),
+        image("../../notebooks/model_outputs/shap_summary.png", 480),
+
+        h("4.7 Variables más importantes (top 12, por ganancia)", HeadingLevel.HEADING_2),
         table(
           ["Variable", "Descripción breve"],
           [
@@ -254,15 +303,23 @@ const doc = new Document({
           [3000, 5800],
         ),
 
-        h("4.6 Cumplimiento de criterios de MLOps", HeadingLevel.HEADING_2),
+        h("4.8 Validación de la muestra OOT entregada (resultado_prueba.csv)", HeadingLevel.HEADING_2),
+        p("resultado_prueba.csv NO es una simulación: son las 112.549 obligaciones reales (enmascaradas) de oot.csv (enero-2024) puntuadas por el modelo final — distinto del set de validación interno (dic-2023, con respuesta conocida) usado para medir AUC/F1. notebooks/03_analisis_oot_puntuada.py valida que esta entrega no tenga un comportamiento raro, en tres frentes:"),
+        bullet("Reproducibilidad: recalcula la predicción desde el modelo guardado (results/model_lgbm.txt) y confirma que coincide con resultado_prueba.csv con una diferencia máxima de 1.11e-16 — el mismo número, salvo redondeo de punto flotante."),
+        bullet("PSI (Population Stability Index) entre el score de diciembre-2023 (validación) y el de enero-2024 (la OOT entregada): 0.013, muy por debajo del umbral de 0.1 — sin cambio poblacional relevante de un mes a otro. Las dos distribuciones se superponen casi por completo:"),
+        image("../../notebooks/oot_outputs/distribucion_oot_vs_valid.png", 580),
+        bullet("SHAP sobre la OOT: el ranking de variables más influyentes en enero-2024 coincide en 8 de las 10 principales con el ranking visto en validación, y con la misma dirección de efecto — la explicación del modelo es coherente entre el mundo donde se validó y el mundo donde se aplica de verdad."),
+        image("../../notebooks/oot_outputs/shap_oot.png", 460),
+
+        h("4.9 Cumplimiento de criterios de MLOps", HeadingLevel.HEADING_2),
         table(
           ["Etapa MLOps", "Implementación propuesta"],
           [
             ["Preparación de datos", "Feature store con lógica punto-en-el-tiempo (paridad train/serve); validación de calidad con Great Expectations/pandera."],
             ["Entrenamiento", "LightGBM + validación temporal; tracking de experimentos con MLflow; registro con etapas Staging/Production."],
             ["Inferencia", "Batch mensual (alimenta la priorización por lotes) + endpoint on-demand (consultado por el sistema agéntico), ambos reutilizando el mismo pipeline de features."],
-            ["Productización", "Contenedor Docker versionado por commit; contrato de datos explícito; pruebas de contrato en CI."],
-            ["Despliegue continuo", "CI (lint + pruebas + smoke retrain) y CD con evaluación shadow contra el modelo en producción antes de promover; despliegue canario."],
+            ["Productización", "Dockerfile + docker/requirements.txt IMPLEMENTADOS (empaquetan src/data_prep.py + src/train.py, datos/modelo montados como volumen, no horneados en la imagen); contrato de datos explícito y pruebas de contrato: propuestos."],
+            ["Despliegue continuo", "CI IMPLEMENTADO (.github/workflows/ci.yml): corre las 42 pruebas y valida el build de la imagen Docker en cada push/PR a main; CD con evaluación shadow y despliegue canario antes de promover: propuesto."],
             ["Monitoreo", "Deriva de datos (PSI/KS), deriva de desempeño (F1/AUC real vs. esperado), calidad de servicio (latencia, cobertura de features), dashboards y alertas."],
           ],
           [2400, 6400],
@@ -304,6 +361,7 @@ const doc = new Document({
         bullet("Si el cliente ya aceptó una opción de pago vigente, no se ofrece ninguna alternativa nueva ni acuerdo de pago."),
         bullet("Acuerdo de pago (compromiso a máximo 5 días) solo en gestión temprana (mora ≤ 90 días) y sin restricciones activas."),
         bullet("Cualquier restricción dura (jurídico, fraude, etc.) bloquea toda oferta y escala siempre a un gestor humano."),
+        bullet("Incumplimiento reciente (≤ 90 días) de un acuerdo/opción de pago, detectado en el historial de gestión de la propia obligación: bloquea toda oferta nueva y escala, sin depender de que el cliente lo admita (ver sección 5.6.1)."),
 
         h("5.4 Integración con el modelo analítico (Parte 1)", HeadingLevel.HEADING_2),
         p("El score de propensión entra al Agente de Contexto como un campo más, obtenido del endpoint de inferencia. El NBA lo usa para: decidir si vale la pena contactar proactivamente, priorizar entre varias alternativas elegibles, y —junto con la probabilidad de auto-cura— diferir gestión intensa en mora muy temprana con alta probabilidad de autocorrección. El sistema es robusto a que este score no esté disponible: las reglas de negocio siguen operando de forma determinística (validado en pruebas de robustez, sección 6.1)."),
@@ -312,7 +370,17 @@ const doc = new Document({
         bullet("Todos los identificadores llegan enmascarados; el prototipo usa únicamente perfiles ficticios."),
         bullet("Barrera de salida: valida que la respuesta generada nunca mencione una alternativa no autorizada, sin importar qué la generó."),
         bullet("Cada sesión tiene un session_id; cada decisión de cada agente queda registrada con timestamp y motivo (explicabilidad no post-hoc)."),
-        bullet("Restricciones duras, señales sensibles, manipulación, información contradictoria e incumplimiento admitido de un acuerdo previo, escalan siempre a un gestor humano."),
+        bullet("Restricciones duras, señales sensibles, manipulación, información contradictoria e incumplimiento reciente de un acuerdo previo escalan siempre a un gestor humano. El incumplimiento se detecta en dos capas: proactivamente sobre el historial estructurado, y como red de seguridad si el cliente lo admite en la conversación y el historial aún no lo refleja (rezago de datos)."),
+
+        h("5.6 ¿Por qué la priorización del NBA es una regla y no un modelo?", HeadingLevel.HEADING_2),
+        p("Una siguiente-mejor-acción \"aprendida\" —un modelo que, dado el perfil del cliente, prediga cuál de las alternativas elegibles tiene mayor probabilidad de ser aceptada, en vez de un orden fijo por severidad de mora— es el enfoque más sofisticado y el que se investigó explícitamente para esta prueba, no una idea descartada sin mirar."),
+        h("5.6.1 Lo que sí hay en los datos", HeadingLevel.HEADING_3),
+        p("trtest.csv sí trae, por obligación-mes, hasta 3 alternativas candidatas (desc_alternativa1/2/3) y cuántas había disponibles (cant_alter_posibles) — exactamente el insumo que un modelo de este tipo necesitaría."),
+        h("5.6.2 Por qué no se implementó aquí (verificado, no supuesto)", HeadingLevel.HEADING_3),
+        p("Se verificó si esas columnas están en oot.csv, la base que la prueba pide calificar: ninguna lo está (ni desc_alternativa1/2/3, ni cant_alter_posibles, ni las demás marcas de alternativa aplicada). Es la misma limitación ya documentada para producto/banca en la sección 4.9 — un modelo así se podría entrenar con trtest, pero no habría cómo aplicarlo ni validarlo sobre la muestra que esta prueba puntual exige entregar."),
+        h("5.6.3 La dificultad adicional si se hiciera en producción", HeadingLevel.HEADING_3),
+        p("Incluso con esos datos disponibles, no se puede modelar ingenuamente \"probabilidad de aceptar | se le ofreció la alternativa X\" con el histórico tal cual: la alternativa ofrecida en el pasado no fue asignada al azar, sino por una regla o un asesor ya sesgada hacia el perfil del cliente. Habría que usar una técnica de tipo uplift/causal (efecto incremental de cada alternativa sobre la probabilidad de aceptación), no un clasificador directo, para no confundir \"esta alternativa funciona mejor\" con \"esta alternativa se le dio a los clientes que de todas formas iban a aceptar\"."),
+        p([new TextRun({ text: "Conclusión: ", bold: true, font: FONT, size: 22 }), new TextRun({ text: "queda como la oportunidad de mejora de mayor impacto potencial para producción (sección 6.5), condicionada a que el motor de preaprobación exponga las alternativas candidatas al momento del scoring — hoy ausentes de la base de calificación de esta prueba.", font: FONT, size: 22 })]),
 
         new Paragraph({ children: [new PageBreak()] }),
       ],
@@ -324,21 +392,25 @@ const doc = new Document({
       children: [
         h("6. Anexo C — Pruebas y Validación del Sistema Agéntico", HeadingLevel.HEADING_1),
 
-        h("6.1 Pruebas automatizadas (pytest)", HeadingLevel.HEADING_2),
-        p("26 pruebas, 100% pasan, organizadas en 4 capas:"),
+        p([new TextRun({ text: "Por qué se prueba distinto que el modelo de la Parte 1: ", bold: true, font: FONT, size: 22 }), new TextRun({ text: "el modelo predice, así que se evalúa con métricas de error y se acepta una tasa de falla. El sistema agéntico codifica políticas que el banco ya decidió: no predice nada, así que el criterio correcto es cero incidentes de cumplimiento, no una tasa de error. Por eso se exige 100% en reglas de negocio y seguridad, y por eso conviene probar varias capas juntas, no solo cada una por separado (ver sección 6.3).", font: FONT, size: 22 })]),
+
+        h("6.1 Pruebas automatizadas (pytest) y cobertura de código", HeadingLevel.HEADING_2),
+        p("42 pruebas, 100% pasan, organizadas en 6 capas. Cobertura de código (pytest --cov=agentic): 100% en los 6 módulos de decisión/seguridad (reglas de negocio, NBA, guardrails, orquestador, modelos, trazabilidad), 99% en el agente conversacional (la única línea sin cubrir es un respaldo defensivo inalcanzable con las 5 acciones actuales)."),
         table(
           ["Capa", "# pruebas", "Qué garantizan"],
           [
-            ["Reglas de negocio", "6", "Máx. 3 opciones/mes, cooldown respetado y liberado a tiempo, bloqueo si ya hay opción vigente, restricción dura siempre escala."],
-            ["NBA", "4", "Priorización correcta según mora, diferimiento por auto-cura, robustez ante caída del servicio de scoring."],
-            ["Guardrails (seguridad)", "5", "Detección de manipulación, señales sensibles, información contradictoria; cero falsos positivos en mensaje neutro."],
-            ["Integración end-to-end", "4", "Cliente no elegible nunca recibe oferta; restricción jurídica escala sin ofrecer; manipulación detiene el flujo; regresión de reasignación de alternativa."],
+            ["Reglas de negocio", "8", "Máx. 3 opciones/mes, cooldown respetado y liberado a tiempo, bloqueo si ya hay opción vigente, restricción dura siempre escala, incumplimiento reciente bloquea y escala (y se libera pasada la ventana)."],
+            ["NBA", "5", "Priorización correcta según mora, diferimiento por auto-cura, robustez ante caída del servicio de scoring, rama de acuerdo de pago."],
+            ["Guardrails (seguridad)", "9", "Detección de manipulación, señales sensibles, información contradictoria; cero falsos positivos; bloqueo de identificadores internos filtrados por error."],
+            ["NLU (clasificación de intención aislada)", "5", "Cada patrón léxico clasifica el mensaje en la intención correcta."],
+            ["Agente conversacional (respuesta end-to-end)", "8", "La RESPUESTA generada es la correcta, no solo la etiqueta; interacción entre guardrails y NLU cuando ambos podrían aplicar."],
+            ["Integración end-to-end (orquestador)", "7", "Cliente no elegible nunca recibe oferta; restricción jurídica escala sin ofrecer; manipulación detiene el flujo; regresión de reasignación de alternativa; incumplimiento (proactivo y por admisión del cliente) escala en ambas rutas."],
           ],
-          [2400, 1200, 5200],
+          [2600, 1000, 5200],
         ),
 
-        h("6.2 Escenarios funcionales simulados (13)", HeadingLevel.HEADING_2),
-        p("Cubren explícitamente los 7 casos pedidos en el enunciado más 2 de robustez/seguridad. Perfiles y conversaciones 100% ficticios."),
+        h("6.2 Escenarios funcionales simulados (14)", HeadingLevel.HEADING_2),
+        p("Cubren explícitamente los 7 casos pedidos en el enunciado más 3 de robustez/seguridad. Perfiles y conversaciones 100% ficticios. 7 de 14 (50%) terminan en escalamiento — por diseño, para estresar cada gatillo, no como muestra representativa de producción."),
         table(
           ["#", "Escenario", "Resultado"],
           [
@@ -347,9 +419,10 @@ const doc = new Document({
             ["3", "No elegible / cooldown activo", "Sin ofertas (monitoreo)"],
             ["4a", "Rechaza la propuesta", "Registra rechazo, no insiste"],
             ["4b", "Pide otra alternativa", "Ofrece la siguiente elegible y registra la correcta al aceptar"],
-            ["4c", "Incumple acuerdo previo", "Escala a gestor humano"],
+            ["4c", "Incumplimiento ya en el historial de gestión", "Escala de forma PROACTIVA, cero contacto"],
+            ["4d", "Incumplimiento admitido solo por el cliente (historial aún no actualizado)", "Escala igual, como red de seguridad conversacional"],
             ["5a", "Contacto reactivo: consulta de saldo", "Responde directamente"],
-            ["5b", "Contacto reactivo: dificultad financiera", "Escala por señal sensible"],
+            ["5b", "Contacto reactivo: dificultad financiera (pérdida de empleo)", "Escala por señal sensible, antes del NLU"],
             ["6", "Información contradictoria", "Escala para verificación humana"],
             ["7a", "Solicitud sensible (riesgo personal)", "Escala de inmediato"],
             ["7b", "Intento de manipulación", "Bloquea y escala"],
@@ -359,7 +432,14 @@ const doc = new Document({
           [700, 4200, 3900],
         ),
 
-        h("6.3 Métricas y umbrales de aceptación propuestos para producción", HeadingLevel.HEADING_2),
+        h("6.3 Hallazgos de esta revisión: 3 bugs reales encontrados y corregidos", HeadingLevel.HEADING_2),
+        p("Ampliar las pruebas para cubrir el agente conversacional de punta a punta —no solo su clasificador de intención aislado— sacó a la luz tres problemas reales que ninguna prueba anterior cubría. Se documentan de forma transparente porque son la evidencia más concreta de que la batería de pruebas agrega valor real:"),
+        bullet("Bug de correctitud (el más serio): \"no me sirve\" (un rechazo) se clasificaba como ACEPTA, porque \"me sirve\" es subcadena y su patrón se evaluaba primero — el agente habría registrado que el cliente aceptó algo que en realidad rechazó. Corregido con un lookbehind negativo."),
+        bullet("Chequeo de seguridad sin efecto: la validación de la respuesta final recorría los identificadores internos en mayúsculas pero nunca usaba el resultado — no bloqueaba nada. Corregido: ahora si un mensaje filtra por error un código interno, se bloquea su envío."),
+        bullet("Regla de negocio incompleta: existía una función para detectar incumplimiento reciente que nunca se conectó — el sistema solo escalaba si el cliente lo admitía. Ahora se revisa proactivamente contra el historial de gestión (escenario 4c), dejando la detección conversacional como red de seguridad (escenario 4d)."),
+        p("Ninguno de los tres era visible probando cada capa por separado; los tres solo se manifiestan al combinar señales de punta a punta — la razón por la que la sección 6.1 ahora incluye una capa completa de pruebas del agente conversacional, no solo de clasificación de intención."),
+
+        h("6.4 Métricas y umbrales de aceptación propuestos para producción", HeadingLevel.HEADING_2),
         table(
           ["Métrica", "Umbral propuesto"],
           [
@@ -372,10 +452,11 @@ const doc = new Document({
           [4200, 4600],
         ),
 
-        h("6.4 Oportunidades de mejora identificadas", HeadingLevel.HEADING_2),
+        h("6.5 Oportunidades de mejora identificadas", HeadingLevel.HEADING_2),
         bullet("Reemplazar el NLU basado en reglas léxicas por un LLM con salida estructurada, manteniendo las reglas de negocio como red de seguridad, no como reemplazo."),
-        bullet("Aprender la priorización entre alternativas elegibles de datos históricos de aceptación por segmento, en vez del orden fijo actual por severidad de mora."),
+        bullet("Aprender la priorización entre alternativas elegibles con un modelo de tipo uplift, en vez del orden fijo actual por severidad de mora — investigado en la sección 5.6: requiere que el motor de preaprobación exponga las alternativas candidatas al momento del scoring, hoy ausentes de oot.csv."),
         bullet("Incorporar pruebas de carga/concurrencia, fuera del alcance de este prototipo."),
+        bullet("Mantener la práctica de correr la suite completa de integración (no solo pruebas unitarias por capa) cada vez que se agregue o cambie un patrón léxico — es la única forma en que los hallazgos de la sección 6.3 se detectan antes de producción."),
 
         new Paragraph({ children: [new PageBreak()] }),
       ],
@@ -410,7 +491,7 @@ const doc = new Document({
         p("El repositorio Git entregado contiene:"),
         bullet("src/ — pipeline de datos (data_prep.py) y entrenamiento/inferencia (train.py) de la Parte 1."),
         bullet("agentic/ — modelos, reglas de negocio, NBA, guardrails, conversacional, orquestador y escenarios simulados de la Parte 2."),
-        bullet("tests/ — 26 pruebas automatizadas (pytest)."),
+        bullet("tests/ — 42 pruebas automatizadas (pytest), con cobertura de código."),
         bullet("docs/ — este documento y sus fuentes en Markdown (documento_tecnico.md, eda_notas.md, mlops_parte1.md, arquitectura_agentica.md, pruebas_agentico.md, arquitectura_produccion.md, presentacion_ejecutiva.md)."),
         bullet("results/ — resultado_prueba.csv, métricas, importancia de variables y trazas de las sesiones agénticas."),
         p("Instrucciones de reproducción completas en README.md del repositorio."),

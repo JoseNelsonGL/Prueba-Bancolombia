@@ -64,37 +64,74 @@ plt.close()
 
 # ---------------------------------------------------------------------------
 # Diagrama 2: arquitectura del sistema agéntico (Parte 2)
+# Deliberadamente NO es un flujo de cajitas genérico: se dibuja por CAPAS
+# (núcleo determinístico vs. capa conversacional vs. seguridad vs.
+# trazabilidad) para que la separación que defiende el documento --
+# "qué se ofrece" nunca delegado a lenguaje natural -- se vea, no solo se
+# lea.
 # ---------------------------------------------------------------------------
-fig, ax = plt.subplots(figsize=(11, 6))
+COLOR_CORE = "#1F3B57"       # núcleo determinístico (mismo tono que Parte 1, pero...
+COLOR_CORE_BG = "#DCE6EF"    # ...con una zona propia detrás, para diferenciarlo
+COLOR_CONVO = "#2E86AB"      # capa conversacional (reemplazable por LLM)
+COLOR_SECURITY = "#B9770E"   # guardrails: color de "atención", no de flujo normal
+COLOR_ESCALA = "#B03A2E"
+COLOR_TRAZA = "#5D6D7E"
+
+fig, ax = plt.subplots(figsize=(11, 6.6))
 ax.set_xlim(0, 11)
-ax.set_ylim(0, 6)
+ax.set_ylim(0, 6.6)
 ax.axis("off")
 
-box(ax, 0.3, 4.6, 2.2, 1.0, "Cliente\n(proactivo / reactivo)")
-box(ax, 3.0, 4.6, 2.3, 1.0, "Agente de\nContexto")
-box(ax, 5.7, 4.6, 2.5, 1.0, "Modelo Parte 1\n(score de propensión)", color=COLOR_BOX_ALT)
+ax.text(5.5, 6.3, "Parte 2 — Sistema agéntico: separación por capas, no un flujo genérico",
+        ha="center", fontsize=12.5, fontweight="bold", color=COLOR_BOX)
 
-box(ax, 3.0, 3.1, 2.3, 1.0, "Reglas de negocio\n(elegibilidad,\ndeterminístico)")
-box(ax, 5.7, 3.1, 2.5, 1.0, "Siguiente Mejor\nAcción (NBA)")
+# --- Capa 0: entrada ---
+box(ax, 0.3, 5.1, 2.1, 0.75, "Cliente\n(proactivo / reactivo)", color=COLOR_TRAZA, fontsize=9)
+box(ax, 0.3, 4.15, 2.1, 0.75, "Modelo Parte 1\n(score de propensión)", color=COLOR_TRAZA, fontsize=9)
+arrow(ax, 2.4, 5.475, 2.9, 5.0)
+arrow(ax, 2.4, 4.525, 2.9, 4.75)
 
-box(ax, 3.0, 1.6, 2.3, 1.0, "Agente\nConversacional")
-box(ax, 5.7, 1.6, 2.5, 1.0, "Guardrails\n(seguridad)")
+# --- Zona 1: NÚCLEO DETERMINÍSTICO (reglas + NBA), con fondo propio ---
+core_bg = FancyBboxPatch((2.9, 3.65), 3.5, 2.3, boxstyle="round,pad=0.03,rounding_size=0.12",
+                          linewidth=1.6, edgecolor=COLOR_CORE, facecolor=COLOR_CORE_BG)
+ax.add_patch(core_bg)
+ax.text(4.65, 5.72, "NÚCLEO DETERMINÍSTICO — nunca delegado a lenguaje natural",
+        ha="center", fontsize=8.3, fontweight="bold", color=COLOR_CORE, style="italic")
+box(ax, 3.1, 4.7, 3.1, 0.75, "Elegibilidad (reglas de negocio)\nqué se PUEDE ofrecer", color=COLOR_CORE, fontsize=8.7)
+box(ax, 3.1, 3.8, 3.1, 0.75, "Siguiente Mejor Acción (NBA)\ncuál priorizar", color=COLOR_CORE, fontsize=8.7)
+arrow(ax, 4.65, 4.7, 4.65, 4.55)
 
-box(ax, 8.6, 3.1, 2.1, 1.0, "Escalamiento\na gestor humano", color="#B03A2E")
-box(ax, 8.6, 1.6, 2.1, 1.0, "Trazabilidad\n(logs JSON)", color=COLOR_BOX_ALT)
+# --- Zona 2: CAPA CONVERSACIONAL (reemplazable por LLM) ---
+convo_bg = FancyBboxPatch((6.75, 4.15), 2.4, 1.75, boxstyle="round,pad=0.03,rounding_size=0.12",
+                           linewidth=1.6, edgecolor=COLOR_CONVO, facecolor="#DDEEF6")
+ax.add_patch(convo_bg)
+ax.text(7.95, 5.72, "CAPA CONVERSACIONAL\n(punto de extensión → LLM real)",
+        ha="center", fontsize=8.3, fontweight="bold", color=COLOR_CONVO, style="italic")
+box(ax, 6.9, 4.35, 2.1, 1.15, "Agente Conversacional\n(redacta, interpreta\nintención)", color=COLOR_CONVO, fontsize=8.7)
+arrow(ax, 6.2, 4.4, 6.9, 4.85)
 
-arrow(ax, 2.5, 5.1, 3.0, 5.1)
-arrow(ax, 4.15, 4.6, 4.15, 4.1)
-arrow(ax, 5.3, 3.6, 5.7, 3.6)
-arrow(ax, 6.95, 4.6, 6.95, 4.1)
-arrow(ax, 4.15, 3.1, 4.15, 2.6)
-arrow(ax, 5.3, 2.1, 5.7, 2.1)
-arrow(ax, 6.95, 3.1, 6.95, 2.6)
-arrow(ax, 8.2, 3.6, 8.6, 3.6)
-arrow(ax, 8.2, 2.1, 8.6, 2.1)
+# --- Zona 3: SEGURIDAD (banda horizontal que envuelve la interacción) ---
+sec_bg = FancyBboxPatch((2.9, 2.55), 6.25, 0.85, boxstyle="round,pad=0.02,rounding_size=0.08",
+                         linewidth=1.4, edgecolor=COLOR_SECURITY, facecolor="#FBEEDC", linestyle="--")
+ax.add_patch(sec_bg)
+ax.text(6.02, 2.975, "GUARDRAILS — defensa en profundidad: manipulación, señales sensibles, info. contradictoria,\nvalida que NINGUNA respuesta mencione una alternativa no autorizada",
+        ha="center", va="center", fontsize=7.6, fontweight="bold", color="#7E4E10")
+arrow(ax, 4.65, 3.8, 4.65, 3.4)
+arrow(ax, 7.95, 4.15, 6.5, 3.4)
 
-ax.text(5.5, 5.75, "Parte 2 — Orquestador del sistema agéntico (patrón supervisor lineal)",
-        ha="center", fontsize=12, fontweight="bold", color=COLOR_BOX)
+# --- Escalamiento ---
+box(ax, 8.65, 2.6, 2.05, 0.85, "Escalamiento a\ngestor humano\n(con contexto completo)", color=COLOR_ESCALA, fontsize=8.3)
+arrow(ax, 9.15, 2.55, 9.15, 2.05)
+arrow(ax, 9.7, 2.55, 9.7, 2.05)
+
+# --- Trazabilidad: banda inferior que subyace a TODO el flujo ---
+traza_bg = FancyBboxPatch((0.3, 0.35), 10.4, 0.85, boxstyle="round,pad=0.02,rounding_size=0.06",
+                           linewidth=1.2, edgecolor=COLOR_TRAZA, facecolor="#EAECEE", linestyle=":")
+ax.add_patch(traza_bg)
+ax.text(5.5, 0.775, "TRAZABILIDAD — cada decisión de cada agente, con session_id, timestamp y motivo (capa transversal, no un paso más del flujo)",
+        ha="center", va="center", fontsize=8.2, fontweight="bold", color="#34495E")
+for x in (1.5, 4.65, 7.95, 9.7):
+    arrow(ax, x, 2.55 if x != 9.7 else 2.55, x, 1.2)
 
 plt.tight_layout()
 plt.savefig(os.path.join(OUT, "diagrama_arquitectura_parte2.png"), dpi=170, facecolor="white")
