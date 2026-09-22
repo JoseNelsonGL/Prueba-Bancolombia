@@ -13,11 +13,12 @@ objetivo: anticipar un mes antes la probabilidad de aceptación para
 priorizar mejor la gestión, y automatizar el ofrecimiento respetando reglas
 de negocio.
 
-**2. Parte 1 — Metodología y hallazgo clave (3 min)**
+**2. Parte 1 — Metodología y decisión clave sobre variables (3 min)**
 - 4 tablas, ~570K obligaciones-mes, target balanceado.
-- Hallazgo central: fuga de información en la mayoría de columnas de
-  trtest (describen el resultado del mismo mes) → se rediseñó el pipeline
-  a variables estrictamente "conocidas antes" del mes a predecir.
+- La mayoría de columnas de trtest no están en oot y muestran correlación
+  contemporánea muy alta con el target (describen el resultado del mismo
+  mes) → se rediseñó el pipeline a variables estrictamente "conocidas
+  antes" del mes a predecir.
 - Validación temporal (no aleatoria), umbral optimizado a F1.
 - Resultado: **AUC 0.729, F1 0.671**, integrando historial de pagos,
   demografía y scores actuales del banco.

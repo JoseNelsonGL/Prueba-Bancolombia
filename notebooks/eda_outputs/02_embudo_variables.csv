@@ -1,6 +1,6 @@
 etapa,n_columnas
 0. trtest.csv crudo,49
-1. tras excluir IDs y columnas contemporáneas con fuga,14
+1. tras excluir IDs y columnas contemporáneas no disponibles en oot,14
 2. + historial propio rezagado (prev_*),45
 3. + snapshot demográfico (master_customer_data),81
 4. + scores del banco (probabilidad_oblig_hist),85

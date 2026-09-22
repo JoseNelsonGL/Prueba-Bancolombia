@@ -43,7 +43,7 @@ python3 -m pytest tests/ --cov=agentic --cov-report=term-missing  # cobertura (v
 ## Documentos (Parte 1 y 2)
 
 - `docs/documento_tecnico.md` — documento técnico principal (≤4.000 caracteres), incluye declaración de uso de IA.
-- `docs/eda_notas.md` — EDA, hallazgo de fuga de información (con evidencia de correlación), comparación de modelos y decisiones de features.
+- `docs/eda_notas.md` — EDA, variables excluidas por disponibilidad en oot y consistencia temporal (con evidencia de correlación), comparación de modelos y decisiones de features.
 - `docs/Documento_Metodologico_Prueba_Bancolombia.docx` — versión formal en Word del documento técnico + anexos detallados.
 - `docs/mlops_parte1.md` — cómo el modelo cumple cada criterio de MLOps.
 - `docs/arquitectura_agentica.md` — agentes, responsabilidades, orquestación, integración con la Parte 1.

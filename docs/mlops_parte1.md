@@ -13,8 +13,9 @@ open-source ampliamente adoptadas en la industria.
 - **Pipeline de features versionado**: `src/data_prep.py` es la
   implementación de referencia — construye, para cada obligación-mes, un
   corte estrictamente "as-of" (solo información de t-1 hacia atrás),
-  evitando la fuga de información identificada en el EDA (ver
-  `docs/eda_notas.md`). En producción este código se registra en un
+  evitando el uso de variables no disponibles al momento real de la
+  decisión (ver análisis en `docs/eda_notas.md`). En producción este
+  código se registra en un
   **feature store** (Feast, o tablas Delta con función de punto-en-el-tiempo)
   para garantizar que entrenamiento e inferencia usan EXACTAMENTE la misma
   lógica de construcción de variables (paridad train/serve).

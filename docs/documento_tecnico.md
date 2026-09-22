@@ -2,7 +2,7 @@
 
 ## Parte 1 — Modelo de propensión
 
-**Proceso:** se recibieron 4 tablas (trtest, master_customer_data, probabilidad_oblig_hist, maestra_cuotas_pagos_mes_hist) y oot.csv (enero-2024, solo IDs). El EDA reveló el hallazgo central: la mayoría de columnas de trtest (gestiones, pagos, alternativa aplicada, mora fin de mes) describen el resultado del mismo mes a predecir → fuga de información si se usan tal cual. Se rediseñó el pipeline para usar solo información de t-1 hacia atrás (lags propios de la obligación, snapshot demográfico más reciente ≤ corte, scores históricos del banco), replicando el escenario real de pronosticar un mes antes.
+**Proceso:** se recibieron 4 tablas (trtest, master_customer_data, probabilidad_oblig_hist, maestra_cuotas_pagos_mes_hist) y oot.csv (enero-2024, solo IDs). El EDA mostró que la mayoría de columnas de trtest (gestiones, pagos, alternativa aplicada, mora fin de mes) no están en oot y muestran correlación contemporánea muy alta con el target, por describir el mismo mes a predecir. Se rediseñó el pipeline para usar solo información de t-1 hacia atrás (lags propios de la obligación, snapshot demográfico más reciente ≤ corte, scores históricos del banco), replicando el escenario real de pronosticar un mes antes.
 
 **Decisiones clave:** LightGBM (categóricas/nulos nativos); validación temporal (train ago-nov 2023, valid dic-2023, no aleatoria); umbral optimizado para F1. Resultado con las 4 tablas integradas: AUC=0.729, F1=0.671 en validación (el historial de pagos fue la incorporación de mayor impacto).
 
@@ -22,8 +22,8 @@
 
 **Riesgos:** el NLU por reglas es frágil ante lenguaje real no anticipado; la priorización entre alternativas usa un orden fijo por severidad de mora (supuesto a validar), no aprendido de datos históricos de aceptación.
 
-**Conclusión general:** ambos componentes son viables como prototipo demostrable dentro del alcance y tiempo de la prueba. El mayor riesgo de negocio no es el desempeño puntual del modelo sino la fuga de información si no se audita qué variables están realmente disponibles al momento de decidir — hallazgo válido tanto para la Parte 1 como para su integración con la Parte 2.
+**Conclusión general:** ambos componentes son viables como prototipo demostrable dentro del alcance y tiempo de la prueba. El mayor riesgo de negocio no es el desempeño puntual del modelo sino auditar qué variables están disponibles al decidir — un punto válido tanto para la Parte 1 como para su integración con la Parte 2.
 
 ## Declaración de uso de IA generativa
 
-Se usó Claude (Anthropic) como asistente de desarrollo de extremo a extremo: análisis exploratorio, identificación del riesgo de fuga de información, diseño del pipeline de features, entrenamiento del modelo, diseño de la arquitectura agéntica, e implementación de reglas/agentes/pruebas/documentación. El candidato dirigió el alcance, las decisiones de negocio (cooldowns, prioridades, qué construir dado el tiempo disponible) y revisó los resultados y supuestos antes de la entrega.
+Se usó Claude (Anthropic) como asistente de desarrollo de extremo a extremo: análisis exploratorio, identificación de variables no disponibles en oot y con señal contemporánea alta, diseño del pipeline de features, entrenamiento del modelo, diseño de la arquitectura agéntica, e implementación de reglas/agentes/pruebas/documentación. El candidato dirigió el alcance, las decisiones de negocio (cooldowns, prioridades, qué construir dado el tiempo disponible) y revisó los resultados y supuestos antes de la entrega.

@@ -6,15 +6,17 @@ sustenta los hallazgos de `docs/eda_notas.md`. Concretamente:
 
   1. Qué variables trae cada una de las 5 tablas crudas (para que cualquiera
      pueda ver el punto de partida sin abrir los CSV).
-  2. Evidencia EMPÍRICA de la fuga de información: se mide la correlación de
-     columnas "sospechosas" de trtest.csv con el target (var_rpta_alt) en su
-     versión CONTEMPORÁNEA (tal como vienen, mismo mes) vs. su versión
-     REZAGADA a t-1 (la que realmente entra al modelo). La caída de
-     correlación es la prueba de que esas columnas describen el resultado,
-     no un predictor legítimo.
+  2. Evidencia empírica de por qué algunas columnas de trtest.csv no se usan
+     en su versión del mismo mes: no están disponibles en oot.csv y,
+     además, su correlación con el target (var_rpta_alt) es mucho más alta
+     en versión CONTEMPORÁNEA (tal como vienen, mismo mes) que en su
+     versión REZAGADA a t-1 (la que realmente entra al modelo). La caída de
+     correlación es consistente con que esas columnas describen el
+     resultado, no con que sean un predictor legítimo.
   3. Cómo se va depurando/enriqueciendo el conjunto de variables a medida
-     que avanza el pipeline (columnas descartadas por fuga, columnas
-     agregadas por cada cruce), ejecutando las MISMAS funciones de
+     que avanza el pipeline (columnas descartadas por disponibilidad/
+     consistencia temporal, columnas agregadas por cada cruce), ejecutando
+     las MISMAS funciones de
      `src/data_prep.py` paso a paso (no una narración aparte: si el pipeline
      cambia, este script refleja el cambio real).
   4. Calidad de datos: nulos del panel demográfico y valores inválidos de
@@ -83,7 +85,7 @@ def resumen_tablas() -> None:
 
 
 # ---------------------------------------------------------------------------
-# 2. Evidencia de fuga: correlación contemporánea vs. t-1
+# 2. Evidencia de disponibilidad/consistencia temporal: correlación contemporánea vs. t-1
 # ---------------------------------------------------------------------------
 def _corr_con_target(serie: pd.Series, target: pd.Series) -> float:
     s = serie
@@ -97,7 +99,7 @@ def _corr_con_target(serie: pd.Series, target: pd.Series) -> float:
 
 def correlacion_fuga(tr_full: pd.DataFrame, tr_lag: pd.DataFrame) -> None:
     print("\n" + "=" * 70)
-    print("2. EVIDENCIA DE FUGA: CORRELACIÓN CON EL TARGET (contemporánea vs t-1)")
+    print("2. VARIABLES NO DISPONIBLES EN OOT: CORRELACIÓN CON EL TARGET (contemporánea vs t-1)")
     print("=" * 70)
     candidatas = [
         "marca_pago", "porc_pago_mes", "marca_alternativa", "cant_acuerdo",
@@ -122,7 +124,7 @@ def correlacion_fuga(tr_full: pd.DataFrame, tr_lag: pd.DataFrame) -> None:
 
     fig, ax = plt.subplots(figsize=(9, 6))
     y = np.arange(len(df))
-    ax.barh(y - 0.2, df["corr_contemporanea"].abs(), height=0.4, color=COLOR_LEAK, label="Contemporánea (mismo mes) — FUGA")
+    ax.barh(y - 0.2, df["corr_contemporanea"].abs(), height=0.4, color=COLOR_LEAK, label="Contemporánea (mismo mes) — no disponible en oot")
     ax.barh(y + 0.2, df["corr_t_menos_1"].abs(), height=0.4, color=COLOR_OK, label="Rezagada a t-1 — usada en el modelo")
     ax.set_yticks(y)
     ax.set_yticklabels(df["variable"])
@@ -151,7 +153,7 @@ def embudo_variables(tr_full: pd.DataFrame) -> pd.DataFrame:
                "fecha_var_rpta_alt", TARGET_COL}
     leaky_a_descartar = [c for c in LEAKY_OUTCOME_COLS if c in raw_cols and c not in SAFE_CONTEMPORANEOUS_COLS]
     seguras = [c for c in raw_cols if c not in id_like and c not in leaky_a_descartar]
-    etapas.append(("1. tras excluir IDs y columnas contemporáneas con fuga", len(seguras)))
+    etapas.append(("1. tras excluir IDs y columnas contemporáneas no disponibles en oot", len(seguras)))
 
     tr_lag = build_own_history_lags(tr_full, history_source=tr_full)
     nuevas = [c for c in tr_lag.columns if c not in tr_full.columns]

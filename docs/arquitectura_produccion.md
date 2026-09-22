@@ -35,8 +35,8 @@ independiente de proveedor cloud.
 1. **Ingesta y features** (diaria/mensual según fuente): las 4 familias de
    datos (comportamiento de la obligación, demografía, scores actuales del
    banco, historial de pagos) se actualizan en el feature store con lógica
-   de punto-en-el-tiempo idéntica a la de entrenamiento (evita el riesgo de
-   fuga documentado en el EDA).
+   de punto-en-el-tiempo idéntica a la de entrenamiento (evita usar
+   variables no disponibles al momento de la decisión, ver `docs/eda_notas.md`).
 2. **Entrenamiento/reentrenamiento** (mensual o disparado por deriva):
    pipeline reproducible, versionado, con aprobación de promoción vía
    comparación contra el modelo vigente (ver `docs/mlops_parte1.md`).

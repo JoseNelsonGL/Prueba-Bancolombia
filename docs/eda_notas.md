@@ -30,16 +30,19 @@ leer como texto:
 - `maestra_cuotas_pagos_mes_hist.csv`: panel mensual ene–dic 2023, 458.182 obligaciones únicas (histórico de cuotas/pagos). Nota: `fecha_corte` viene en formato YYYYMMDD (no YYYYMM como las demás tablas); `porc_pago` trae valores `inf` por división entre cuota=0, se limpiaron y se capó a 1000%.
 - `oot.csv` / `sample_submission.csv`: 112.549 obligaciones, enero 2024, formato objetivo de entrega. Solo trae ID + fecha (ninguna variable de producto/mora/alternativas).
 
-## Hallazgo crítico: fuga de información (data leakage)
-La mayoría de las columnas de `trtest.csv` (gestiones, pagos, promesas, acuerdos,
+## Variables excluidas del modelo: disponibilidad en oot y consistencia temporal
+Al comparar las columnas de `trtest.csv` con las que efectivamente trae
+`oot.csv`, varias de ellas (gestiones, pagos, promesas, acuerdos,
 alternativa aplicada, marca_alternativa, dias_mora_fin, saldo_capital, etc.)
-describen **eventos ocurridos durante el mismo mes de la variable respuesta**,
-es decir, son consecuencia o coocurrencia directa de la decisión que se
-quiere predecir. Usarlas como features contemporáneas sería fuga de
-información y el modelo no funcionaría en producción (esas variables no
-existen todavía cuando hay que hacer el pronóstico un mes antes).
+simplemente no están disponibles en la base de enero-2024 que hay que
+puntuar. Adicionalmente, al revisar su correlación con la variable
+respuesta, estas mismas columnas muestran una correlación contemporánea
+inusualmente alta, consistente con que describen eventos del mismo mes de
+la variable que se quiere predecir. Por ambas razones — no disponibilidad
+en oot y esa señal contemporánea difícil de justificar como predictiva —
+se optó por no usarlas en su versión del mismo mes.
 
-**Decisión metodológica:** estas columnas solo se usan como fuente de
+**Decisión metodológica:** estas columnas se usan solo como fuente de
 variables *rezagadas* (estado del mes t-1 de la misma obligación), nunca en
 su versión del mes t. Se mantienen como contemporáneas únicamente las que
 describen la oferta/elegibilidad vigente (banca, segmento, producto,
@@ -49,15 +52,14 @@ subconjunto de variables presente en ambos mundos (76 variables): rezagos
 propios de trtest, panel demográfico (as-of, sin mirar al futuro) y scores
 del sistema actual de priorización.
 
-**Evidencia empírica (no solo argumento teórico):** `notebooks/01_eda.py`
-mide la correlación de estas columnas con el target en su versión
-contemporánea vs. su versión rezagada a t-1. La caída es drástica —
-`marca_alternativa` pasa de |corr|=0.87 (prácticamente el mismo dato que el
-target, porque literalmente describe si aceptó o no la alternativa ESE
-mes) a |corr|=0.07 en t-1; `marca_pago` de 0.48 a 0.05; `dias_mora_fin` de
-0.35 a 0.00. Ver `notebooks/eda_outputs/01_correlacion_fuga.png`. Esto
-confirma que la correlación alta contemporánea es un artefacto de fuga, no
-señal predictiva real.
+**Evidencia de respaldo:** `notebooks/01_eda.py` mide la correlación de
+estas columnas con el target en su versión contemporánea vs. su versión
+rezagada a t-1, y la caída es notoria — `marca_alternativa` pasa de
+|corr|=0.87 (describe si aceptó o no la alternativa ESE mes) a |corr|=0.07
+en t-1; `marca_pago` de 0.48 a 0.05; `dias_mora_fin` de 0.35 a 0.00. Ver
+`notebooks/eda_outputs/01_correlacion_fuga.png`. Esta caída es coherente
+con la hipótesis de que la correlación contemporánea refleja información no
+disponible al momento real de la decisión, más que señal predictiva propia.
 
 **Cómo evoluciona el conjunto de variables** (ejecutando el pipeline real
 paso a paso, ver `notebooks/eda_outputs/02_embudo_variables.png`):
