@@ -115,7 +115,7 @@ sec_bg = FancyBboxPatch((2.9, 2.55), 6.25, 0.85, boxstyle="round,pad=0.02,roundi
                          linewidth=1.4, edgecolor=COLOR_SECURITY, facecolor="#FBEEDC", linestyle="--")
 ax.add_patch(sec_bg)
 ax.text(6.02, 2.975, "GUARDRAILS — defensa en profundidad: manipulación, señales sensibles, info. contradictoria,\nvalida que NINGUNA respuesta mencione una alternativa no autorizada",
-        ha="center", va="center", fontsize=7.6, fontweight="bold", color="#7E4E10")
+        ha="center", va="center", fontsize=6.3, fontweight="bold", color="#7E4E10")
 arrow(ax, 4.65, 3.8, 4.65, 3.4)
 arrow(ax, 7.95, 4.15, 6.5, 3.4)
 

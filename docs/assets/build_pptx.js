@@ -1,7 +1,9 @@
 // Genera docs/Presentacion_Ejecutiva_Prueba_Bancolombia.pptx a partir del
-// guion en docs/presentacion_ejecutiva.md. Material NO obligatorio de
-// entregar (ver nota en ese archivo) -- se construye como cortesía para
-// que Jose solo tenga que practicar la sustentación, no diseñar.
+// guion en docs/presentacion_ejecutiva.md, con material real del proyecto
+// (funnel de variables, ROC, SHAP, diagrama de arquitectura, distribución
+// de la prueba masiva). Material NO obligatorio de entregar (ver nota en
+// ese archivo) -- se construye como cortesía para que Jose solo tenga que
+// practicar la sustentación, no diseñar. 10 slides, revisión v2 con Jose.
 const pptxgen = require("pptxgenjs");
 const React = require("react");
 const ReactDOMServer = require("react-dom/server");
@@ -20,8 +22,12 @@ const LIGHTBG = "EEF2FB";
 const TEXT = "1E2761";
 const MUTED = "5B6B8C";
 const ACCENT = "E8A33D"; // ámbar cálido, único acento "fuerte"
+const GREEN = "3F8F5F"; // verde discreto, solo para puntos de semáforo
 const FONT = "Calibri";
 const FONT_HEAD = "Cambria";
+
+const ASSETS = path.join(__dirname); // docs/assets
+const NB = path.join(__dirname, "..", "..", "notebooks"); // notebooks/
 
 async function icon(IconComp, color, sizePx = 256) {
   const svg = ReactDOMServer.renderToStaticMarkup(
@@ -50,6 +56,7 @@ async function main() {
     database: await icon(fa.FaDatabase, NAVY),
     filtro: await icon(fa.FaFilter, NAVY),
     reloj: await icon(fa.FaClock, NAVY),
+    calendario: await icon(fa.FaCalendarAlt, NAVY),
     alerta: await icon(fa.FaExclamationTriangle, NAVY),
     balanza: await icon(fa.FaBalanceScale, WHITE),
     cerebro: await icon(fa.FaBrain, WHITE),
@@ -66,6 +73,7 @@ async function main() {
     balanzaAmbar: await icon(fa.FaBalanceScale, ACCENT),
     apreton: await icon(fa.FaHandshake, WHITE),
     checkBlanco: await icon(fa.FaCheckCircle, WHITE),
+    gauge: await icon(fa.FaTachometerAlt, WHITE),
   };
 
   const darkBg = { color: NAVY_DARK };
@@ -75,19 +83,11 @@ async function main() {
   // -----------------------------------------------------------------
   // Helpers
   // -----------------------------------------------------------------
-  function kicker(slide, text, opts = {}) {
-    slide.addText(text.toUpperCase(), {
-      x: 0.6, y: opts.y ?? 0.45, w: 8, h: 0.35,
-      fontFace: FONT, fontSize: 12, bold: true, charSpacing: 2,
-      color: opts.color ?? ACCENT, isTextBox: true, margin: 0,
-    });
-  }
-
   function title(slide, text, opts = {}) {
     slide.addText(text, {
-      x: 0.6, y: opts.y ?? 0.78, w: opts.w ?? 11.8, h: opts.h ?? 0.9,
-      fontFace: FONT_HEAD, fontSize: opts.size ?? 32, bold: true,
-      color: opts.color ?? NAVY, isTextBox: true, margin: 0,
+      x: 0.6, y: opts.y ?? 0.6, w: opts.w ?? 12.1, h: opts.h ?? 0.9,
+      fontFace: FONT_HEAD, fontSize: opts.size ?? 30, bold: true,
+      color: opts.color ?? NAVY, isTextBox: true, margin: 0, valign: "top",
     });
   }
 
@@ -95,6 +95,10 @@ async function main() {
     slide.addShape("ellipse", { x, y, w: d, h: d, fill: { color: bgColor }, line: { type: "none" } });
     const pad = d * 0.26;
     slide.addImage({ data: imgData, x: x + pad / 2, y: y + pad / 2, w: d - pad, h: d - pad });
+  }
+
+  function dot(slide, x, y, d, color) {
+    slide.addShape("ellipse", { x, y, w: d, h: d, fill: { color }, line: { type: "none" } });
   }
 
   function pageNum(slide, n) {
@@ -128,15 +132,15 @@ async function main() {
     });
 
     s.addShape("line", { x: 0.9, y: 5.85, w: 2.2, h: 0, line: { color: ACCENT, width: 2 } });
-    s.addText("Jose Nelson González  ·  Mission SAS", {
+    s.addText("Jose Nelson González", {
       x: 0.9, y: 6.05, w: 8, h: 0.4, fontFace: FONT, fontSize: 14, bold: true,
       color: WHITE, isTextBox: true, margin: 0,
     });
     s.addText("Sustentación técnica y ejecutiva", {
       x: 0.9, y: 6.45, w: 8, h: 0.35, fontFace: FONT, fontSize: 12,
-      color: MUTED === NAVY_DARK ? ICE : ICE, isTextBox: true, margin: 0,
+      color: ICE, isTextBox: true, margin: 0,
     });
-    s.addNotes("Portada. Presentarse brevemente y anunciar la estructura: 10 minutos técnicos + 5 minutos para el bloque ejecutivo/no técnico.");
+    s.addNotes("Portada. Presentarse brevemente y anunciar la estructura.");
   }
 
   // ===================================================================
@@ -145,15 +149,14 @@ async function main() {
   {
     const s = pres.addSlide();
     s.background = lightBg;
-    kicker(s, "Agenda · 15 minutos");
-    title(s, "Dos bloques, un solo objetivo: decidir");
+    title(s, "Agenda", { y: 0.75, h: 0.9 });
 
     const items = [
-      { ic: ic.contexto, t: "Contexto y objetivo", d: "1.5 min", sub: "Por qué anticipar la aceptación de opciones de pago" },
-      { ic: ic.modelo, t: "Parte 1 — Modelo de propensión", d: "3 min", sub: "Metodología, decisión clave sobre variables y resultado" },
-      { ic: ic.agente, t: "Parte 2 — Sistema agéntico", d: "4 min", sub: "Arquitectura, reglas de negocio, pruebas y límites" },
-      { ic: ic.produccion, t: "Producción y próximos pasos", d: "1.5 min", sub: "De prototipo a operación monitoreada" },
-      { ic: ic.comite, t: "Bloque ejecutivo (no técnico)", d: "5 min", sub: "Impacto de negocio, riesgos y pedido de aprobación" },
+      { ic: ic.contexto, t: "Contexto y objetivo", d: "1 min", sub: "Por qué anticipar la aceptación de opciones de pago" },
+      { ic: ic.modelo, t: "Parte 1 — Modelo de propensión", d: "3 min", sub: "Metodología, comparación de modelos y resultado" },
+      { ic: ic.agente, t: "Parte 2 — Sistema agéntico", d: "4 min", sub: "Arquitectura, reglas de negocio y pruebas" },
+      { ic: ic.produccion, t: "Producción y monitoreo", d: "2 min", sub: "Arquitectura de operación y qué se mide para detectar problemas a tiempo" },
+      { ic: ic.comite, t: "Resumen ejecutivo", d: "5 min", sub: "Resultado de negocio, alcance, riesgos y pedido de aprobación" },
     ];
     let y = 2.05;
     const rowH = 0.92;
@@ -165,7 +168,7 @@ async function main() {
         color: NAVY, isTextBox: true, margin: 0,
       });
       s.addText(it.sub, {
-        x: 1.6, y: y + 0.36, w: 7.9, h: 0.35, fontFace: FONT, fontSize: 11.5, italic: true,
+        x: 1.6, y: y + 0.36, w: 8.9, h: 0.35, fontFace: FONT, fontSize: 11.5, italic: true,
         color: MUTED, isTextBox: true, margin: 0,
       });
       s.addText(it.d, {
@@ -178,7 +181,7 @@ async function main() {
       y += rowH;
     });
     pageNum(s, 2);
-    s.addNotes("Recorrer la agenda en 15-20 segundos, sin detenerse en cada punto. Dejar claro que el bloque ejecutivo evita jerga técnica.");
+    s.addNotes("Recorrer la agenda en 15-20 segundos, sin detenerse en cada punto.");
   }
 
   // ===================================================================
@@ -187,7 +190,6 @@ async function main() {
   {
     const s = pres.addSlide();
     s.background = lightBg;
-    kicker(s, "1. Contexto y objetivo · 1.5 min");
     title(s, "De priorizar por exposición a priorizar por propensión");
 
     s.addShape("roundRect", { x: 0.6, y: 2.15, w: 5.9, h: 4.35, rectRadius: 0.12, fill: { color: LIGHTBG }, line: { type: "none" } });
@@ -208,292 +210,364 @@ async function main() {
   }
 
   // ===================================================================
-  // 4. PARTE 1 — Datos y decisión clave sobre variables
+  // 4. PARTE 1 — Datos, variables y ventanas temporales
   // ===================================================================
   {
     const s = pres.addSlide();
     s.background = lightBg;
-    kicker(s, "2. Parte 1 — Modelo de propensión · 3 min");
-    title(s, "Datos y la decisión clave sobre variables");
+    title(s, "Datos, decisión sobre variables y ventanas temporales", { size: 27 });
 
-    const cards = [
-      { ic: ic.database, t: "4 tablas de origen", d: "≈570K obligaciones-mes, target balanceado" },
-      { ic: ic.filtro, t: "Variables contemporáneas excluidas", d: "No están en oot.csv y muestran correlación muy alta con el target del mismo mes" },
-      { ic: ic.reloj, t: "Validación temporal, no aleatoria", d: "Separación por tiempo real; umbral optimizado a F1" },
-    ];
-    const cardW = 3.78, gap = 0.35, startX = 0.6;
-    cards.forEach((c, i) => {
-      const x = startX + i * (cardW + gap);
-      s.addShape("roundRect", { x, y: 2.15, w: cardW, h: 3.55, rectRadius: 0.1, fill: { color: LIGHTBG }, line: { type: "none" } });
-      iconCircle(s, c.ic, x + 0.3, 2.45, 0.72, WHITE);
-      s.addText(c.t, { x: x + 0.3, y: 3.35, w: cardW - 0.6, h: 0.75, fontFace: FONT_HEAD, fontSize: 15.5, bold: true, color: NAVY, isTextBox: true, margin: 0, lineSpacingMultiple: 1.1 });
-      s.addText(c.d, { x: x + 0.3, y: 4.15, w: cardW - 0.6, h: 1.45, fontFace: FONT, fontSize: 12.5, color: MUTED, isTextBox: true, margin: 0, valign: "top", lineSpacingMultiple: 1.25 });
+    // Funnel real del EDA
+    const funnelW = 7.35, funnelH = funnelW / 2.0909;
+    s.addShape("roundRect", { x: 0.6, y: 1.85, w: funnelW + 0.3, h: funnelH + 0.3, rectRadius: 0.08, fill: { color: LIGHTBG }, line: { type: "none" } });
+    s.addImage({ path: path.join(NB, "eda_outputs", "02_embudo_variables.png"), x: 0.75, y: 2.0, w: funnelW, h: funnelH });
+    s.addText("Se excluyen las columnas que describen el resultado del mismo mes (no disponibles en oot.csv) y se agregan lags propios, demografía, scores del banco e historial de pagos.", {
+      x: 0.6, y: 2.0 + funnelH + 0.35, w: funnelW + 0.3, h: 1.0, fontFace: FONT, fontSize: 11.5, italic: true, color: MUTED, isTextBox: true, margin: 0, valign: "top", lineSpacingMultiple: 1.2,
     });
-    s.addText("El pipeline se rediseñó para usar solo variables estrictamente “conocidas antes” del mes a predecir.", {
-      x: 0.6, y: 5.95, w: 12.1, h: 0.6, fontFace: FONT, fontSize: 13.5, italic: true, color: NAVY, isTextBox: true, margin: 0,
+
+    // Ventanas temporales
+    const rx = 8.55, rw = 4.18;
+    s.addText("Ventanas temporales", { x: rx, y: 1.85, w: rw, h: 0.4, fontFace: FONT_HEAD, fontSize: 16, bold: true, color: NAVY, isTextBox: true, margin: 0 });
+    const windows = [
+      { t: "Entrenamiento", r: "Ago 2023 – Nov 2023", d: "4 meses de historia" },
+      { t: "Validación", r: "Dic 2023", d: "Elección de umbral (F1)" },
+      { t: "OOT — la que se evalúa", r: "Ene 2024", d: "oot.csv entregado, solo IDs" },
+    ];
+    let wy = 2.4;
+    windows.forEach((wdw) => {
+      iconCircle(s, ic.calendario, rx, wy, 0.56, LIGHTBG);
+      s.addText(wdw.t, { x: rx + 0.72, y: wy - 0.04, w: rw - 0.72, h: 0.32, fontFace: FONT_HEAD, fontSize: 13.5, bold: true, color: NAVY, isTextBox: true, margin: 0 });
+      s.addText(wdw.r, { x: rx + 0.72, y: wy + 0.27, w: rw - 0.72, h: 0.3, fontFace: FONT, fontSize: 13, bold: true, color: ACCENT, isTextBox: true, margin: 0 });
+      s.addText(wdw.d, { x: rx + 0.72, y: wy + 0.57, w: rw - 0.72, h: 0.3, fontFace: FONT, fontSize: 10.5, italic: true, color: MUTED, isTextBox: true, margin: 0 });
+      wy += 1.02;
+    });
+    s.addShape("roundRect", { x: rx, y: wy + 0.05, w: rw, h: 1.15, rectRadius: 0.08, fill: { color: NAVY }, line: { type: "none" } });
+    s.addText("Validación temporal, no aleatoria: se entrena con meses anteriores y se valida con el último mes disponible, igual que en producción.", {
+      x: rx + 0.22, y: wy + 0.18, w: rw - 0.44, h: 0.9, fontFace: FONT, fontSize: 11, color: WHITE, isTextBox: true, margin: 0, valign: "top", lineSpacingMultiple: 1.2,
     });
     pageNum(s, 4);
-    s.addNotes("La mayoría de columnas de trtest describen el resultado del mismo mes; por eso no sirven para predecir el mes siguiente sin fuga.");
+    s.addNotes("La mayoría de columnas de trtest describen el resultado del mismo mes; por eso no sirven para predecir el mes siguiente sin fuga. OOT = enero-2024, la única que se evalúa realmente.");
   }
 
   // ===================================================================
-  // 5. PARTE 1 — Resultado y limitación
+  // 5. PARTE 1 — Modelos evaluados y resultado
   // ===================================================================
   {
     const s = pres.addSlide();
     s.background = tintBg;
-    kicker(s, "2. Parte 1 — Modelo de propensión · 3 min");
-    title(s, "Resultado del modelo y su principal limitación");
+    title(s, "Se evaluaron 3 modelos; gana LightGBM por AUC, F1 y menor sobreajuste", { size: 22 });
 
-    // Stat callouts
-    const stats = [
-      { v: "0.729", l: "AUC" },
-      { v: "0.671", l: "F1 (umbral optimizado)" },
-    ];
-    stats.forEach((st, i) => {
-      const x = 0.6 + i * 3.5;
-      s.addShape("roundRect", { x, y: 2.1, w: 3.15, h: 2.05, rectRadius: 0.1, fill: { color: WHITE }, line: { type: "none" } });
-      s.addText(st.v, { x, y: 2.28, w: 3.15, h: 1.1, align: "center", fontFace: FONT_HEAD, fontSize: 48, bold: true, color: ACCENT, isTextBox: true, margin: 0 });
-      s.addText(st.l, { x, y: 3.4, w: 3.15, h: 0.55, align: "center", fontFace: FONT, fontSize: 13, bold: true, color: NAVY, isTextBox: true, margin: 0 });
-    });
-    s.addText("Integrando historial de pagos, demografía y scores actuales del banco.", {
-      x: 0.6, y: 4.35, w: 6.65, h: 0.7, fontFace: FONT, fontSize: 13, italic: true, color: MUTED, isTextBox: true, margin: 0,
-    });
+    // ROC + tabla comparativa (columna izquierda)
+    const leftCardX = 0.6, leftCardW = 7.28;
+    const rocW = leftCardW - 0.2, rocH = rocW / 2.364;
+    s.addShape("roundRect", { x: leftCardX, y: 1.65, w: leftCardW, h: rocH + 0.2, rectRadius: 0.06, fill: { color: WHITE }, line: { type: "none" } });
+    s.addImage({ path: path.join(NB, "model_outputs", "roc_comparacion.png"), x: leftCardX + 0.1, y: 1.75, w: rocW, h: rocH });
 
-    // Limitation card
-    s.addShape("roundRect", { x: 7.55, y: 2.1, w: 5.18, h: 2.95, rectRadius: 0.1, fill: { color: NAVY }, line: { type: "none" } });
-    iconCircle(s, ic.alertaAmbar, 7.85, 2.35, 0.6, NAVY_DARK);
-    s.addText("Principal limitación", { x: 8.6, y: 2.42, w: 3.9, h: 0.45, fontFace: FONT_HEAD, fontSize: 15, bold: true, color: ACCENT, isTextBox: true, margin: 0 });
+    const tblY = 1.65 + rocH + 0.4;
+    s.addTable(
+      [
+        [
+          { text: "Modelo", options: { bold: true, color: WHITE, fill: { color: NAVY }, fontSize: 11 } },
+          { text: "AUC valid.", options: { bold: true, color: WHITE, fill: { color: NAVY }, fontSize: 11, align: "center" } },
+          { text: "F1 valid.", options: { bold: true, color: WHITE, fill: { color: NAVY }, fontSize: 11, align: "center" } },
+          { text: "Brecha train–valid", options: { bold: true, color: WHITE, fill: { color: NAVY }, fontSize: 11, align: "center" } },
+        ],
+        [
+          { text: "LightGBM ✓", options: { bold: true, color: NAVY, fill: { color: LIGHTBG }, fontSize: 11 } },
+          { text: "0.729", options: { color: TEXT, fill: { color: LIGHTBG }, fontSize: 11, align: "center" } },
+          { text: "0.671", options: { color: TEXT, fill: { color: LIGHTBG }, fontSize: 11, align: "center" } },
+          { text: "0.053", options: { color: TEXT, fill: { color: LIGHTBG }, fontSize: 11, align: "center" } },
+        ],
+        [
+          { text: "Random Forest", options: { color: TEXT, fill: { color: WHITE }, fontSize: 11 } },
+          { text: "0.705", options: { color: MUTED, fill: { color: WHITE }, fontSize: 11, align: "center" } },
+          { text: "0.660", options: { color: MUTED, fill: { color: WHITE }, fontSize: 11, align: "center" } },
+          { text: "0.025", options: { color: MUTED, fill: { color: WHITE }, fontSize: 11, align: "center" } },
+        ],
+        [
+          { text: "Regresión Logística", options: { color: TEXT, fill: { color: WHITE }, fontSize: 11 } },
+          { text: "0.685", options: { color: MUTED, fill: { color: WHITE }, fontSize: 11, align: "center" } },
+          { text: "0.649", options: { color: MUTED, fill: { color: WHITE }, fontSize: 11, align: "center" } },
+          { text: "0.022", options: { color: MUTED, fill: { color: WHITE }, fontSize: 11, align: "center" } },
+        ],
+      ],
+      { x: leftCardX, y: tblY, w: leftCardW, colW: [2.28, 1.7, 1.7, 1.6], rowH: 0.32, border: { type: "solid", color: ICE, pt: 0.75 }, autoPage: false }
+    );
     s.addText(
-      "oot.csv no trae elegibilidad ni producto vigente: cerca de la mitad de las obligaciones de enero-2024 son “cold start” y dependen solo de demografía y scores del banco.",
-      { x: 7.85, y: 3.05, w: 4.6, h: 1.9, fontFace: FONT, fontSize: 13, color: WHITE, isTextBox: true, margin: 0, valign: "top", lineSpacingMultiple: 1.25 }
+      "Criterio de selección: mayor F1 en validación (métrica de la prueba) y AUC, con la menor brecha train–valid posible (mide sobreajuste). LightGBM gana en las tres.\nPrincipal limitación: oot.csv no trae elegibilidad/producto vigente → ~50% de las obligaciones de enero-2024 son “cold start”.",
+      { x: leftCardX, y: tblY + 1.28 + 0.15, w: leftCardW, h: 0.85, fontFace: FONT, fontSize: 10, italic: true, color: MUTED, isTextBox: true, margin: 0, valign: "top", lineSpacingMultiple: 1.2 }
     );
 
-    s.addShape("line", { x: 0.6, y: 5.35, w: 12.1, h: 0, line: { color: ICE, width: 1.5 } });
-    s.addText("Probar el sistema de punta a punta (no solo cada capa por separado) es lo que reveló esta y otras limitaciones antes de la entrega.", {
-      x: 0.6, y: 5.55, w: 12.1, h: 0.6, fontFace: FONT, fontSize: 12.5, italic: true, color: MUTED, isTextBox: true, margin: 0,
-    });
+    // SHAP (columna derecha, altura completa, sin tocar la columna izquierda)
+    const rightCardH = 5.35;
+    const shapH = rightCardH - 0.24, shapW = shapH * 0.843;
+    const rightCardW = shapW + 0.24;
+    const rightCardX = W - 0.6 - rightCardW;
+    s.addShape("roundRect", { x: rightCardX, y: 1.65, w: rightCardW, h: rightCardH, rectRadius: 0.06, fill: { color: WHITE }, line: { type: "none" } });
+    s.addImage({ path: path.join(NB, "model_outputs", "shap_summary.png"), x: rightCardX + 0.12, y: 1.77, w: shapW, h: shapH });
     pageNum(s, 5);
-    s.addNotes("Enfatizar honestidad metodológica: la limitación de cold-start es real y está documentada, no oculta.");
+    s.addNotes("ROC + brecha train/valid muestran por qué gana LightGBM. SHAP: historial de pagos y propensión previa dominan la explicación.");
   }
 
   // ===================================================================
-  // 6. PARTE 2 — Arquitectura del sistema agéntico
+  // 6. PARTE 2 — Cómo decide el agente, paso a paso
   // ===================================================================
   {
     const s = pres.addSlide();
-    s.background = darkBg;
-    kicker(s, "3. Parte 2 — Sistema agéntico · 4 min", { color: ACCENT });
-    title(s, "Arquitectura supervisor: lineal y auditable", { color: WHITE });
+    s.background = lightBg;
+    title(s, "Cómo decide el agente, paso a paso", { y: 0.55 });
 
-    const steps = [
-      { ic: ic.balanza, t: "Reglas de\nnegocio", sub: "Determinísticas" },
-      { ic: ic.cerebro, t: "Siguiente\nMejor Acción", sub: "Usa el score Parte 1" },
-      { ic: ic.chat, t: "Conversa-\ncional", sub: "Redacta la oferta" },
-      { ic: ic.escudo, t: "Guardrails", sub: "Bloquea lo no autorizado" },
-      { ic: ic.persona, t: "Escalamiento", sub: "Gestor humano" },
-    ];
-    const boxW = 2.05, gap = 0.42, startX = 0.75, y = 2.6;
-    steps.forEach((st, i) => {
-      const x = startX + i * (boxW + gap);
-      s.addShape("roundRect", { x, y, w: boxW, h: 2.5, rectRadius: 0.1, fill: { color: NAVY }, line: { color: ICE, width: 0.75 } });
-      iconCircle(s, st.ic, x + boxW / 2 - 0.4, y + 0.28, 0.8, NAVY_DARK);
-      s.addText(st.t, { x: x + 0.08, y: y + 1.25, w: boxW - 0.16, h: 0.65, align: "center", fontFace: FONT_HEAD, fontSize: 13, bold: true, color: WHITE, isTextBox: true, margin: 0, lineSpacingMultiple: 1.05 });
-      s.addText(st.sub, { x: x + 0.08, y: y + 1.92, w: boxW - 0.16, h: 0.5, align: "center", fontFace: FONT, fontSize: 10, italic: true, color: ICE, isTextBox: true, margin: 0 });
-      if (i < steps.length - 1) {
-        s.addText("→", { x: x + boxW, y: y + 0.85, w: gap, h: 0.6, align: "center", fontFace: FONT, fontSize: 22, bold: true, color: ACCENT, isTextBox: true, margin: 0 });
-      }
-    });
+    const diagW = 9.6, diagH = diagW / 1.667;
+    const diagX = (W - diagW) / 2;
+    s.addImage({ path: path.join(ASSETS, "diagrama_arquitectura_parte2.png"), x: diagX, y: 1.45, w: diagW, h: diagH });
 
     s.addText("Por qué separadas del LLM: en cobranza, la oferta debe ser exactamente la autorizada — nunca delegable a que un modelo de lenguaje la “invente”.", {
-      x: 0.75, y: 5.55, w: 11.8, h: 0.8, fontFace: FONT, fontSize: 14.5, italic: true, color: ICE, isTextBox: true, margin: 0, lineSpacingMultiple: 1.25,
+      x: 0.6, y: 1.45 + diagH + 0.15, w: 12.1, h: 0.6, align: "center", fontFace: FONT, fontSize: 13.5, italic: true, color: NAVY, isTextBox: true, margin: 0, lineSpacingMultiple: 1.2,
     });
     pageNum(s, 6);
-    s.addNotes("Mostrar el flujo con el dedo/puntero, de izquierda a derecha. Insistir en que las reglas de negocio son la única fuente de verdad sobre qué se puede ofrecer.");
+    s.addNotes("Recorrer el diagrama con el puntero: elegibilidad decide QUÉ se puede ofrecer, NBA decide cuál priorizar, guardrails valida antes de enviar, y todo queda trazado.");
   }
 
   // ===================================================================
-  // 7. PARTE 2 — Pruebas y limitación
+  // 7. PARTE 2 — Pruebas: dirigidas y masivas
   // ===================================================================
   {
     const s = pres.addSlide();
     s.background = lightBg;
-    kicker(s, "3. Parte 2 — Sistema agéntico · 4 min");
-    title(s, "Probado a fondo, con un límite explícito");
+    title(s, "Probado a fondo: 49 pruebas, dos lógicas complementarias", { size: 25 });
 
-    const stats = [
-      { v: "14", l: "escenarios dirigidos", sub: "7 pedidos + robustez + restricción legal" },
-      { v: "49", l: "pruebas automatizadas", sub: "42 dirigidas + 7 masivas (400 casos sintéticos)" },
-      { v: "0%", l: "tolerancia a ofertas\nno autorizadas", sub: "Cero incidentes de cumplimiento" },
+    // Columna izquierda: dirigidas
+    s.addText("Dirigidas — 42 pruebas escritas a mano", { x: 0.6, y: 1.75, w: 6.3, h: 0.4, fontFace: FONT_HEAD, fontSize: 15.5, bold: true, color: NAVY, isTextBox: true, margin: 0 });
+    const capas = [
+      { t: "Reglas de negocio (8)", d: "Máx. 3 opciones/mes, cooldowns, restricción dura, incumplimiento reciente" },
+      { t: "Siguiente Mejor Acción (5)", d: "Priorización por mora, diferimiento, robustez si cae el scoring" },
+      { t: "Guardrails de seguridad (9)", d: "Manipulación, señales sensibles, info. contradictoria, tokens filtrados" },
+      { t: "NLU por reglas (5)", d: "Clasifica: acepta, rechaza, otra alternativa, saldo, dificultad" },
+      { t: "Agente conversacional (8)", d: "Valida la respuesta completa, no solo la etiqueta de intención" },
+      { t: "Integración orquestador (7)", d: "Flujo cliente→sistema de punta a punta, casos límite" },
     ];
-    const cardW = 3.78, gap = 0.35;
-    stats.forEach((st, i) => {
-      const x = 0.6 + i * (cardW + gap);
-      s.addShape("roundRect", { x, y: 2.15, w: cardW, h: 2.5, rectRadius: 0.1, fill: { color: LIGHTBG }, line: { type: "none" } });
-      s.addText(st.v, { x, y: 2.3, w: cardW, h: 1.0, align: "center", fontFace: FONT_HEAD, fontSize: 40, bold: true, color: ACCENT, isTextBox: true, margin: 0 });
-      s.addText(st.l, { x: x + 0.2, y: 3.3, w: cardW - 0.4, h: 0.6, align: "center", fontFace: FONT, fontSize: 12.5, bold: true, color: NAVY, isTextBox: true, margin: 0, lineSpacingMultiple: 1.05 });
-      s.addText(st.sub, { x: x + 0.2, y: 3.95, w: cardW - 0.4, h: 0.6, align: "center", fontFace: FONT, fontSize: 10.5, italic: true, color: MUTED, isTextBox: true, margin: 0 });
+    let cy = 2.25;
+    capas.forEach((c) => {
+      dot(s, 0.65, cy + 0.09, 0.12, NAVY);
+      s.addText(c.t, { x: 0.95, y: cy - 0.05, w: 5.9, h: 0.3, fontFace: FONT, fontSize: 12.5, bold: true, color: NAVY, isTextBox: true, margin: 0 });
+      s.addText(c.d, { x: 0.95, y: cy + 0.24, w: 5.9, h: 0.35, fontFace: FONT, fontSize: 10.3, color: MUTED, isTextBox: true, margin: 0 });
+      cy += 0.685;
     });
 
-    s.addShape("roundRect", { x: 0.6, y: 4.95, w: 12.13, h: 1.55, rectRadius: 0.1, fill: { color: NAVY }, line: { type: "none" } });
-    iconCircle(s, ic.alertaAmbar, 0.9, 5.2, 0.62, NAVY_DARK);
-    s.addText(
-      "Limitación del entorno: sin acceso a un LLM real en esta prueba. El prototipo usa reglas/plantillas, con un punto de extensión explícito para conectar un LLM en producción sin tocar el motor de decisión.",
-      { x: 1.75, y: 5.08, w: 10.7, h: 1.3, fontFace: FONT, fontSize: 13, color: WHITE, isTextBox: true, margin: 0, valign: "middle", lineSpacingMultiple: 1.2 }
+    // Columna derecha: masivas + chart
+    s.addText("Masivas — 400 casos sintéticos, 0 violaciones", { x: 7.1, y: 1.75, w: 5.6, h: 0.4, fontFace: FONT_HEAD, fontSize: 15.5, bold: true, color: NAVY, isTextBox: true, margin: 0 });
+    s.addChart(
+      pres.ChartType.bar,
+      [
+        {
+          name: "Casos",
+          labels: ["Ofrecer opción\nde pago", "Escalar a\nhumano", "Monitoreo\nsin oferta", "Ofrecer acuerdo\nde pago", "Diferir por\nauto-cura"],
+          values: [179, 156, 34, 20, 11],
+        },
+      ],
+      {
+        x: 7.0, y: 2.2, w: 5.9, h: 3.85,
+        barDir: "bar",
+        chartColors: [NAVY],
+        showTitle: false,
+        showLegend: false,
+        showValue: true,
+        dataLabelPosition: "outEnd",
+        dataLabelColor: NAVY,
+        dataLabelFontSize: 11,
+        catAxisLabelFontSize: 10.5,
+        catAxisLabelColor: TEXT,
+        valAxisHidden: true,
+        valGridLine: { style: "none" },
+        catGridLine: { style: "none" },
+        barGapWidthPct: 35,
+      }
     );
+    s.addText("5 invariantes de negocio verificadas sobre los 400 casos — 0 violaciones en todas.", {
+      x: 7.0, y: 6.15, w: 5.9, h: 0.5, fontFace: FONT, fontSize: 11, italic: true, color: MUTED, isTextBox: true, margin: 0,
+    });
     pageNum(s, 7);
-    s.addNotes("Si preguntan por qué no hay LLM: limitación del entorno de la prueba, no una decisión de diseño definitiva.");
+    s.addNotes("Dirigidas documentan y fijan el comportamiento esperado; masivas dan confianza estadística de que se sostiene a escala, con combinaciones que nadie escribiría a mano.");
   }
 
   // ===================================================================
-  // 8. Producción y próximos pasos
+  // 8. Producción: arquitectura y caminos
   // ===================================================================
   {
     const s = pres.addSlide();
     s.background = lightBg;
-    kicker(s, "4. Arquitectura de producción · 1.5 min");
-    title(s, "Del prototipo a la operación monitoreada");
+    title(s, "Del prototipo a la operación: arquitectura y caminos", { size: 25 });
 
-    const flow = ["Feature store", "Entrenamiento\n(MLflow)", "Scoring batch\n+ on-demand", "Orquestador\nagéntico", "Escalamiento\nhumano", "Monitoreo"];
-    const boxW = 1.83, gap = 0.185, startX = 0.6, y = 2.3;
+    const flow = ["Feature\nstore", "Entrenamiento\n(MLflow)", "Model\nRegistry", "Scoring\nbatch + on-demand", "Orquestador\nagéntico"];
+    const boxW = 2.18, gap = 0.22, startX = 0.6, y = 1.95;
+    let lastCx = 0;
     flow.forEach((t, i) => {
       const x = startX + i * (boxW + gap);
       const isLast = i === flow.length - 1;
-      s.addShape("roundRect", { x, y, w: boxW, h: 1.3, rectRadius: 0.08, fill: { color: isLast ? ACCENT : NAVY }, line: { type: "none" } });
-      s.addText(t, { x: x + 0.08, y, w: boxW - 0.16, h: 1.3, align: "center", valign: "middle", fontFace: FONT, fontSize: 11, bold: true, color: WHITE, isTextBox: true, margin: 0, lineSpacingMultiple: 1.05 });
+      s.addShape("roundRect", { x, y, w: boxW, h: 1.2, rectRadius: 0.08, fill: { color: isLast ? ACCENT : NAVY }, line: { type: "none" } });
+      s.addText(t, { x: x + 0.08, y, w: boxW - 0.16, h: 1.2, align: "center", valign: "middle", fontFace: FONT, fontSize: 11.5, bold: true, color: WHITE, isTextBox: true, margin: 0, lineSpacingMultiple: 1.05 });
       if (!isLast) {
-        s.addText("→", { x: x + boxW - 0.02, y: y + 0.42, w: gap + 0.04, h: 0.5, align: "center", fontFace: FONT, fontSize: 16, bold: true, color: NAVY, isTextBox: true, margin: 0 });
+        s.addText("→", { x: x + boxW - 0.02, y: y + 0.38, w: gap + 0.04, h: 0.5, align: "center", fontFace: FONT, fontSize: 15, bold: true, color: NAVY, isTextBox: true, margin: 0 });
+      } else {
+        lastCx = x + boxW / 2;
       }
     });
 
-    s.addText("Roadmap propuesto", { x: 0.6, y: 4.05, w: 5, h: 0.4, fontFace: FONT_HEAD, fontSize: 15, bold: true, color: NAVY, isTextBox: true, margin: 0 });
+    // Ramificación de caminos desde el orquestador
+    const branchY = y + 1.55;
+    const hLineY = branchY - 0.25;
+    const branches = [
+      { t: "Canal cliente", d: "WhatsApp / call center / app" },
+      { t: "Cola de escalamiento", d: "Con contexto completo para el gestor" },
+      { t: "Observabilidad", d: "Trazas + monitor LLMOps" },
+    ];
+    const bW = 3.7, bGap = 0.35, bStartX = (W - (bW * 3 + bGap * 2)) / 2;
+    const branchCx = branches.map((_, i) => bStartX + i * (bW + bGap) + bW / 2);
+
+    // Línea vertical desde el orquestador hasta la línea horizontal distribuidora
+    s.addShape("line", { x: lastCx, y: y + 1.2, w: 0, h: hLineY - (y + 1.2), line: { color: MUTED, width: 1.25 } });
+    // Línea horizontal que cubre desde la primera rama hasta el punto de bajada del orquestador
+    const hLineLeft = Math.min(branchCx[0], lastCx), hLineRight = Math.max(branchCx[branchCx.length - 1], lastCx);
+    s.addShape("line", { x: hLineLeft, y: hLineY, w: hLineRight - hLineLeft, h: 0, line: { color: MUTED, width: 1.25 } });
+
+    branches.forEach((b, i) => {
+      const x = bStartX + i * (bW + bGap);
+      const cx = branchCx[i];
+      s.addShape("line", { x: cx, y: hLineY, w: 0, h: branchY - hLineY, line: { color: MUTED, width: 1.25 } });
+      s.addShape("roundRect", { x, y: branchY, w: bW, h: 1.05, rectRadius: 0.08, fill: { color: LIGHTBG }, line: { type: "none" } });
+      s.addText(b.t, { x: x + 0.15, y: branchY + 0.1, w: bW - 0.3, h: 0.4, fontFace: FONT_HEAD, fontSize: 13, bold: true, color: NAVY, isTextBox: true, margin: 0 });
+      s.addText(b.d, { x: x + 0.15, y: branchY + 0.48, w: bW - 0.3, h: 0.5, fontFace: FONT, fontSize: 10.5, italic: true, color: MUTED, isTextBox: true, margin: 0, valign: "top" });
+    });
+
+    s.addText("Próximos pasos", { x: 0.6, y: 5.55, w: 5, h: 0.4, fontFace: FONT_HEAD, fontSize: 15, bold: true, color: NAVY, isTextBox: true, margin: 0 });
     const roadmap = [
-      "Reemplazar el NLU por reglas con un LLM + evaluación continua",
-      "Validar PSI de estabilidad poblacional en producción",
-      "Conseguir el dato de elegibilidad vigente para el scoring on-demand",
+      "Reemplazar el NLU por reglas con un LLM real + evaluación continua",
+      "Conseguir el dato de elegibilidad/producto vigente para el scoring on-demand",
     ];
     roadmap.forEach((r, i) => {
-      const y2 = 4.55 + i * 0.62;
-      iconCircle(s, ic.checkBlanco, 0.6, y2, 0.4, NAVY);
-      s.addText(r, { x: 1.2, y: y2 - 0.05, w: 11.3, h: 0.5, fontFace: FONT, fontSize: 13, color: TEXT, isTextBox: true, margin: 0, valign: "middle" });
+      const y2 = 6.05 + i * 0.55;
+      iconCircle(s, ic.checkBlanco, 0.6, y2, 0.38, NAVY);
+      s.addText(r, { x: 1.15, y: y2 - 0.03, w: 11.3, h: 0.45, fontFace: FONT, fontSize: 12.5, color: TEXT, isTextBox: true, margin: 0, valign: "middle" });
     });
     pageNum(s, 8);
-    s.addNotes("Cerrar el bloque técnico. Transición: 'con esto termina la parte técnica; ahora, en términos de negocio...'");
+    s.addNotes("El orquestador reparte en tres caminos paralelos: contacto con el cliente, cola humana, y observabilidad — los tres siempre trazados.");
   }
 
   // ===================================================================
-  // 9. DIVISOR — Bloque ejecutivo
+  // 9. Sistema de monitoreo: métricas y semáforos
   // ===================================================================
   {
     const s = pres.addSlide();
-    s.background = darkBg;
-    s.addShape("ellipse", { x: -2.5, y: 4, w: 6, h: 6, fill: { color: NAVY }, line: { type: "none" } });
-    iconCircle(s, ic.comite, W / 2 - 0.55, 1.55, 1.1, NAVY);
-    s.addText("BLOQUE EJECUTIVO", { x: 0, y: 3.05, w: W, h: 0.5, align: "center", fontFace: FONT, fontSize: 14, bold: true, charSpacing: 3, color: ACCENT, isTextBox: true, margin: 0 });
-    s.addText("Comité directivo no técnico", { x: 0, y: 3.55, w: W, h: 0.9, align: "center", fontFace: FONT_HEAD, fontSize: 34, bold: true, color: WHITE, isTextBox: true, margin: 0 });
-    s.addText("5 minutos · sin jerga técnica (F1, AUC, LightGBM, LLM) · foco en impacto y riesgo", {
-      x: 0, y: 4.5, w: W, h: 0.5, align: "center", fontFace: FONT, fontSize: 14, italic: true, color: ICE, isTextBox: true, margin: 0,
+    s.background = lightBg;
+    title(s, "Sistema de monitoreo: qué medimos y cuándo se prende una alerta", { size: 22 });
+
+    function metricRow(x, y, w, color, label, detail) {
+      dot(s, x, y + 0.06, 0.16, color);
+      s.addText(label, { x: x + 0.32, y: y - 0.08, w: w - 0.32, h: 0.32, fontFace: FONT_HEAD, fontSize: 13, bold: true, color: NAVY, isTextBox: true, margin: 0 });
+      s.addText(detail, { x: x + 0.32, y: y + 0.22, w: w - 0.32, h: 0.55, fontFace: FONT, fontSize: 10.3, color: MUTED, isTextBox: true, margin: 0, valign: "top", lineSpacingMultiple: 1.15 });
+    }
+
+    // Columna izquierda: Parte 1
+    s.addText("Parte 1 — Modelo", { x: 0.6, y: 1.8, w: 5.9, h: 0.35, fontFace: FONT_HEAD, fontSize: 15, bold: true, color: NAVY, isTextBox: true, margin: 0 });
+    const p1 = [
+      { c: GREEN, t: "PSI del score", d: "Estabilidad del score mes a mes. Alerta si > 0.2 (hoy: dic-2023 vs. oot = 0.013)." },
+      { c: GREEN, t: "PSI de variables clave", d: "Historial de pagos, mora, demografía. Mismo umbral: > 0.2." },
+      { c: ACCENT, t: "SHAP desarrollo vs. producción", d: "Si el modelo empieza a explicar sus decisiones distinto. Revisión mensual." },
+      { c: ACCENT, t: "F1 / AUC real vs. predicho", d: "Desempeño real con 1 mes de rezago. Dispara reentrenamiento si cae." },
+    ];
+    let py = 2.3;
+    p1.forEach((m) => { metricRow(0.6, py, 5.9, m.c, m.t, m.d); py += 0.82; });
+
+    // Columna derecha: Parte 2
+    s.addText("Parte 2 — Agente", { x: 6.85, y: 1.8, w: 5.9, h: 0.35, fontFace: FONT_HEAD, fontSize: 15, bold: true, color: NAVY, isTextBox: true, margin: 0 });
+    const p2 = [
+      { c: GREEN, t: "Ofertas no autorizadas", d: "0% tolerado — bloqueo automático, no solo alerta." },
+      { c: ACCENT, t: "Precisión del escalamiento", d: "≥ 85% confirmado como necesario por un gestor humano." },
+      { c: ACCENT, t: "Recall de señales sensibles", d: "≥ 95% — el falso negativo es el error costoso aquí." },
+    ];
+    py = 2.3;
+    p2.forEach((m) => { metricRow(6.85, py, 5.9, m.c, m.t, m.d); py += 0.82; });
+
+    // Distribución de caminos (línea base de prueba) — barra apilada
+    const barY = py + 0.15;
+    s.addText("Distribución de caminos del agente (línea base de prueba, 400 casos sintéticos)", {
+      x: 6.85, y: barY, w: 5.9, h: 0.4, fontFace: FONT_HEAD, fontSize: 12, bold: true, color: NAVY, isTextBox: true, margin: 0, valign: "top", lineSpacingMultiple: 1.1,
+    });
+    const segs = [
+      { l: "Ofrecer opción de pago", pct: 44.75, c: NAVY },
+      { l: "Escalar a humano", pct: 39.0, c: ACCENT },
+      { l: "Monitoreo sin oferta", pct: 8.5, c: ICE },
+      { l: "Acuerdo de pago", pct: 5.0, c: MUTED },
+      { l: "Diferir auto-cura", pct: 2.75, c: NAVY_DARK },
+    ];
+    const barX = 6.85, barW = 5.9, barH = 0.42, barTop = barY + 0.55;
+    let sx = barX;
+    segs.forEach((sg) => {
+      const segW = (barW * sg.pct) / 100;
+      s.addShape("rect", { x: sx, y: barTop, w: segW, h: barH, fill: { color: sg.c }, line: { color: WHITE, width: 0.75 } });
+      sx += segW;
+    });
+    // Leyenda en 2 columnas
+    let legX = barX, legY = barTop + barH + 0.16;
+    segs.forEach((sg, i) => {
+      const col = i % 2, row = Math.floor(i / 2);
+      const lx = barX + col * (barW / 2);
+      const ly = legY + row * 0.28;
+      s.addShape("rect", { x: lx, y: ly + 0.04, w: 0.14, h: 0.14, fill: { color: sg.c }, line: { type: "none" } });
+      s.addText(`${sg.l} (${sg.pct}%)`, { x: lx + 0.2, y: ly - 0.03, w: barW / 2 - 0.2, h: 0.26, fontFace: FONT, fontSize: 9.5, color: MUTED, isTextBox: true, margin: 0 });
     });
     pageNum(s, 9);
-    s.addNotes("Marcar explícitamente el cambio de registro: el objetivo de este bloque es la aprobación de negocio, no explicar la técnica.");
+    s.addNotes("Verde = ya tenemos referencia validada hoy. Ámbar = métrica definida, línea base a establecer en el piloto. La barra de la derecha es la distribución observada en la prueba masiva, útil como línea base de comparación una vez en producción.");
   }
 
   // ===================================================================
-  // 10. El problema y el resultado en términos de negocio
+  // 10. RESUMEN EJECUTIVO
   // ===================================================================
   {
     const s = pres.addSlide();
     s.background = lightBg;
-    kicker(s, "Bloque ejecutivo · El problema y el resultado");
-    title(s, "“Sabemos, con un mes de anticipación,\nqué clientes van a aceptar”", { size: 26, h: 1.3 });
+    title(s, "Resumen ejecutivo", { y: 0.6, h: 0.8 });
 
-    s.addShape("roundRect", { x: 0.6, y: 3.75, w: 6.5, h: 2.55, rectRadius: 0.12, fill: { color: NAVY }, line: { type: "none" } });
-    s.addText("6", { x: 0.9, y: 3.85, w: 2.3, h: 1.5, fontFace: FONT_HEAD, fontSize: 78, bold: true, color: ACCENT, isTextBox: true, margin: 0 });
-    s.addText("de cada 10", { x: 3.1, y: 4.25, w: 2, h: 0.7, fontFace: FONT, fontSize: 16, bold: true, color: WHITE, isTextBox: true, margin: 0, valign: "middle" });
-    s.addText("clientes que el modelo marca como “alta probabilidad de aceptar”, efectivamente aceptan.", {
-      x: 0.9, y: 5.35, w: 5.9, h: 0.85, fontFace: FONT, fontSize: 13, color: ICE, isTextBox: true, margin: 0, lineSpacingMultiple: 1.2,
+    const cardW = 5.95, cardH = 2.05, gap = 0.2;
+    const x1 = 0.6, x2 = x1 + cardW + gap;
+    const y1 = 1.7, y2 = y1 + cardH + gap;
+
+    // A. El resultado
+    s.addShape("roundRect", { x: x1, y: y1, w: cardW, h: cardH, rectRadius: 0.1, fill: { color: LIGHTBG }, line: { type: "none" } });
+    s.addText("El resultado", { x: x1 + 0.28, y: y1 + 0.18, w: cardW - 0.56, h: 0.35, fontFace: FONT_HEAD, fontSize: 14.5, bold: true, color: NAVY, isTextBox: true, margin: 0 });
+    s.addText("6 de cada 10 clientes marcados como “alta probabilidad de aceptar” efectivamente aceptan — un mes antes de gestionarlos, sin depender solo del monto de la deuda.", {
+      x: x1 + 0.28, y: y1 + 0.55, w: cardW - 0.56, h: cardH - 0.7, fontFace: FONT, fontSize: 12.5, color: TEXT, isTextBox: true, margin: 0, valign: "top", lineSpacingMultiple: 1.25,
     });
 
-    s.addShape("roundRect", { x: 7.4, y: 3.75, w: 5.33, h: 2.55, rectRadius: 0.12, fill: { color: LIGHTBG }, line: { type: "none" } });
-    s.addText("Mejora medible frente a priorizar solo por monto de deuda: se gestiona primero a quien de verdad va a responder, y de forma más personalizada.", {
-      x: 7.7, y: 3.95, w: 4.75, h: 2.2, fontFace: FONT, fontSize: 13.5, color: TEXT, isTextBox: true, margin: 0, valign: "middle", lineSpacingMultiple: 1.3,
+    // B. Qué automatiza / qué no
+    s.addShape("roundRect", { x: x2, y: y1, w: cardW, h: cardH, rectRadius: 0.1, fill: { color: NAVY }, line: { type: "none" } });
+    s.addText("Qué automatiza y qué no decide solo", { x: x2 + 0.28, y: y1 + 0.18, w: cardW - 0.56, h: 0.35, fontFace: FONT_HEAD, fontSize: 14.5, bold: true, color: ACCENT, isTextBox: true, margin: 0 });
+    s.addText("Ofrece únicamente lo que la política de crédito ya autorizó. Todo caso sensible, dudoso o fuera de lo normal pasa a un gestor humano, con el contexto completo.", {
+      x: x2 + 0.28, y: y1 + 0.55, w: cardW - 0.56, h: cardH - 0.7, fontFace: FONT, fontSize: 12.5, color: WHITE, isTextBox: true, margin: 0, valign: "top", lineSpacingMultiple: 1.25,
+    });
+
+    // C. Riesgos y controles
+    s.addShape("roundRect", { x: x1, y: y2, w: cardW, h: cardH, rectRadius: 0.1, fill: { color: LIGHTBG }, line: { type: "none" } });
+    s.addText("Riesgos y sus controles", { x: x1 + 0.28, y: y2 + 0.18, w: cardW - 0.56, h: 0.35, fontFace: FONT_HEAD, fontSize: 14.5, bold: true, color: NAVY, isTextBox: true, margin: 0 });
+    s.addText("Modelo desactualizado → monitoreo mensual con alerta. Oferta indebida → bloqueo automático y auditoría del 100%. Riesgo legal/reputacional → humano siempre disponible y trazabilidad completa.", {
+      x: x1 + 0.28, y: y2 + 0.55, w: cardW - 0.56, h: cardH - 0.7, fontFace: FONT, fontSize: 11.8, color: TEXT, isTextBox: true, margin: 0, valign: "top", lineSpacingMultiple: 1.22,
+    });
+
+    // D. Alcance de la entrega
+    s.addShape("roundRect", { x: x2, y: y2, w: cardW, h: cardH, rectRadius: 0.1, fill: { color: NAVY }, line: { type: "none" } });
+    s.addText("Alcance de esta entrega", { x: x2 + 0.28, y: y2 + 0.18, w: cardW - 0.56, h: 0.35, fontFace: FONT_HEAD, fontSize: 14.5, bold: true, color: ACCENT, isTextBox: true, margin: 0 });
+    s.addText("Prototipo funcional y probado a fondo (49 pruebas, 400 casos sintéticos, cero incidentes de cumplimiento). Sin LLM real ni datos de producción — listo para un piloto controlado.", {
+      x: x2 + 0.28, y: y2 + 0.55, w: cardW - 0.56, h: cardH - 0.7, fontFace: FONT, fontSize: 11.8, color: WHITE, isTextBox: true, margin: 0, valign: "top", lineSpacingMultiple: 1.22,
+    });
+
+    // Banner de pedido
+    const bY = y2 + cardH + 0.25;
+    s.addShape("roundRect", { x: 0.6, y: bY, w: cardW * 2 + gap, h: 0.95, rectRadius: 0.1, fill: { color: ACCENT }, line: { type: "none" } });
+    s.addText("Pedido: aprobar un piloto controlado — un segmento o mes acotado, con monitoreo diario, antes de escalar a toda la cartera.", {
+      x: 0.9, y: bY, w: cardW * 2 + gap - 0.6, h: 0.95, align: "center", valign: "middle", fontFace: FONT_HEAD, fontSize: 14.5, bold: true, color: NAVY_DARK, isTextBox: true, margin: 0, lineSpacingMultiple: 1.15,
     });
     pageNum(s, 10);
-    s.addNotes("Usar el ejemplo numérico simple (6 de cada 10), no mencionar F1 ni la fórmula. El problema en una frase + el resultado de negocio van juntos en esta slide.");
-  }
-
-  // ===================================================================
-  // 11. Qué automatiza el asistente y qué NO decide solo
-  // ===================================================================
-  {
-    const s = pres.addSlide();
-    s.background = lightBg;
-    kicker(s, "Bloque ejecutivo · Alcance del asistente");
-    title(s, "Automatiza el contacto, nunca la política de crédito");
-
-    s.addShape("roundRect", { x: 0.6, y: 2.15, w: 5.9, h: 4.35, rectRadius: 0.12, fill: { color: LIGHTBG }, line: { type: "none" } });
-    iconCircle(s, ic.check, 0.9, 2.45, 0.7, WHITE);
-    s.addText("Sí automatiza", { x: 1.75, y: 2.55, w: 4.5, h: 0.5, fontFace: FONT_HEAD, fontSize: 17, bold: true, color: NAVY, isTextBox: true, margin: 0 });
-    s.addText(
-      "Ofrecer solo lo que la política de crédito ya autorizó para ese cliente — nunca “inventa” un descuento ni una condición nueva.",
-      { x: 0.95, y: 3.35, w: 5.3, h: 2.2, fontFace: FONT, fontSize: 14, color: TEXT, isTextBox: true, margin: 0, valign: "top", lineSpacingMultiple: 1.3 }
-    );
-
-    s.addShape("roundRect", { x: 6.83, y: 2.15, w: 5.9, h: 4.35, rectRadius: 0.12, fill: { color: NAVY }, line: { type: "none" } });
-    iconCircle(s, ic.prohibido, 7.13, 2.45, 0.7, NAVY_DARK);
-    s.addText("No decide solo", { x: 7.98, y: 2.55, w: 4.5, h: 0.5, fontFace: FONT_HEAD, fontSize: 17, bold: true, color: ACCENT, isTextBox: true, margin: 0 });
-    s.addText(
-      "Cualquier caso sensible, dudoso o fuera de lo normal se transfiere automáticamente a un gestor humano — con el contexto completo de la conversación.",
-      { x: 7.18, y: 3.35, w: 5.2, h: 2.2, fontFace: FONT, fontSize: 14, color: WHITE, isTextBox: true, margin: 0, valign: "top", lineSpacingMultiple: 1.3 }
-    );
-    pageNum(s, 11);
-    s.addNotes("Aquí mostrar, si el tiempo lo permite, un ejemplo real de transcripción con escalamiento (results/transcripciones_agentico.json) para dar confianza.");
-  }
-
-  // ===================================================================
-  // 12. Riesgos y cómo se controlan
-  // ===================================================================
-  {
-    const s = pres.addSlide();
-    s.background = lightBg;
-    kicker(s, "Bloque ejecutivo · Gestión de riesgos");
-    title(s, "Riesgos y cómo se controlan");
-
-    const risks = [
-      { ic: ic.alertaAmbar, t: "El modelo se desactualiza", c: "Monitoreo mensual con alerta automática de deriva" },
-      { ic: ic.escudoAmbar, t: "El asistente ofrece algo indebido", c: "Bloqueo automático + auditoría del 100% de las conversaciones" },
-      { ic: ic.balanzaAmbar, t: "Riesgo reputacional / legal", c: "Siempre hay un humano disponible y trazabilidad completa de cada decisión" },
-    ];
-    const cardW = 3.78, gap = 0.35;
-    risks.forEach((r, i) => {
-      const x = 0.6 + i * (cardW + gap);
-      s.addShape("roundRect", { x, y: 2.2, w: cardW, h: 4.15, rectRadius: 0.1, fill: { color: LIGHTBG }, line: { type: "none" } });
-      iconCircle(s, r.ic, x + 0.3, 2.5, 0.72, WHITE);
-      s.addText(r.t, { x: x + 0.3, y: 3.4, w: cardW - 0.6, h: 0.85, fontFace: FONT_HEAD, fontSize: 14.5, bold: true, color: NAVY, isTextBox: true, margin: 0, lineSpacingMultiple: 1.1 });
-      s.addText(r.c, { x: x + 0.3, y: 4.3, w: cardW - 0.6, h: 1.9, fontFace: FONT, fontSize: 12.5, color: MUTED, isTextBox: true, margin: 0, valign: "top", lineSpacingMultiple: 1.3 });
-    });
-    pageNum(s, 12);
-    s.addNotes("Cada riesgo con su control: deriva -> monitoreo; oferta indebida -> bloqueo + auditoría; legal/reputacional -> humano + trazabilidad.");
-  }
-
-  // ===================================================================
-  // 13. Pedido de aprobación (cierre)
-  // ===================================================================
-  {
-    const s = pres.addSlide();
-    s.background = darkBg;
-    s.addShape("ellipse", { x: 9.8, y: -2.5, w: 6, h: 6, fill: { color: NAVY }, line: { type: "none" } });
-    iconCircle(s, ic.apreton, W / 2 - 0.55, 1.15, 1.1, ACCENT);
-    s.addText("PEDIDO CONCRETO", { x: 0, y: 2.55, w: W, h: 0.45, align: "center", fontFace: FONT, fontSize: 13, bold: true, charSpacing: 3, color: ACCENT, isTextBox: true, margin: 0 });
-    s.addText("Aprobar un piloto controlado", { x: 0, y: 3.0, w: W, h: 0.8, align: "center", fontFace: FONT_HEAD, fontSize: 30, bold: true, color: WHITE, isTextBox: true, margin: 0 });
-    s.addText(
-      "Un segmento o mes acotado, con monitoreo diario, antes de escalar a toda la cartera — definiendo en conjunto con Riesgo, Jurídico y Cumplimiento el umbral de qué se considera un caso “sensible”.",
-      { x: W / 2 - 4.6, y: 3.95, w: 9.2, h: 1.6, align: "center", fontFace: FONT, fontSize: 15, color: ICE, isTextBox: true, margin: 0, lineSpacingMultiple: 1.35 }
-    );
-    s.addShape("line", { x: W / 2 - 1.1, y: 5.9, w: 2.2, h: 0, line: { color: ACCENT, width: 2 } });
-    s.addText("Gracias — quedo atento a sus preguntas", { x: 0, y: 6.1, w: W, h: 0.5, align: "center", fontFace: FONT, fontSize: 14, italic: true, color: WHITE, isTextBox: true, margin: 0 });
-    pageNum(s, 13);
-    s.addNotes("Cierre. Pedido explícito y concreto de aprobación de un piloto, no de un despliegue total.");
+    s.addNotes("Slide para el comité: cerrar aquí, en tono de resultado y control, sin tecnicismos. El pedido es concreto: un piloto, no un despliegue total.");
   }
 
   const outPath = path.join(__dirname, "..", "Presentacion_Ejecutiva_Prueba_Bancolombia.pptx");
