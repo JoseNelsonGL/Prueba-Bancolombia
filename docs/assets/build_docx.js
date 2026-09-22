@@ -273,6 +273,24 @@ const doc = new Document({
         p("Criterio de selección: se prioriza el mayor AUC de validación; la brecha train-valid solo se usa como desempate si dos modelos quedan a menos de 0.005 de AUC entre sí (no es el caso: LightGBM saca 2.4 puntos de AUC sobre Random Forest, una diferencia clara, no ruido). LightGBM gana con margen en AUC y en F1 —la métrica real de evaluación de la prueba— pese a tener la brecha train-valid más alta de los tres, un nivel moderado y ya controlado activamente en el pipeline (feature_fraction/bagging_fraction=0.8, min_data_in_leaf=100, early stopping)."),
         p("Nota de honestidad metodológica: la comparación favorece estructuralmente a LightGBM en un aspecto real, no accidental — maneja categóricas/nulos de forma nativa, mientras que Regresión Logística y Random Forest necesitaron one-hot + imputación (con ciiu, 446 categorías, agrupado a las 15 más frecuentes por necesidad de esos dos modelos). Esa capacidad nativa es justamente relevante para estos datos, no un artefacto que deba corregirse."),
 
+        h("4.5.1 Configuración de hiperparámetros", HeadingLevel.HEADING_3),
+        p("La configuración final de LightGBM surge de una búsqueda controlada y dirigida —no una grilla exhaustiva— apoyada en buenas prácticas conocidas para boosting sobre datos tabulares con riesgo de sobreajuste: regularización vía muestreo de filas y columnas, tamaño mínimo de hoja, y early stopping sobre el conjunto de validación:"),
+        table(
+          ["Hiperparámetro", "Valor final", "Propósito"],
+          [
+            ["learning_rate", "0.05", "Paso de aprendizaje conservador"],
+            ["num_leaves", "63", "Complejidad del árbol"],
+            ["min_data_in_leaf", "100", "Evita hojas sobreajustadas a pocos casos"],
+            ["feature_fraction", "0.8", "Muestreo de columnas por árbol (regularización)"],
+            ["bagging_fraction", "0.8", "Muestreo de filas por iteración (regularización)"],
+            ["early_stopping_rounds", "50", "Detiene el entrenamiento si valid no mejora"],
+            ["num_boost_round (máx.)", "2000", "Techo; mejor iteración real alcanzada: 370"],
+          ],
+          [3000, 2000, 4300],
+        ),
+        p("Random Forest y Regresión Logística (los otros dos modelos comparados en la sección 4.5) usan igualmente una configuración fija con el mismo criterio de regularización (p. ej. Random Forest: n_estimators=200, max_depth=12, min_samples_leaf=50), sin una búsqueda adicional sobre ellos, dado que no fueron los modelos seleccionados."),
+        p("Oportunidad de mejora: esta búsqueda dirigida se puede ampliar a una grilla más exigente (grid search, random search u Optuna) sobre un rango más amplio de valores si se quisiera explorar el espacio de hiperparámetros de forma más sistemática — a costa de mayor capacidad de cómputo y tiempo de entrenamiento, no justificado dentro del alcance de esta prueba."),
+
         h("4.6 Selección final: estabilidad temporal e interpretabilidad", HeadingLevel.HEADING_2),
         p("Con LightGBM ya seleccionado, se corren dos análisis adicionales sobre ese mismo modelo (dentro del mismo script, para no duplicar lógica de entrenamiento):"),
         h("4.6.1 Estabilidad temporal (backtesting de ventana expansiva)", HeadingLevel.HEADING_3),

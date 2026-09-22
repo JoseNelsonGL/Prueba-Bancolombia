@@ -164,6 +164,30 @@ necesidad); esa capacidad nativa es justamente relevante para estos datos,
 no un artefacto que deba corregirse. Ver curva ROC en
 `notebooks/model_outputs/roc_comparacion.png`.
 
+### Configuración de hiperparámetros
+La configuración final de LightGBM surge de una búsqueda controlada y
+dirigida —no una grilla exhaustiva— apoyada en buenas prácticas conocidas
+para boosting sobre datos tabulares con riesgo de sobreajuste:
+
+| Hiperparámetro | Valor final | Propósito |
+|---|---|---|
+| `learning_rate` | 0.05 | Paso de aprendizaje conservador |
+| `num_leaves` | 63 | Complejidad del árbol |
+| `min_data_in_leaf` | 100 | Evita hojas sobreajustadas a pocos casos |
+| `feature_fraction` | 0.8 | Muestreo de columnas por árbol (regularización) |
+| `bagging_fraction` | 0.8 | Muestreo de filas por iteración (regularización) |
+| `early_stopping_rounds` | 50 | Detiene el entrenamiento si valid no mejora |
+| `num_boost_round` (máx.) | 2000 | Techo; mejor iteración real alcanzada: 370 |
+
+Random Forest y Regresión Logística usan igualmente una configuración fija
+con el mismo criterio de regularización (p. ej. Random Forest:
+`n_estimators=200, max_depth=12, min_samples_leaf=50`), sin una búsqueda
+adicional sobre ellos, dado que no fueron los modelos seleccionados.
+**Oportunidad de mejora:** esta búsqueda dirigida se puede ampliar a una
+grilla más exigente (grid search, random search u Optuna) sobre un rango
+más amplio de valores — a costa de mayor capacidad de cómputo y tiempo de
+entrenamiento, no justificado dentro del alcance de esta prueba.
+
 ## Selección final: estabilidad temporal e interpretabilidad
 Con LightGBM ya seleccionado, `notebooks/02_model_comparison.py` corre dos
 análisis adicionales sobre ese modelo (no un script aparte, para no
