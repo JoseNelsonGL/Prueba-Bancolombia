@@ -4,7 +4,7 @@ Repositorio de la solución end-to-end para la prueba técnica de Bancolombia (g
 
 ## Estructura
 - `data/` — datos crudos y procesados (no versionados por tamaño/sensibilidad; ver `.gitignore`)
-- `notebooks/` — EDA reproducible y comparación de modelos (Parte 1), con sus salidas (gráficos/tablas) en `notebooks/eda_outputs/` y `notebooks/model_outputs/`
+- `notebooks/` — EDA reproducible, comparación de modelos y validación de la muestra OOT entregada (Parte 1), con sus salidas (gráficos/tablas) en `notebooks/eda_outputs/`, `notebooks/model_outputs/` y `notebooks/oot_outputs/`
 - `src/` — pipeline de datos, entrenamiento, inferencia (Parte 1)
 - `agentic/` — prototipo del sistema multiagente (Parte 2)
 - `docs/` — documento técnico y diagramas de arquitectura
@@ -22,8 +22,9 @@ pip install -r requirements.txt
 python3 src/data_prep.py   # construye data/processed/modeling_{trtest,oot}.parquet
 python3 src/train.py       # entrena, valida y genera results/resultado_prueba.csv
 
-python3 notebooks/01_eda.py             # EDA reproducible: variables por tabla, evidencia de fuga por correlación, embudo de variables, calidad de datos
-python3 notebooks/02_model_comparison.py  # compara Regresión Logística / Random Forest / LightGBM y justifica la selección
+python3 notebooks/01_eda.py                  # EDA reproducible: variables por tabla, evidencia de fuga por correlación, embudo de variables, calidad de datos
+python3 notebooks/02_model_comparison.py     # compara Regresión Logística / Random Forest / LightGBM, selección final, estabilidad temporal y SHAP
+python3 notebooks/03_analisis_oot_puntuada.py  # valida la muestra OOT entregada (resultado_prueba.csv): sanity checks, PSI y SHAP
 
 python3 agentic/main.py    # corre los 13 escenarios simulados del sistema agéntico
 python3 -m pytest tests/ -v   # 26 pruebas: reglas de negocio, NBA, guardrails, integración

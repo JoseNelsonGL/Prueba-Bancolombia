@@ -8,7 +8,7 @@
 
 **Supuestos:** snapshot demográfico de dic-2023 usado como "as-of" para enero-2024 (el panel no llega a esa fecha); nulos demográficos (~40-50%) tratados como missing informativo (bandera `tiene_snapshot_demografico`), no imputados.
 
-**Riesgos/limitaciones:** oot.csv no trae producto/banca/elegibilidad vigente, por lo que ~50% de sus obligaciones son "cold start" y dependen solo de demografía + scores del banco; el panel demográfico es disperso; no se validó estabilidad poblacional (PSI) trtest-vs-oot — queda como monitoreo de producción recomendado.
+**Riesgos/limitaciones:** oot.csv no trae producto/banca/elegibilidad vigente, por lo que ~50% de sus obligaciones son "cold start" y dependen solo de demografía + scores del banco; el panel demográfico es disperso; se validó PSI dic-2023 vs. oot=0.013 (sin cambio poblacional relevante); SHAP de oot coincide 8/10 con validación.
 
 **Dato adicional recomendado:** un snapshot de elegibilidad/producto vigente al momento del scoring (ausente hoy en oot.csv) mejoraría el modelo para obligaciones nuevas; costo bajo, pues el motor de preaprobación ya genera esa información mensualmente.
 

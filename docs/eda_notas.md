@@ -13,6 +13,10 @@ leer como texto:
   split temporal, con curva ROC y selección justificada; además, sobre el
   modelo ganador, corre un backtesting de estabilidad temporal mes a mes y
   genera importancia de variables + SHAP. Salidas en `notebooks/model_outputs/`.
+- `notebooks/03_analisis_oot_puntuada.py` — valida la muestra OOT
+  entregada (`results/resultado_prueba.csv`, enero-2024): sanity checks,
+  PSI contra el score de validación y SHAP sobre la OOT comparado contra
+  validación. Salidas en `notebooks/oot_outputs/`.
 
 ## Bases disponibles
 - `trtest.csv`: 568.251 filas (obligación-mes), ago–dic 2023, 400.807 obligaciones únicas, 267.256 clientes únicos. Target balanceado (52%/48%).
@@ -56,6 +60,31 @@ trtest crudo (49 cols) → tras excluir IDs y columnas con fuga (14) → +
 historial propio rezagado (45) → + demografía (81) → + scores del banco
 (85) → + historial de cuotas/pagos (92) → features finales ∩ con oot.csv
 (**76**).
+
+## Validación de la muestra OOT entregada (resultado_prueba.csv)
+`resultado_prueba.csv` **no es una simulación**: son las 112.549
+obligaciones reales (enmascaradas) de `oot.csv` (enero-2024) puntuadas por
+el modelo final, la entrega que exige la prueba — distinta del set de
+validación interno (dic-2023, con respuesta conocida) que se usa para
+medir F1/AUC. `notebooks/03_analisis_oot_puntuada.py` valida que esta
+entrega no tenga un comportamiento raro:
+
+- **Reproducibilidad:** recalcula la predicción desde el modelo guardado
+  (`results/model_lgbm.txt`) y confirma que coincide con
+  `resultado_prueba.csv` con una diferencia máxima de 1.11e-16 (es decir,
+  exactamente el mismo número, salvo redondeo de punto flotante).
+- **PSI (Population Stability Index)** entre el score de diciembre-2023
+  (validación, respuesta conocida) y el score de enero-2024 (la OOT
+  entregada): **0.013** — muy por debajo del umbral de 0.1, es decir, sin
+  cambio poblacional relevante de un mes a otro. Cierra el punto que había
+  quedado como limitación abierta más arriba. Ver
+  `notebooks/oot_outputs/distribucion_oot_vs_valid.png` (las dos
+  distribuciones se superponen casi por completo).
+- **SHAP sobre la OOT:** el ranking de variables más influyentes en la
+  muestra de enero-2024 coincide en 8 de las 10 variables principales con
+  el ranking de importancia visto en validación, y con la misma dirección
+  de efecto — la explicación del modelo es coherente entre el mundo donde
+  se validó y el mundo donde se está aplicando de verdad.
 
 ## Limitaciones de cobertura (reales, no error de pipeline)
 - ~80% de las obligaciones de `oot.csv` NO tienen historial propio en
