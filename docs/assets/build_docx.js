@@ -509,7 +509,7 @@ const doc = new Document({
         bullet("Mantenimiento: dueño de producto por componente, con revisión trimestral de los supuestos de negocio parametrizados (cooldowns, umbrales, prioridades) junto con el área de política de cartera."),
 
         h("8. Anexo E — Declaración de Uso de IA Generativa (detalle)", HeadingLevel.HEADING_1),
-        p("Herramienta utilizada: Claude (Anthropic), a través de Claude Code/Cowork, durante toda la prueba."),
+        p("Herramienta utilizada: Claude (Anthropic), a través de Claude Code/Cowork, durante toda la prueba. El candidato guio la metodología a seguir en cada etapa, validando y contrastando los resultados frente a los supuestos y parámetros de la prueba."),
         table(
           ["Actividad", "Rol de la IA generativa", "Rol del candidato"],
           [
@@ -521,7 +521,7 @@ const doc = new Document({
           ],
           [2400, 3200, 2800],
         ),
-        p("Ninguna sección de este documento fue tomada de fuentes externas sin adaptación al contexto específico de esta prueba; todo el código fue ejecutado y verificado antes de incluirse en la entrega."),
+        p("El candidato además replicó el pipeline completo (Parte 1 y Parte 2) en su propio entorno local, paso a paso, como verificación independiente de principio a fin antes de la entrega (ver README.md, sección \"Cómo reproducir\"). Ninguna sección de este documento fue tomada de fuentes externas sin adaptación al contexto específico de esta prueba; todo el código fue ejecutado y verificado antes de incluirse en la entrega."),
 
         h("9. Anexo F — Supuestos, Asunciones y Limitaciones (Consolidado)", HeadingLevel.HEADING_1),
         p("Esta sección reúne en un solo lugar, por tema, los supuestos y limitaciones que ya se mencionan a lo largo del documento — no introduce hallazgos nuevos, es un punto único de referencia para quien revise la entrega. Cada punto indica dónde encontrar el detalle y la evidencia completa."),
