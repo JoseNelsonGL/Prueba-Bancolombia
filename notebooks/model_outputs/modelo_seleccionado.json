@@ -1,0 +1,4 @@
+{
+  "modelo": "LightGBM",
+  "justificacion": "LightGBM seleccionado por: mayor AUC en validación, con margen claro sobre el resto. AUC valid=0.729, brecha train-valid=0.053, F1 valid=0.671. Coincide además con el modelo de mejor F1 de los 3 (LightGBM), que es la métrica real de evaluación de la prueba."
+}

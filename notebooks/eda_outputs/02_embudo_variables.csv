@@ -1,0 +1,8 @@
+etapa,n_columnas
+0. trtest.csv crudo,49
+1. tras excluir IDs y columnas contemporáneas con fuga,14
+2. + historial propio rezagado (prev_*),45
+3. + snapshot demográfico (master_customer_data),81
+4. + scores del banco (probabilidad_oblig_hist),85
+5. + historial de cuotas/pagos (maestra_cuotas_pagos_mes_hist),92
+6. features finales usadas por el modelo (∩ con oot.csv),76

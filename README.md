@@ -4,7 +4,7 @@ Repositorio de la solución end-to-end para la prueba técnica de Bancolombia (g
 
 ## Estructura
 - `data/` — datos crudos y procesados (no versionados por tamaño/sensibilidad; ver `.gitignore`)
-- `notebooks/` — EDA y experimentación
+- `notebooks/` — EDA reproducible y comparación de modelos (Parte 1), con sus salidas (gráficos/tablas) en `notebooks/eda_outputs/` y `notebooks/model_outputs/`
 - `src/` — pipeline de datos, entrenamiento, inferencia (Parte 1)
 - `agentic/` — prototipo del sistema multiagente (Parte 2)
 - `docs/` — documento técnico y diagramas de arquitectura
@@ -22,6 +22,9 @@ pip install -r requirements.txt
 python3 src/data_prep.py   # construye data/processed/modeling_{trtest,oot}.parquet
 python3 src/train.py       # entrena, valida y genera results/resultado_prueba.csv
 
+python3 notebooks/01_eda.py             # EDA reproducible: variables por tabla, evidencia de fuga por correlación, embudo de variables, calidad de datos
+python3 notebooks/02_model_comparison.py  # compara Regresión Logística / Random Forest / LightGBM y justifica la selección
+
 python3 agentic/main.py    # corre los 13 escenarios simulados del sistema agéntico
 python3 -m pytest tests/ -v   # 26 pruebas: reglas de negocio, NBA, guardrails, integración
 ```
@@ -29,7 +32,8 @@ python3 -m pytest tests/ -v   # 26 pruebas: reglas de negocio, NBA, guardrails, 
 ## Documentos (Parte 1 y 2)
 
 - `docs/documento_tecnico.md` — documento técnico principal (≤4.000 caracteres), incluye declaración de uso de IA.
-- `docs/eda_notas.md` — EDA, hallazgo de fuga de información, decisiones de features y métricas del modelo.
+- `docs/eda_notas.md` — EDA, hallazgo de fuga de información (con evidencia de correlación), comparación de modelos y decisiones de features.
+- `docs/Documento_Metodologico_Prueba_Bancolombia.docx` — versión formal en Word del documento técnico + anexos detallados.
 - `docs/mlops_parte1.md` — cómo el modelo cumple cada criterio de MLOps.
 - `docs/arquitectura_agentica.md` — agentes, responsabilidades, orquestación, integración con la Parte 1.
 - `docs/pruebas_agentico.md` — escenarios, métricas, umbrales de aceptación y resultados de las pruebas.
