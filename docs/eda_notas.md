@@ -10,8 +10,9 @@ leer como texto:
   demográfico. Salidas en `notebooks/eda_outputs/`.
 - `notebooks/02_model_comparison.py` — entrena y compara 3 familias de
   modelos (regresión logística, random forest, LightGBM) sobre el mismo
-  split temporal, con curva ROC y selección justificada. Salidas en
-  `notebooks/model_outputs/`.
+  split temporal, con curva ROC y selección justificada; además, sobre el
+  modelo ganador, corre un backtesting de estabilidad temporal mes a mes y
+  genera importancia de variables + SHAP. Salidas en `notebooks/model_outputs/`.
 
 ## Bases disponibles
 - `trtest.csv`: 568.251 filas (obligación-mes), ago–dic 2023, 400.807 obligaciones únicas, 267.256 clientes únicos. Target balanceado (52%/48%).
@@ -126,3 +127,30 @@ forma nativa, mientras que los otros dos necesitaron one-hot + imputación
 necesidad); esa capacidad nativa es justamente relevante para estos datos,
 no un artefacto que deba corregirse. Ver curva ROC en
 `notebooks/model_outputs/roc_comparacion.png`.
+
+## Selección final: estabilidad temporal e interpretabilidad
+Con LightGBM ya seleccionado, `notebooks/02_model_comparison.py` corre dos
+análisis adicionales sobre ese modelo (no un script aparte, para no
+duplicar lógica de entrenamiento):
+
+**Estabilidad temporal** (`estabilidad_temporal.png`/`.csv`): en vez de
+confiar en un único mes de validación, se hace backtesting de *ventana
+expansiva* — para cada mes desde septiembre, se entrena solo con los meses
+anteriores y se mide AUC/F1 en un mes que el modelo nunca vio en ese
+entrenamiento. Resultado: **AUC entre 0.714 y 0.754 en los 4 meses
+evaluados (media 0.731, desv. estándar 0.017)** — el modelo es estable en
+el tiempo, sin señales de degradación abrupta mes a mes. Esto es evidencia
+directa a favor de la propuesta de monitoreo de deriva de desempeño en
+`docs/mlops_parte1.md` (da un rango de referencia contra el cual comparar
+el AUC/F1 real una vez en producción).
+
+**Interpretabilidad** (`feature_importance.png` + `shap_summary.png`): el
+ranking de importancia por ganancia confirma lo ya reportado —
+`marca_pago_prev`, los 3 scores del banco (`prob_propension_prev`,
+`prob_alrt_temprana_prev`, `prob_auto_cura_prev`), `cuota_prev` y
+`porc_pago_mean_3m` dominan. El gráfico SHAP añade la DIRECCIÓN del efecto
+por observación (no solo qué tan importante es una variable, sino si
+empuja la probabilidad hacia arriba o hacia abajo): por ejemplo, mayor
+`prev_dias_mora_fin` (más mora el mes anterior) empuja la probabilidad de
+aceptación hacia arriba, consistente con que un cliente con más mora
+reciente esté más dispuesto a aceptar una opción de pago.

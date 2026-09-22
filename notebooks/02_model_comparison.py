@@ -36,6 +36,23 @@ la comparación.
 Salidas en notebooks/model_outputs/: tabla comparativa (csv), curva ROC
 superpuesta + barras AUC train-vs-valid (png), y el modelo ganador (json).
 
+SELECCIÓN FINAL (sección adicional al final del script, sobre el modelo
+ganador): en vez de quedarse con una sola métrica de un único mes de
+validación, se agrega:
+  - Estabilidad temporal: backtesting de VENTANA EXPANSIVA — para cada mes
+    (a partir del segundo disponible) se entrena solo con los meses
+    anteriores y se evalúa AUC/F1 en ese mes, nunca visto en ese
+    entrenamiento. Esto da varios puntos de desempeño out-of-sample en el
+    tiempo (no solo diciembre), para ver si el modelo es estable o se
+    degrada mes a mes — insumo directo para la propuesta de monitoreo de
+    producción.
+  - Interpretabilidad: importancia de variables (gain) en gráfico de
+    barras, y un resumen SHAP (impacto real de cada variable en cada
+    predicción, con dirección) sobre una muestra de validación.
+
+Salidas adicionales en notebooks/model_outputs/: estabilidad_temporal.csv/png,
+feature_importance_detallado.csv, feature_importance.png, shap_summary.png.
+
 Ejecutar: python3 notebooks/02_model_comparison.py
 Requiere data/processed/modeling_{trtest,oot}.parquet
 (correr antes: python3 src/data_prep.py)
@@ -84,7 +101,9 @@ def cargar_datos():
     y_train = tr.loc[train_mask, TARGET_COL]
     X_valid = tr.loc[valid_mask, feature_cols].copy()
     y_valid = tr.loc[valid_mask, TARGET_COL]
-    return X_train, y_train, X_valid, y_valid, feature_cols
+    # se conserva `tr` completo (con fecha_var_rpta_alt) para el backtesting
+    # de estabilidad temporal mes a mes, más abajo.
+    return X_train, y_train, X_valid, y_valid, feature_cols, tr
 
 
 def entrenar_lightgbm(X_train, y_train, X_valid, y_valid, feature_cols):
@@ -103,7 +122,23 @@ def entrenar_lightgbm(X_train, y_train, X_valid, y_valid, feature_cols):
     )
     p_train = model.predict(Xt, num_iteration=model.best_iteration)
     p_valid = model.predict(Xv, num_iteration=model.best_iteration)
-    return p_train, p_valid
+    return p_train, p_valid, model, Xv
+
+
+def _entrenar_lgb_fold(X_tr, y_tr, X_te, feature_cols, num_boost_round):
+    """Un fold del backtesting de ventana expansiva: sin early stopping
+    (no hay un tercer conjunto de validación dentro del fold), se usa el
+    mismo número de iteraciones que ya se validó en el split principal."""
+    Xt, Xe = X_tr.copy(), X_te.copy()
+    cat_cols = encode_categoricals(Xt, [Xe], feature_cols)
+    dtr = lgb.Dataset(Xt, label=y_tr, categorical_feature=cat_cols, free_raw_data=False)
+    params = dict(
+        objective="binary", metric="auc", learning_rate=0.05, num_leaves=63,
+        min_data_in_leaf=100, feature_fraction=0.8, bagging_fraction=0.8,
+        bagging_freq=1, seed=42, verbose=-1,
+    )
+    model = lgb.train(params, dtr, num_boost_round=num_boost_round)
+    return model.predict(Xe)
 
 
 def _preprocesador(feature_cols, cat_cols, con_escalado):
@@ -143,8 +178,106 @@ def mejor_umbral_f1(y_true, proba):
     return float(thresholds[i]), float(f1s[i])
 
 
+def estabilidad_temporal(tr, feature_cols, num_boost_round, umbral_fijo):
+    """Backtesting de ventana expansiva: para cada mes (desde el segundo
+    disponible) se entrena SOLO con los meses anteriores y se evalúa en
+    ese mes -> AUC/F1 genuinamente out-of-sample en cada periodo, no solo
+    en diciembre. Responde "¿el modelo es estable en el tiempo o se
+    degrada?", que es justo lo que en producción se vigilaría con
+    monitoreo de deriva de desempeño."""
+    print("\n" + "=" * 70)
+    print("ESTABILIDAD TEMPORAL (backtesting de ventana expansiva, por mes)")
+    print("=" * 70)
+    meses = sorted(tr["fecha_var_rpta_alt"].unique())
+    filas = []
+    for i in range(1, len(meses)):
+        mes_test = meses[i]
+        meses_train = meses[:i]
+        m_train = tr["fecha_var_rpta_alt"].isin(meses_train)
+        m_test = tr["fecha_var_rpta_alt"] == mes_test
+        Xtr, ytr = tr.loc[m_train, feature_cols], tr.loc[m_train, TARGET_COL]
+        Xte, yte = tr.loc[m_test, feature_cols], tr.loc[m_test, TARGET_COL]
+
+        proba = _entrenar_lgb_fold(Xtr, ytr, Xte, feature_cols, num_boost_round)
+        auc = roc_auc_score(yte, proba)
+        f1_fijo = f1_score(yte, (proba >= umbral_fijo).astype(int))
+        filas.append({
+            "mes_evaluado": int(mes_test), "meses_entrenamiento": len(meses_train),
+            "n_train": int(m_train.sum()), "n_test": int(m_test.sum()),
+            "auc": auc, "f1_umbral_fijo": f1_fijo,
+        })
+        print(f"  entrena con {list(meses_train)} -> evalúa {mes_test}: "
+              f"AUC={auc:.3f}, F1(umbral fijo={umbral_fijo:.3f})={f1_fijo:.3f}")
+
+    df = pd.DataFrame(filas)
+    df.to_csv(os.path.join(OUT, "estabilidad_temporal.csv"), index=False)
+    print(f"\n  AUC: media={df['auc'].mean():.3f}, desv.est.={df['auc'].std():.3f} "
+          f"(rango {df['auc'].min():.3f}-{df['auc'].max():.3f})")
+
+    fig, ax = plt.subplots(figsize=(8.5, 5))
+    ax2 = ax.twinx()
+    x_labels = df["mes_evaluado"].astype(str)
+    l1, = ax.plot(x_labels, df["auc"], "o-", color=COLOR["LightGBM"], linewidth=2, label="AUC")
+    l2, = ax2.plot(x_labels, df["f1_umbral_fijo"], "s--", color="#2C3E50", linewidth=2,
+                    label=f"F1 (umbral fijo={umbral_fijo:.3f})")
+    ax.set_ylabel("AUC", color=COLOR["LightGBM"])
+    ax2.set_ylabel("F1", color="#2C3E50")
+    ax.set_xlabel("Mes evaluado (entrenado solo con meses anteriores)")
+    ax.set_title("Estabilidad del modelo por periodo")
+    ax.legend(handles=[l1, l2], loc="lower right", frameon=False)
+    ax.spines["top"].set_visible(False)
+    ax2.spines["top"].set_visible(False)
+    plt.tight_layout()
+    plt.savefig(os.path.join(OUT, "estabilidad_temporal.png"), dpi=150)
+    plt.close()
+    return df
+
+
+def interpretabilidad_ganador(modelo_lgb, X_valid_encoded, feature_cols):
+    """Interpretabilidad del modelo ganador: importancia de variables
+    (gain) + SHAP (impacto real y dirección de cada variable en cada
+    predicción individual, no solo un ranking agregado)."""
+    print("\n" + "=" * 70)
+    print("INTERPRETABILIDAD DEL MODELO GANADOR: importancia + SHAP")
+    print("=" * 70)
+
+    imp = pd.DataFrame({
+        "feature": feature_cols,
+        "gain": modelo_lgb.feature_importance(importance_type="gain"),
+    }).sort_values("gain", ascending=False)
+    imp.to_csv(os.path.join(OUT, "feature_importance_detallado.csv"), index=False)
+    print("\nTop 10 por importancia (gain):")
+    print(imp.head(10).to_string(index=False))
+
+    top = imp.head(20).iloc[::-1]
+    fig, ax = plt.subplots(figsize=(9, 7))
+    ax.barh(top["feature"], top["gain"], color=COLOR["LightGBM"])
+    ax.set_xlabel("Importancia (gain)")
+    ax.set_title("Top 20 variables más importantes — LightGBM")
+    ax.spines[["top", "right"]].set_visible(False)
+    plt.tight_layout()
+    plt.savefig(os.path.join(OUT, "feature_importance.png"), dpi=150)
+    plt.close()
+
+    try:
+        import shap
+        muestra = X_valid_encoded.sample(n=min(2000, len(X_valid_encoded)), random_state=42)
+        explainer = shap.TreeExplainer(modelo_lgb)
+        shap_values = explainer.shap_values(muestra)
+        plt.figure(figsize=(9, 7))
+        shap.summary_plot(shap_values, muestra, max_display=20, show=False)
+        plt.title("SHAP — impacto de cada variable en la predicción\n(muestra de 2.000 obligaciones de validación)")
+        plt.tight_layout()
+        plt.savefig(os.path.join(OUT, "shap_summary.png"), dpi=150, bbox_inches="tight")
+        plt.close()
+        print("\nSHAP summary plot guardado en shap_summary.png")
+    except Exception as e:
+        print(f"\n[aviso] no se pudo generar el gráfico SHAP ({type(e).__name__}: {e}); "
+              f"se deja el ranking de importancia (gain) como respaldo.")
+
+
 def main():
-    X_train, y_train, X_valid, y_valid, feature_cols = cargar_datos()
+    X_train, y_train, X_valid, y_valid, feature_cols, tr = cargar_datos()
     cat_cols = [c for c in feature_cols if not pd.api.types.is_numeric_dtype(X_train[c])]
     print(f"Train: {X_train.shape} | Valid: {X_valid.shape} | "
           f"{len(feature_cols)} features ({len(cat_cols)} categóricas)")
@@ -164,7 +297,9 @@ def main():
         "Random Forest", X_train, y_train, X_valid, feature_cols, cat_cols, con_escalado=False)
 
     print("Entrenando LightGBM (boosting)...")
-    resultados["LightGBM"] = entrenar_lightgbm(X_train, y_train, X_valid, y_valid, feature_cols)
+    p_train_lgb, p_valid_lgb, modelo_lgb, X_valid_lgb_enc = entrenar_lightgbm(
+        X_train, y_train, X_valid, y_valid, feature_cols)
+    resultados["LightGBM"] = (p_train_lgb, p_valid_lgb)
 
     filas = []
     for nombre, (p_train, p_valid) in resultados.items():
@@ -236,6 +371,18 @@ def main():
     plt.tight_layout()
     plt.savefig(os.path.join(OUT, "roc_comparacion.png"), dpi=150)
     plt.close()
+
+    # --- SELECCIÓN FINAL: estabilidad temporal + interpretabilidad del ganador ---
+    # (implementado para LightGBM, el ganador con los datos actuales; si en
+    # una futura corrida el ganador cambiara, esta sección se debe extender
+    # al nuevo modelo — ver docstring del módulo.)
+    if ganador["modelo"] == "LightGBM":
+        estabilidad_temporal(tr, feature_cols, modelo_lgb.best_iteration, ganador["umbral_optimo"])
+        interpretabilidad_ganador(modelo_lgb, X_valid_lgb_enc, feature_cols)
+    else:
+        print(f"\n[aviso] El ganador ({ganador['modelo']}) no es LightGBM: la sección de "
+              f"estabilidad temporal/SHAP está implementada solo para LightGBM en este script; "
+              f"habría que extenderla para el nuevo ganador.")
 
     print(f"\nListo. Salidas en: {OUT}")
 
