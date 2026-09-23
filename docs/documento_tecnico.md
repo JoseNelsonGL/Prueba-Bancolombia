@@ -26,4 +26,4 @@
 
 ## Declaración de uso de IA generativa
 
-Se usó Claude (Anthropic) como asistente del desarrollo: análisis exploratorio, diseño del pipeline, entrenamiento del modelo, diseño de la arquitectura e implementación de reglas/agentes/pruebas/documentación. Durante todo el desarrollo se guio a la IA en la metodología a seguir, validando y contrastando los resultados, así como su réplica en entorno local y el cumplimiento de supuestos y parámetros dados.
+Usé Claude (Anthropic) como asistente del desarrollo: análisis exploratorio, diseño del pipeline, entrenamiento del modelo, diseño de la arquitectura e implementación de reglas/agentes/pruebas/documentación. Durante todo el desarrollo yo guié a la IA en la metodología a seguir, validando y contrastando los resultados, así como su réplica en entorno local y el cumplimiento de supuestos y parámetros dados.

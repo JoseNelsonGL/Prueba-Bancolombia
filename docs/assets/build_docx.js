@@ -191,7 +191,7 @@ const doc = new Document({
         p([new TextRun({ text: "Conclusión general: ", bold: true, font: FONT, size: 22 }), new TextRun({ text: "ambos componentes son viables como prototipo demostrable dentro del alcance y tiempo de la prueba. El mayor riesgo de negocio no es el desempeño puntual del modelo sino mantener la disciplina de auditar qué variables están realmente disponibles al momento de decidir — un punto válido tanto para la Parte 1 como para su integración con la Parte 2.", font: FONT, size: 22 })]),
 
         h("3.3 Declaración de Uso de IA Generativa", HeadingLevel.HEADING_2),
-        p("Se usó Claude (Anthropic) como asistente de desarrollo de extremo a extremo: análisis exploratorio, identificación de variables no disponibles en oot.csv y con señal contemporánea alta frente al target, diseño del pipeline de features, entrenamiento del modelo, diseño de la arquitectura agéntica, e implementación de reglas/agentes/pruebas/documentación. El candidato dirigió el alcance, las decisiones de negocio (cooldowns, prioridades, qué construir dado el tiempo disponible) y revisó los resultados y supuestos antes de la entrega."),
+        p("Usé Claude (Anthropic) como asistente de desarrollo de extremo a extremo: análisis exploratorio, identificación de variables no disponibles en oot.csv y con señal contemporánea alta frente al target, diseño del pipeline de features, entrenamiento del modelo, diseño de la arquitectura agéntica, e implementación de reglas/agentes/pruebas/documentación. Yo dirigí el alcance, las decisiones de negocio (cooldowns, prioridades, qué construir dado el tiempo disponible) y revisé los resultados y supuestos antes de la entrega."),
 
         new Paragraph({ children: [new PageBreak()] }),
       ],
@@ -509,19 +509,19 @@ const doc = new Document({
         bullet("Mantenimiento: dueño de producto por componente, con revisión trimestral de los supuestos de negocio parametrizados (cooldowns, umbrales, prioridades) junto con el área de política de cartera."),
 
         h("8. Anexo E — Declaración de Uso de IA Generativa (detalle)", HeadingLevel.HEADING_1),
-        p("Herramienta utilizada: Claude (Anthropic), a través de Claude Code/Cowork, durante toda la prueba. El candidato guio la metodología a seguir en cada etapa, validando y contrastando los resultados frente a los supuestos y parámetros de la prueba."),
+        p("Herramienta utilizada: Claude (Anthropic), a través de Claude Code/Cowork, durante toda la prueba. Yo guié la metodología a seguir en cada etapa, validando y contrastando los resultados frente a los supuestos y parámetros de la prueba."),
         table(
-          ["Actividad", "Rol de la IA generativa", "Rol del candidato"],
+          ["Actividad", "Rol de la IA generativa", "Mi rol"],
           [
-            ["Análisis exploratorio de datos", "Ejecución de código de exploración e identificación de variables no disponibles en oot / con señal contemporánea alta", "Validación de esa decisión y su relevancia para el negocio"],
-            ["Diseño del pipeline de features", "Propuesta e implementación del diseño \"as-of\" (solo información conocida antes del mes a predecir)", "Revisión de la lógica y de los supuestos de cooldown/ventanas"],
-            ["Entrenamiento y evaluación del modelo", "Implementación, ejecución y reporte de métricas", "Definición del criterio de éxito (F1) y revisión de resultados"],
-            ["Arquitectura y código del sistema agéntico", "Diseño de agentes, reglas, guardrails, pruebas e implementación", "Definición de reglas de negocio, alcance y priorización dado el tiempo disponible"],
-            ["Documentación", "Redacción de todos los documentos (este incluido)", "Revisión, ajuste y validación del contenido antes de la entrega"],
+            ["Análisis exploratorio de datos", "Ejecución de código de exploración e identificación de variables no disponibles en oot / con señal contemporánea alta", "Validé esa decisión y su relevancia para el negocio"],
+            ["Diseño del pipeline de features", "Propuesta e implementación del diseño \"as-of\" (solo información conocida antes del mes a predecir)", "Revisé la lógica y los supuestos de cooldown/ventanas"],
+            ["Entrenamiento y evaluación del modelo", "Implementación, ejecución y reporte de métricas", "Definí el criterio de éxito (F1) y revisé los resultados"],
+            ["Arquitectura y código del sistema agéntico", "Diseño de agentes, reglas, guardrails, pruebas e implementación", "Definí las reglas de negocio, el alcance y la priorización dado el tiempo disponible"],
+            ["Documentación", "Redacción de todos los documentos (este incluido)", "Revisé, ajusté y validé el contenido antes de la entrega"],
           ],
           [2400, 3200, 2800],
         ),
-        p("El candidato además replicó el pipeline completo (Parte 1 y Parte 2) en su propio entorno local, paso a paso, como verificación independiente de principio a fin antes de la entrega (ver README.md, sección \"Cómo reproducir\"). Ninguna sección de este documento fue tomada de fuentes externas sin adaptación al contexto específico de esta prueba; todo el código fue ejecutado y verificado antes de incluirse en la entrega."),
+        p("Yo además repliqué el pipeline completo (Parte 1 y Parte 2) en mi propio entorno local, paso a paso, como verificación independiente de principio a fin antes de la entrega (ver README.md, sección \"Cómo reproducir\"). Ninguna sección de este documento fue tomada de fuentes externas sin adaptación al contexto específico de esta prueba; todo el código fue ejecutado y verificado antes de incluirse en la entrega."),
 
         h("9. Anexo F — Supuestos, Asunciones y Limitaciones (Consolidado)", HeadingLevel.HEADING_1),
         p("Esta sección reúne en un solo lugar, por tema, los supuestos y limitaciones que ya se mencionan a lo largo del documento — no introduce hallazgos nuevos, es un punto único de referencia para quien revise la entrega. Cada punto indica dónde encontrar el detalle y la evidencia completa."),

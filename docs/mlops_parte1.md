@@ -1,8 +1,8 @@
 # MLOps — Modelo de propensión a aceptación de opciones de pago (Parte 1)
 
-Candidato externo: se propone una arquitectura agnóstica de plataforma
-(portable a AWS/Azure/GCP o al stack interno del banco), con herramientas
-open-source ampliamente adoptadas en la industria.
+Como profesional externo al banco, propongo una arquitectura agnóstica
+de plataforma (portable a AWS/Azure/GCP o al stack interno del banco),
+con herramientas open-source ampliamente adoptadas en la industria.
 
 ## 1. Preparación de datos
 
